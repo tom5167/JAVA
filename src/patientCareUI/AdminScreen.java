@@ -858,7 +858,6 @@ public class AdminScreen extends JFrame {
 		
 		JButton btnSearch_APL = new JButton("Search");
 		btnSearch_APL.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("deprecation")
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if(txtFirstName_APL.getText().equalsIgnoreCase("")) {
