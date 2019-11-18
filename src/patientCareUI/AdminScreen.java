@@ -273,6 +273,11 @@ public class AdminScreen extends JFrame {
 		});
 		
 		JButton btnNew_AUF = new JButton("New");
+		btnNew_AUF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnNew_AUF = new GridBagConstraints();
 		gbc_btnNew_AUF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_AUF.insets = new Insets(0, 0, 5, 5);
