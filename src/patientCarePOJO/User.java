@@ -22,7 +22,7 @@ import patientCareConstants.CommonConstants;
 public class User {
 	
 	private int userId = CommonConstants.ZERO;
-	private String username = CommonConstants.EMPTY_STRING;
+	private String userName = CommonConstants.EMPTY_STRING;
 	private String pwd = CommonConstants.EMPTY_STRING;
 	private String referId = CommonConstants.EMPTY_STRING;
 	private String userType = CommonConstants.EMPTY_STRING;
@@ -30,6 +30,8 @@ public class User {
 	private String createdDate = CommonConstants.EMPTY_STRING;
 	private String modifiedBy = CommonConstants.EMPTY_STRING;
 	private String modifiedDate = CommonConstants.EMPTY_STRING;
+	private String firstName = CommonConstants.EMPTY_STRING;
+	private String lastName = CommonConstants.EMPTY_STRING;
 	
 	public int getUserId() {
 		return userId;
@@ -37,11 +39,11 @@ public class User {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getPwd() {
 		return pwd;
@@ -84,6 +86,18 @@ public class User {
 	}
 	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	
 }

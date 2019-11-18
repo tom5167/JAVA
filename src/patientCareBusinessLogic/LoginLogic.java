@@ -29,7 +29,7 @@ public class LoginLogic {
 	UserDAO userDAO =  new UserDAO();
 	
 	public boolean checkUser(String username,String password) {
-		logger.info("UserValidation.checkUser() starts"); 
+		logger.info("LoginLogic.checkUser() starts"); 
 		boolean flag = false;
 		User userObj = userDAO.getUserDetails(username,password);
 		if(userObj == null) {
@@ -37,14 +37,14 @@ public class LoginLogic {
 		} else {
 			flag = true;
 		}
-		logger.info("UserValidation.checkUser() ends"); 
+		logger.info("LoginLogic.checkUser() ends"); 
 		return flag;
 	}
 	
 	public User getUserDetails(String username,String password) {
-		logger.info("UserValidation.checkUser() starts"); 
+		logger.info("LoginLogic.getUserDetails() starts"); 
 		User userObj = userDAO.getUserDetails(username,password);
-		logger.info("UserValidation.checkUser() ends"); 
+		logger.info("LoginLogic.getUserDetails() ends"); 
 		return userObj;
 	}
 }

@@ -45,30 +45,33 @@ public class PatientDAO {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblPatient "
 					+ " (first_name,last_name,sex,dob,"
-					+ "	street_number,address_full,city,country,postal_code,sin_id," 
-					+ "	contact_number,alternative_number,insurance_id,email_id,"
-					+ " blood_group,marital_status)" 
-					+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "	street_number,address_full,city,country,"
+					+ " postal_code,sin_id,contact_number,alternative_number,"
+					+ " insurance_id,email_id,blood_group,marital_status,"
+					+ " createdBy,createdDate)" 
+					+ " VALUES(?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?)");
 			pstmt.setString(1, patientDetails.getFirstName());
 			pstmt.setString(2, patientDetails.getLastName());
 			pstmt.setString(3, patientDetails.getSex());
 			pstmt.setString(4, patientDetails.getDob());
-			pstmt.setString(5, patientDetails.getLastName());
-			pstmt.setString(6, patientDetails.getStreetNumber());
-			pstmt.setString(7, patientDetails.getAddressFull());
-			pstmt.setString(8, patientDetails.getCity());
-			pstmt.setString(9, patientDetails.getCountry());
-			pstmt.setString(10, patientDetails.getPostalCode());
-			pstmt.setString(11, patientDetails.getSinId());
-			pstmt.setString(12, patientDetails.getContactNumber());
-			pstmt.setString(13, patientDetails.getAlternativeNumber());
-			pstmt.setString(14, patientDetails.getInsuranceId());
-			pstmt.setString(15, patientDetails.getEmailId());
-			pstmt.setString(16, patientDetails.getBloodGroup());
+			pstmt.setString(5, patientDetails.getStreetNumber());
+			pstmt.setString(6, patientDetails.getAddressFull());
+			pstmt.setString(7, patientDetails.getCity());
+			pstmt.setString(8, patientDetails.getCountry());
+			pstmt.setString(9, patientDetails.getPostalCode());
+			pstmt.setString(10, patientDetails.getSinId());
+			pstmt.setString(11, patientDetails.getContactNumber());
+			pstmt.setString(12, patientDetails.getAlternativeNumber());
+			pstmt.setString(13, patientDetails.getInsuranceId());
+			pstmt.setString(14, patientDetails.getEmailId());
+			pstmt.setString(15, patientDetails.getBloodGroup());
+			pstmt.setString(16, patientDetails.getMaritalStatus());
 			pstmt.setString(17, commonUtil.getUserId());
 			pstmt.setString(18, commonUtil.getCurrentDateTime());
-			pstmt.setString(19, "");
-			pstmt.setString(20, "");
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,32 +98,30 @@ public class PatientDAO {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblPatient "
 					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
-					+ "	street_number=?,address_full=?,city=?,country=?,postal_code=?,sin_id=?," 
-					+ "	contact_number=?,alternative_number=?,insurance_id=?,email_id=?,"
-					+ " blood_group=?,marital_status=?,"
-					+ " createdBy=?,createdDate=?,modifiedBy=?,modifiedDate=?" 
+					+ "	street_number=?,address_full=?,city=?,country=?,"
+					+ " postal_code=?,sin_id=?,contact_number=?,alternative_number=?,"
+					+ " insurance_id=?,email_id=?,blood_group=?,marital_status=?,"
+					+ " modifiedBy=?,modifiedDate=?" 
 					+ " WHERE patient_id = ?");
 			pstmt.setString(1, patientDetails.getFirstName());
 			pstmt.setString(2, patientDetails.getLastName());
 			pstmt.setString(3, patientDetails.getSex());
 			pstmt.setString(4, patientDetails.getDob());
-			pstmt.setString(5, patientDetails.getLastName());
-			pstmt.setString(6, patientDetails.getStreetNumber());
-			pstmt.setString(7, patientDetails.getAddressFull());
-			pstmt.setString(8, patientDetails.getCity());
-			pstmt.setString(9, patientDetails.getCountry());
-			pstmt.setString(10, patientDetails.getPostalCode());
-			pstmt.setString(11, patientDetails.getSinId());
-			pstmt.setString(12, patientDetails.getContactNumber());
-			pstmt.setString(13, patientDetails.getAlternativeNumber());
-			pstmt.setString(14, patientDetails.getInsuranceId());
-			pstmt.setString(15, patientDetails.getEmailId());
-			pstmt.setString(16, patientDetails.getBloodGroup());
-			pstmt.setString(17, patientDetails.getCreatedBy());
-			pstmt.setString(18, patientDetails.getCreatedDate());
-			pstmt.setString(19, commonUtil.getUserId());
-			pstmt.setString(20, commonUtil.getCurrentDateTime());
-			pstmt.setInt(21, patientDetails.getPatientId());
+			pstmt.setString(5, patientDetails.getStreetNumber());
+			pstmt.setString(6, patientDetails.getAddressFull());
+			pstmt.setString(7, patientDetails.getCity());
+			pstmt.setString(8, patientDetails.getCountry());
+			pstmt.setString(9, patientDetails.getPostalCode());
+			pstmt.setString(10, patientDetails.getSinId());
+			pstmt.setString(11, patientDetails.getContactNumber());
+			pstmt.setString(12, patientDetails.getAlternativeNumber());
+			pstmt.setString(13, patientDetails.getInsuranceId());
+			pstmt.setString(14, patientDetails.getEmailId());
+			pstmt.setString(15, patientDetails.getBloodGroup());
+			pstmt.setString(16, patientDetails.getMaritalStatus());
+			pstmt.setString(17, commonUtil.getUserId());
+			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setInt(19, patientDetails.getPatientId());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

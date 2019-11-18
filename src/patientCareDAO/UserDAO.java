@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import PatientCareUtil.CommonUtil;
 import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.User;
 
@@ -32,6 +33,7 @@ public class UserDAO {
 	
 	static Logger logger = PatientCareLogger.getLogger();
 	
+	CommonUtil commonUtil = new CommonUtil();
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -42,18 +44,15 @@ public class UserDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblUser"
-					+ " (userId,username,pwd,referId,userType,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate)" 
+					+ " (username,pwd,referId,userType,"
+					+ " createdBy,createdDate)" 
 					+ " VALUES(?,?,?,?,?,?)");
-			pstmt.setInt(1, userDetails.getUserId());
-			pstmt.setString(2, userDetails.getUsername());
-			pstmt.setString(3, userDetails.getPwd());
-			pstmt.setString(4, userDetails.getReferId());
+			pstmt.setString(1, userDetails.getUserName());
+			pstmt.setString(2, userDetails.getPwd());
+			pstmt.setString(3, userDetails.getReferId());
 			pstmt.setString(4, userDetails.getUserType());
-			pstmt.setString(5, userDetails.getCreatedBy());
-			pstmt.setString(6, userDetails.getCreatedDate());
-			pstmt.setString(7, userDetails.getModifiedBy());
-			pstmt.setString(8, userDetails.getModifiedDate());
+			pstmt.setString(5, commonUtil.getUserId());
+			pstmt.setString(6, commonUtil.getCurrentDateTime());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,19 +78,17 @@ public class UserDAO {
 		boolean flag = true;
 		try {
 			conn = DBConn.jdbcConnection();
-			pstmt = conn.prepareStatement("INSERT INTO tblUser"
-					+ " (userId,username,pwd,referId,userType,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate)" 
-					+ " VALUES(?,?,?,?,?,?)");
-			pstmt.setInt(1, userDetails.getUserId());
-			pstmt.setString(2, userDetails.getUsername());
-			pstmt.setString(3, userDetails.getPwd());
-			pstmt.setString(4, userDetails.getReferId());
+			pstmt = conn.prepareStatement("UPDATE tblUser"
+					+ " SET username=?,pwd=?,referId=?,userType=?,"
+					+ " modifiedBy=?,modifiedDate=?" 
+					+ " WHERE userId = ?");
+			pstmt.setString(1, userDetails.getUserName());
+			pstmt.setString(2, userDetails.getPwd());
+			pstmt.setString(3, userDetails.getReferId());
 			pstmt.setString(4, userDetails.getUserType());
-			pstmt.setString(5, userDetails.getCreatedBy());
-			pstmt.setString(6, userDetails.getCreatedDate());
-			pstmt.setString(7, userDetails.getModifiedBy());
-			pstmt.setString(8, userDetails.getModifiedDate());
+			pstmt.setString(5, commonUtil.getUserId());
+			pstmt.setString(6, commonUtil.getCurrentDateTime());
+			pstmt.setInt(7, userDetails.getUserId());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,10 +114,10 @@ public class UserDAO {
 		boolean flag = true;
 		try {
 			conn = DBConn.jdbcConnection();
-			pstmt = conn.prepareStatement("DELETE INTO tblUser"
-					+ " (userId,username,pwd,referId,userType,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate)" 
-					+ " VALUES(?,?,?,?,?,?)");
+			pstmt = conn.prepareStatement("DELETE FROM tblUser"
+					+ " WHERE userId = ?");
+			pstmt.setInt(1, userDetails.getUserId());
+			pstmt.execute();
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,21 +138,34 @@ public class UserDAO {
 		return flag;
 	}
 	
-	public List<User> getAlUserDetails() {
+	public List<User> getAlUserDetails(String firstName,String userType) {
 		logger.info("UserDAO.getAlUserDetails() starts");
 		List<User> userDetails = new ArrayList<User>();
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT userId,username,pwd,referId,userType,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate"
-					+ " FROM tblUser";
+			String sql = "SELECT tblUser.userId,tblUser.username,tblUser.pwd,A.referId,"
+					+ " A.first_name,A.last_name,A.userType,"
+					+ " tblUser.createdBy,tblUser.createdDate,tblUser.modifiedBy,tblUser.modifiedDate"
+					+ " FROM "
+					+" (SELECT patient_id as referId,first_name,last_name,'PATIENT' as userType FROM tblPatient" 
+					+" UNION ALL"
+					+" SELECT staff_id as referId,first_name,last_name,staff_type as userType FROM tblStaff" 
+					+" ) AS A"
+					+" INNER JOIN tblUser"
+					+" ON A.referId = tblUser.referId"
+					+" AND A.userType = tblUser.userType" 
+					+" WHERE A.userType = ?"
+					+" AND A.first_name LIKE ?";
+			logger.info("UserDAO.getAlUserDetails() - "+sql);
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userType);
+			pstmt.setString(2, "%" + firstName + "%");
 			rs = pstmt.executeQuery();
 			User userObj = null;
 			while (rs.next()) {
 				userObj = new User();
 				userObj.setUserId(rs.getInt("userId"));
-				userObj.setUsername(rs.getString("username"));
+				userObj.setUserName(rs.getString("username"));
 				userObj.setPwd(rs.getString("pwd"));
 				userObj.setReferId(rs.getString("referId"));
 				userObj.setUserType(rs.getString("userType"));
@@ -163,6 +173,8 @@ public class UserDAO {
 				userObj.setCreatedDate(rs.getString("createdDate"));
 				userObj.setModifiedBy(rs.getString("modifiedBy"));
 				userObj.setModifiedDate(rs.getString("modifiedDate"));
+				userObj.setFirstName(rs.getString("first_name"));
+				userObj.setLastName(rs.getString("last_name"));
 				userDetails.add(userObj);
 			}
 		} catch (Exception e) {
@@ -188,7 +200,7 @@ public class UserDAO {
 			String sql = "SELECT userId,username,pwd,referId,userType,createdBy,createdDate,modifiedBy,modifiedDate"
 					+ " FROM tblUser"
 					+ " WHERE username=? AND pwd =?";
-			logger.info("PatientDAO.getAlPatientDetails() - "+sql);
+			logger.info("UserDAO.getAlPatientDetails() - "+sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
 			pstmt.setString(2, pwd);
@@ -196,7 +208,7 @@ public class UserDAO {
 			while (rs.next()) {
 				userObj = new User();
 				userObj.setUserId(rs.getInt("userId"));
-				userObj.setUsername(rs.getString("username"));
+				userObj.setUserName(rs.getString("username"));
 				userObj.setPwd(rs.getString("pwd"));
 				userObj.setReferId(rs.getString("referId"));
 				userObj.setUserType(rs.getString("userType"));
@@ -218,6 +230,48 @@ public class UserDAO {
 		}
 		logger.info("UserDAO.getUserDetails() ends");
 		return userObj;
+	}
+
+	public List<User> getUserList(String userType) {
+		logger.info("UserDAO.getUserList() starts");
+		List<User> userDetails = new ArrayList<User>();
+		try {
+			conn = DBConn.jdbcConnection();
+			String sql = "SELECT referId,first_name,last_name,userType"
+					+ " FROM "
+					+ " (SELECT patient_id as referId,first_name,last_name,'PATIENT' as userType"
+					+ " FROM tblPatient"
+					+ " UNION ALL" 
+					+ " SELECT staff_id as referId,first_name,last_name,staff_type as userType"
+					+ " FROM tblStaff)"
+					+ " AS tblTemp"
+					+ " WHERE userType=?";
+			logger.info("UserDAO.getUserList() - "+sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,userType);
+			rs = pstmt.executeQuery();
+			User userObj = null;
+			while (rs.next()) {
+				userObj = new User();
+				userObj.setReferId(rs.getString("referId"));
+				userObj.setFirstName(rs.getString("first_name"));
+				userObj.setLastName(rs.getString("last_name"));
+				userObj.setUserType(rs.getString("userType"));
+				userDetails.add(userObj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		logger.info("UserDAO.getUserList() ends");
+		return userDetails;
 	}
 
 }

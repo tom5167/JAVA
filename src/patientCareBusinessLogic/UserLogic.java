@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2019 PatientCare - Hospital Management System
+ * Copyright (C) 2019 UserCare - Hospital Management System
  *
- * Licensed under PatientCare CLIENT LICENSE AGREEMENT (the "License");
+ * Licensed under UserCare CLIENT LICENSE AGREEMENT (the "License");
  * you may not use this file except in compliance with the License.
  *
- * User acknowledges and agrees that this class constitute and incorporate PatientCare's confidential information. 
+ * User acknowledges and agrees that this class constitute and incorporate UserCare's confidential information. 
  * User shall take all reasonable precautions necessary to safeguard the confidentiality of all confidential information.  
  * 
  * User shall not:
@@ -17,6 +17,33 @@
  */
 package patientCareBusinessLogic;
 
+import java.util.List;
+
+import patientCareDAO.UserDAO;
+import patientCarePOJO.User;
+
 public class UserLogic {
+	
+	UserDAO userDAO = new UserDAO();
+
+	public List<User> getAlUserDetails(String firstName,String userType) {
+		return userDAO.getAlUserDetails(firstName,userType);
+	}
+	
+	public boolean saveUserDetails(User userDetails) {
+		if(userDetails.getUserId() < 1) {
+			return userDAO.insertUserDetails(userDetails);
+		} else {
+			return userDAO.updateUserDetails(userDetails);
+		}
+	}
+	
+	public boolean deleteUserDetails(User userDetails) {
+		return userDAO.deleteUserDetails(userDetails);
+	}
+
+	public List<User> getUserList(String userType) {
+		return userDAO.getUserList(userType);
+	}
 
 }

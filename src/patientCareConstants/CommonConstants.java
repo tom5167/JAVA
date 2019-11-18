@@ -22,7 +22,9 @@ import java.io.File;
 public interface CommonConstants {
 	public static String FS = File.separator;
 	public static String ADMIN = "ADMIN";
+	public static String DOCTOR = "DOCTOR";
 	public static String PATIENT = "PATIENT";
+	public static String RECEPTIONIST = "RECEPTIONIST";
 	public static String EMPTY_STRING = "";
 	public static int ZERO = 0;
 	public static String OPERATION_ROOM = "operation room";

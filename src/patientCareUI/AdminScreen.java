@@ -24,8 +24,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -50,8 +53,10 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import patientCareBusinessLogic.PatientLogic;
+import patientCareBusinessLogic.UserLogic;
 import patientCareConstants.CommonConstants;
 import patientCarePOJO.Patient;
+import patientCarePOJO.User;
 
 public class AdminScreen extends JFrame {
 
@@ -59,6 +64,7 @@ public class AdminScreen extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 3642295893091456420L;
+	UserLogic userLogic = new UserLogic();
 	PatientLogic patientLogic = new PatientLogic();
 	private JPanel contentPane;
 	private JTable tblPatientList_APL;
@@ -78,13 +84,11 @@ public class AdminScreen extends JFrame {
 	private JTextField txtCreatedDate_APF;
 	private JTextField txtModifiedBy_APF;
 	private JTextField txtModifiedDate_APF;
-	private JTable tblUserList_AUL;
-	private JTextField txtUsername_AUF;
+	private JTextField txtUserName_AUF;
 	private JTextField txtPassword_AUF;
-	private JTextField txtRefId_AUF;
-	private JTextField txtLastName_AUF;
 	private JTextField txtFirstName_AUL;
 	private JTextField txtFirstName_APL;
+	private JTable tblUserList_AUL;
 
 	/**
 	 * Create the frame.
@@ -136,34 +140,41 @@ public class AdminScreen extends JFrame {
 		pnlUserDetails_A.add(pnlUserForm_AU);
 		pnlUserForm_AU.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagLayout gbl_pnlUserForm_AU = new GridBagLayout();
-		gbl_pnlUserForm_AU.columnWidths = new int[]{33, 105, 107, 115, 91, 0, 0};
-		gbl_pnlUserForm_AU.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_pnlUserForm_AU.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlUserForm_AU.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_pnlUserForm_AU.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlUserForm_AU.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlUserForm_AU.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlUserForm_AU.setLayout(gbl_pnlUserForm_AU);
+		
+		JLabel lblUserId_AUF = new JLabel("");
+		GridBagConstraints gbc_txtUserId_AUF = new GridBagConstraints();
+		gbc_txtUserId_AUF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtUserId_AUF.gridx = 2;
+		gbc_txtUserId_AUF.gridy = 0;
+		pnlUserForm_AU.add(lblUserId_AUF, gbc_txtUserId_AUF);
 		
 		JLabel lblUsername_AUF = new JLabel("Username");
 		GridBagConstraints gbc_lblUsername_AUF = new GridBagConstraints();
 		gbc_lblUsername_AUF.insets = new Insets(0, 0, 5, 5);
 		gbc_lblUsername_AUF.anchor = GridBagConstraints.EAST;
-		gbc_lblUsername_AUF.gridx = 2;
+		gbc_lblUsername_AUF.gridx = 1;
 		gbc_lblUsername_AUF.gridy = 1;
 		pnlUserForm_AU.add(lblUsername_AUF, gbc_lblUsername_AUF);
 		
-		txtUsername_AUF = new JTextField();
-		GridBagConstraints gbc_txtUsername_AUF = new GridBagConstraints();
-		gbc_txtUsername_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtUsername_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtUsername_AUF.gridx = 3;
-		gbc_txtUsername_AUF.gridy = 1;
-		pnlUserForm_AU.add(txtUsername_AUF, gbc_txtUsername_AUF);
-		txtUsername_AUF.setColumns(10);
+		txtUserName_AUF = new JTextField();
+		GridBagConstraints gbc_txtUserName_AUF = new GridBagConstraints();
+		gbc_txtUserName_AUF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtUserName_AUF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUserName_AUF.gridx = 2;
+		gbc_txtUserName_AUF.gridy = 1;
+		pnlUserForm_AU.add(txtUserName_AUF, gbc_txtUserName_AUF);
+		txtUserName_AUF.setColumns(10);
 		
 		JLabel lblPassword__AUF = new JLabel("Password");
 		GridBagConstraints gbc_lblPassword__AUF = new GridBagConstraints();
 		gbc_lblPassword__AUF.anchor = GridBagConstraints.EAST;
 		gbc_lblPassword__AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPassword__AUF.gridx = 2;
+		gbc_lblPassword__AUF.gridx = 1;
 		gbc_lblPassword__AUF.gridy = 2;
 		pnlUserForm_AU.add(lblPassword__AUF, gbc_lblPassword__AUF);
 		
@@ -171,7 +182,7 @@ public class AdminScreen extends JFrame {
 		GridBagConstraints gbc_txtPassword_AUF = new GridBagConstraints();
 		gbc_txtPassword_AUF.insets = new Insets(0, 0, 5, 5);
 		gbc_txtPassword_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtPassword_AUF.gridx = 3;
+		gbc_txtPassword_AUF.gridx = 2;
 		gbc_txtPassword_AUF.gridy = 2;
 		pnlUserForm_AU.add(txtPassword_AUF, gbc_txtPassword_AUF);
 		txtPassword_AUF.setColumns(10);
@@ -180,16 +191,38 @@ public class AdminScreen extends JFrame {
 		GridBagConstraints gbc_lblUserType_AUF = new GridBagConstraints();
 		gbc_lblUserType_AUF.anchor = GridBagConstraints.EAST;
 		gbc_lblUserType_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblUserType_AUF.gridx = 2;
+		gbc_lblUserType_AUF.gridx = 1;
 		gbc_lblUserType_AUF.gridy = 3;
 		pnlUserForm_AU.add(lblUserType_AUF, gbc_lblUserType_AUF);
 		
+		JComboBox cmbFirstName_AUF = new JComboBox();
 		JComboBox cmbUserType_AUF = new JComboBox();
+		cmbUserType_AUF.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				String userType = cmbUserType_AUF.getSelectedItem().toString();
+				List<User> userDetails = new ArrayList<User>();
+				userDetails = userLogic.getUserList(userType);
+				if(userDetails.size() == 0) {
+					cmbFirstName_AUF.removeAllItems();
+					JOptionPane.showMessageDialog(null, "No records found.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				cmbFirstName_AUF.removeAllItems();
+				cmbFirstName_AUF.addItem(CommonConstants.PLEASE_SELECT);
+				for(int i=0;i<userDetails.size();i++) {
+					cmbFirstName_AUF.addItem(userDetails.get(i).getReferId()
+							+"_"+userDetails.get(i).getFirstName()
+							+"_"+userDetails.get(i).getLastName()
+							+"_"+userDetails.get(i).getUserType());
+				}
+			}
+		});
 		cmbUserType_AUF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Admin", "Doctor", "Patient", "Receptionist"}));
 		GridBagConstraints gbc_cmbUserType_AUF = new GridBagConstraints();
 		gbc_cmbUserType_AUF.insets = new Insets(0, 0, 5, 5);
 		gbc_cmbUserType_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbUserType_AUF.gridx = 3;
+		gbc_cmbUserType_AUF.gridx = 2;
 		gbc_cmbUserType_AUF.gridy = 3;
 		pnlUserForm_AU.add(cmbUserType_AUF, gbc_cmbUserType_AUF);
 		
@@ -197,69 +230,59 @@ public class AdminScreen extends JFrame {
 		GridBagConstraints gbc_lblFirstName_AUF = new GridBagConstraints();
 		gbc_lblFirstName_AUF.anchor = GridBagConstraints.EAST;
 		gbc_lblFirstName_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFirstName_AUF.gridx = 2;
+		gbc_lblFirstName_AUF.gridx = 1;
 		gbc_lblFirstName_AUF.gridy = 4;
 		pnlUserForm_AU.add(lblFirstName_AUF, gbc_lblFirstName_AUF);
 		
-		JComboBox cmbFirstName_AUF = new JComboBox();
 		cmbFirstName_AUF.setModel(new DefaultComboBoxModel(new String[] {"Please Select"}));
 		GridBagConstraints gbc_cmbFirstName_AUF = new GridBagConstraints();
 		gbc_cmbFirstName_AUF.insets = new Insets(0, 0, 5, 5);
 		gbc_cmbFirstName_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbFirstName_AUF.gridx = 3;
+		gbc_cmbFirstName_AUF.gridx = 2;
 		gbc_cmbFirstName_AUF.gridy = 4;
 		pnlUserForm_AU.add(cmbFirstName_AUF, gbc_cmbFirstName_AUF);
 		
-		JLabel lblLastName_AUF = new JLabel("Last Name");
-		GridBagConstraints gbc_lblLastName_AUF = new GridBagConstraints();
-		gbc_lblLastName_AUF.anchor = GridBagConstraints.EAST;
-		gbc_lblLastName_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLastName_AUF.gridx = 2;
-		gbc_lblLastName_AUF.gridy = 5;
-		pnlUserForm_AU.add(lblLastName_AUF, gbc_lblLastName_AUF);
-		
-		txtLastName_AUF = new JTextField();
-		txtLastName_AUF.setEditable(false);
-		GridBagConstraints gbc_txtLastName_AUF = new GridBagConstraints();
-		gbc_txtLastName_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtLastName_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtLastName_AUF.gridx = 3;
-		gbc_txtLastName_AUF.gridy = 5;
-		pnlUserForm_AU.add(txtLastName_AUF, gbc_txtLastName_AUF);
-		txtLastName_AUF.setColumns(10);
-		
-		JLabel lblRefernceId_AUF = new JLabel("Refernce Id");
-		GridBagConstraints gbc_lblRefernceId_AUF = new GridBagConstraints();
-		gbc_lblRefernceId_AUF.anchor = GridBagConstraints.EAST;
-		gbc_lblRefernceId_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRefernceId_AUF.gridx = 2;
-		gbc_lblRefernceId_AUF.gridy = 6;
-		pnlUserForm_AU.add(lblRefernceId_AUF, gbc_lblRefernceId_AUF);
-		
-		txtRefId_AUF = new JTextField();
-		txtRefId_AUF.setEditable(false);
-		GridBagConstraints gbc_txtRefId_AUF = new GridBagConstraints();
-		gbc_txtRefId_AUF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtRefId_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtRefId_AUF.gridx = 3;
-		gbc_txtRefId_AUF.gridy = 6;
-		pnlUserForm_AU.add(txtRefId_AUF, gbc_txtRefId_AUF);
-		txtRefId_AUF.setColumns(10);
-		
 		JButton btnSave_AUF = new JButton("Save");
+		btnSave_AUF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				User userDetails = new User();
+				if(lblUserId_AUF.getText().equalsIgnoreCase("")) {
+					userDetails.setUserId(0);
+				} else {
+					userDetails.setUserId(Integer.parseInt(lblUserId_AUF.getText()));
+				}
+				userDetails.setUserName(txtUserName_AUF.getText());
+				userDetails.setPwd(txtPassword_AUF.getText());
+				userDetails.setUserType(cmbUserType_AUF.getSelectedItem().toString());
+				String selectedItem = cmbFirstName_AUF.getSelectedItem().toString();
+				userDetails.setReferId(selectedItem.split("_")[0]);
+				userDetails.setFirstName(selectedItem.split("_")[1]);
+				userDetails.setLastName(selectedItem.split("_")[2]);
+				userLogic.saveUserDetails(userDetails);
+			}
+		});
+		
+		JButton btnNew_AUF = new JButton("New");
+		GridBagConstraints gbc_btnNew_AUF = new GridBagConstraints();
+		gbc_btnNew_AUF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_AUF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_AUF.gridx = 1;
+		gbc_btnNew_AUF.gridy = 6;
+		pnlUserForm_AU.add(btnNew_AUF, gbc_btnNew_AUF);
 		GridBagConstraints gbc_btnSave_AUF = new GridBagConstraints();
 		gbc_btnSave_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnSave_AUF.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSave_AUF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_AUF.gridx = 2;
-		gbc_btnSave_AUF.gridy = 8;
+		gbc_btnSave_AUF.gridy = 6;
 		pnlUserForm_AU.add(btnSave_AUF, gbc_btnSave_AUF);
 		
 		JButton btnDelete_AUF = new JButton("Delete");
 		GridBagConstraints gbc_btnDelete_AUF = new GridBagConstraints();
 		gbc_btnDelete_AUF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnDelete_AUF.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDelete_AUF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDelete_AUF.gridx = 3;
-		gbc_btnDelete_AUF.gridy = 8;
+		gbc_btnDelete_AUF.gridy = 6;
 		pnlUserForm_AU.add(btnDelete_AUF, gbc_btnDelete_AUF);
 		
 		JPanel pnlUserList_AU = new JPanel();
@@ -273,20 +296,23 @@ public class AdminScreen extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"user_id", "username", "pwd", "refer_id", "user_type","firstName", "lastName", "createdBy", "createdDate", "modifiedBy", "modifiedDate"
+				"User Id", "User Name", "Password", "Refer Id", "User Type", "First Name", "Last Name", "Created By", "Created Date", "Modified By", "Modified Date"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
+			}
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				return false;
 			}
 		});
 		
 		tblUserList_AUL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scrollUserList_AUL = new JScrollPane(tblUserList_AUL);
-		scrollUserList_AUL.setBounds(6, 74, 459, 285);
+		scrollUserList_AUL.setBounds(6, 73, 453, 286);
 		pnlUserList_AU.add(scrollUserList_AUL);
 		
 		JLabel lblUserType_AUL = new JLabel("User Type");
@@ -311,13 +337,45 @@ public class AdminScreen extends JFrame {
 		btnSearch_AUL.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+				if(cmbUserType_AUL.getSelectedItem().toString().equalsIgnoreCase(CommonConstants.PLEASE_SELECT)) {
+					JOptionPane.showMessageDialog(null, "Please select the user type", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if(txtFirstName_AUL.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the first name to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelUser = (DefaultTableModel) tblUserList_AUL.getModel();
+				List<User> alUserDetails = userLogic.getAlUserDetails(txtFirstName_AUL.getText(),cmbUserType_AUL.getSelectedItem().toString());
+				modelUser.setRowCount(0);
+				if(alUserDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alUserDetails.size();i++) {
+						Object[] row = new String[21];
+						row[0] = alUserDetails.get(i).getUserId()+"";
+						row[1] = alUserDetails.get(i).getUserName();
+						row[2] = alUserDetails.get(i).getPwd();
+						row[3] = alUserDetails.get(i).getReferId();
+						row[4] = alUserDetails.get(i).getUserType();
+						row[5] = alUserDetails.get(i).getFirstName();
+						row[6] = alUserDetails.get(i).getLastName();
+						row[7] = alUserDetails.get(i).getCreatedBy();
+						row[8] = alUserDetails.get(i).getCreatedDate();
+						row[9] = alUserDetails.get(i).getModifiedBy();
+						row[10] = alUserDetails.get(i).getModifiedDate();
+						modelUser.addRow(row);
+					}
+				}
 			}
 		});
 		btnSearch_AUL.setBounds(376, 22, 89, 23);
 		pnlUserList_AU.add(btnSearch_AUL);
 		
-		JLabel lblNote_AUL = new JLabel("  Note: Result will show similar first names aprt from exact match.");
+		JLabel lblNote_AUL = new JLabel("  Note: Result will show similar first names apart from exact match.");
 		lblNote_AUL.setBounds(6, 49, 445, 14);
 		pnlUserList_AU.add(lblNote_AUL);
 		
@@ -897,7 +955,6 @@ public class AdminScreen extends JFrame {
 						row[20] = alPatientDetails.get(i).getModifiedDate();
 						modelPatient.addRow(row);
 					}
-					tblPatientList_APL.setRowSelectionInterval(0, 0);
 				}
 			}
 		});
