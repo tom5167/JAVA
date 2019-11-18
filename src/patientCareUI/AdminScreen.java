@@ -90,7 +90,7 @@ public class AdminScreen extends JFrame {
 	private JTextField txtFirstName_AUL;
 	private JTextField txtFirstName_APL;
 	private JTable tblUserList_AUL;
-	private JTextField textField;
+	private JTextField txtTotalBeds_ARF;
 	private JTextField textField_2;
 	private JTextField textField_1;
 	private JTextField textField_3;
@@ -98,6 +98,7 @@ public class AdminScreen extends JFrame {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
+	private JTextField txtOccupiedBeds_ARF;
 
 	/**
 	 * Create the frame.
@@ -1062,60 +1063,111 @@ public class AdminScreen extends JFrame {
 		pnlMainTabbed_A.addTab("Room Details", null, pnlRoomDetails_A, null);
 		
 		JPanel pnlRoomForm_AR = new JPanel();
-		pnlRoomForm_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlRoomForm_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Room Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlRoomForm_AR.setBounds(0, 0, 483, 365);
 		pnlRoomDetails_A.add(pnlRoomForm_AR);
 		GridBagLayout gbl_pnlRoomForm_AR = new GridBagLayout();
 		gbl_pnlRoomForm_AR.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_pnlRoomForm_AR.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_pnlRoomForm_AR.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlRoomForm_AR.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlRoomForm_AR.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlRoomForm_AR.setLayout(gbl_pnlRoomForm_AR);
 		
-		JLabel label_1 = new JLabel("Username");
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.anchor = GridBagConstraints.EAST;
-		gbc_label_1.insets = new Insets(0, 0, 5, 5);
-		gbc_label_1.gridx = 1;
-		gbc_label_1.gridy = 1;
-		pnlRoomForm_AR.add(label_1, gbc_label_1);
+		JLabel lblTotalBeds_ARF = new JLabel("Total Beds");
+		GridBagConstraints gbc_lblTotalBeds_ARF = new GridBagConstraints();
+		gbc_lblTotalBeds_ARF.anchor = GridBagConstraints.EAST;
+		gbc_lblTotalBeds_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTotalBeds_ARF.gridx = 1;
+		gbc_lblTotalBeds_ARF.gridy = 1;
+		pnlRoomForm_AR.add(lblTotalBeds_ARF, gbc_lblTotalBeds_ARF);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		pnlRoomForm_AR.add(textField, gbc_textField);
+		txtTotalBeds_ARF = new JTextField();
+		txtTotalBeds_ARF.setColumns(10);
+		GridBagConstraints gbc_txtTotalBeds_ARF = new GridBagConstraints();
+		gbc_txtTotalBeds_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTotalBeds_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTotalBeds_ARF.gridx = 2;
+		gbc_txtTotalBeds_ARF.gridy = 1;
+		pnlRoomForm_AR.add(txtTotalBeds_ARF, gbc_txtTotalBeds_ARF);
 		
-		JButton button = new JButton("New");
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button.insets = new Insets(0, 0, 5, 5);
-		gbc_button.gridx = 1;
-		gbc_button.gridy = 6;
-		pnlRoomForm_AR.add(button, gbc_button);
+		JLabel lblOccupiedBeds_ARF = new JLabel("Occupied Beds");
+		GridBagConstraints gbc_lblOccupiedBeds_ARF = new GridBagConstraints();
+		gbc_lblOccupiedBeds_ARF.anchor = GridBagConstraints.EAST;
+		gbc_lblOccupiedBeds_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblOccupiedBeds_ARF.gridx = 1;
+		gbc_lblOccupiedBeds_ARF.gridy = 2;
+		pnlRoomForm_AR.add(lblOccupiedBeds_ARF, gbc_lblOccupiedBeds_ARF);
 		
-		JButton button_1 = new JButton("Save");
-		GridBagConstraints gbc_button_1 = new GridBagConstraints();
-		gbc_button_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_1.insets = new Insets(0, 0, 5, 5);
-		gbc_button_1.gridx = 2;
-		gbc_button_1.gridy = 6;
-		pnlRoomForm_AR.add(button_1, gbc_button_1);
+		txtOccupiedBeds_ARF = new JTextField();
+		txtOccupiedBeds_ARF.setColumns(10);
+		GridBagConstraints gbc_txtOccupiedBeds_ARF = new GridBagConstraints();
+		gbc_txtOccupiedBeds_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtOccupiedBeds_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtOccupiedBeds_ARF.gridx = 2;
+		gbc_txtOccupiedBeds_ARF.gridy = 2;
+		pnlRoomForm_AR.add(txtOccupiedBeds_ARF, gbc_txtOccupiedBeds_ARF);
 		
-		JButton button_2 = new JButton("Delete");
-		GridBagConstraints gbc_button_2 = new GridBagConstraints();
-		gbc_button_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_2.insets = new Insets(0, 0, 5, 5);
-		gbc_button_2.gridx = 3;
-		gbc_button_2.gridy = 6;
-		pnlRoomForm_AR.add(button_2, gbc_button_2);
+		JLabel lblRoomType_ARF = new JLabel("Total Beds");
+		GridBagConstraints gbc_lblRoomType_ARF = new GridBagConstraints();
+		gbc_lblRoomType_ARF.anchor = GridBagConstraints.EAST;
+		gbc_lblRoomType_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRoomType_ARF.gridx = 1;
+		gbc_lblRoomType_ARF.gridy = 3;
+		pnlRoomForm_AR.add(lblRoomType_ARF, gbc_lblRoomType_ARF);
+		
+		JComboBox cmbRoomType_ARF = new JComboBox();
+		cmbRoomType_ARF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "General Ward", "Private Bronze", "Private Silver", "Private Gold"}));
+		GridBagConstraints gbc_cmbRoomType_ARF = new GridBagConstraints();
+		gbc_cmbRoomType_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbRoomType_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbRoomType_ARF.gridx = 2;
+		gbc_cmbRoomType_ARF.gridy = 3;
+		pnlRoomForm_AR.add(cmbRoomType_ARF, gbc_cmbRoomType_ARF);
+		
+		JLabel lblBuildingNumber_ARF = new JLabel("Building Number");
+		GridBagConstraints gbc_lblBuildingNumber_ARF = new GridBagConstraints();
+		gbc_lblBuildingNumber_ARF.anchor = GridBagConstraints.EAST;
+		gbc_lblBuildingNumber_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBuildingNumber_ARF.gridx = 1;
+		gbc_lblBuildingNumber_ARF.gridy = 4;
+		pnlRoomForm_AR.add(lblBuildingNumber_ARF, gbc_lblBuildingNumber_ARF);
+		
+		JComboBox cmbBuildingNumber_ARF = new JComboBox();
+		cmbBuildingNumber_ARF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "A1", "A2", "A3", "A4", "A5", "A6", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9"}));
+		GridBagConstraints gbc_cmbBuildingNumber_ARF = new GridBagConstraints();
+		gbc_cmbBuildingNumber_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbBuildingNumber_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbBuildingNumber_ARF.gridx = 2;
+		gbc_cmbBuildingNumber_ARF.gridy = 4;
+		pnlRoomForm_AR.add(cmbBuildingNumber_ARF, gbc_cmbBuildingNumber_ARF);
+		
+		JButton btnNew_ARF = new JButton("New");
+		GridBagConstraints gbc_btnNew_ARF = new GridBagConstraints();
+		gbc_btnNew_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_ARF.gridx = 1;
+		gbc_btnNew_ARF.gridy = 6;
+		pnlRoomForm_AR.add(btnNew_ARF, gbc_btnNew_ARF);
+		
+		JButton btnSave_ARF = new JButton("Save");
+		GridBagConstraints gbc_btnSave_ARF = new GridBagConstraints();
+		gbc_btnSave_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_ARF.gridx = 2;
+		gbc_btnSave_ARF.gridy = 6;
+		pnlRoomForm_AR.add(btnSave_ARF, gbc_btnSave_ARF);
+		
+		JButton btnDelete_ARF = new JButton("Delete");
+		GridBagConstraints gbc_btnDelete_ARF = new GridBagConstraints();
+		gbc_btnDelete_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete_ARF.gridx = 3;
+		gbc_btnDelete_ARF.gridy = 6;
+		pnlRoomForm_AR.add(btnDelete_ARF, gbc_btnDelete_ARF);
 		
 		JPanel pnlRoomList_AR = new JPanel();
 		pnlRoomList_AR.setLayout(null);
-		pnlRoomList_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlRoomList_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Room List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlRoomList_AR.setBounds(483, 0, 475, 365);
 		pnlRoomDetails_A.add(pnlRoomList_AR);
 		
@@ -1223,14 +1275,14 @@ public class AdminScreen extends JFrame {
 		label_8.setBounds(6, 49, 445, 14);
 		pnlStaffList_AS.add(label_8);
 		
-		JPanel pnlEventDetails = new JPanel();
-		pnlEventDetails.setLayout(null);
-		pnlMainTabbed_A.addTab("Event Details", null, pnlEventDetails, null);
+		JPanel pnlEventDetails_A = new JPanel();
+		pnlEventDetails_A.setLayout(null);
+		pnlMainTabbed_A.addTab("Event Details", null, pnlEventDetails_A, null);
 		
 		JPanel pnlEventForm_AE = new JPanel();
 		pnlEventForm_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlEventForm_AE.setBounds(0, 0, 483, 365);
-		pnlEventDetails.add(pnlEventForm_AE);
+		pnlEventDetails_A.add(pnlEventForm_AE);
 		GridBagLayout gbl_pnlEventForm_AE = new GridBagLayout();
 		gbl_pnlEventForm_AE.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_pnlEventForm_AE.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
@@ -1283,7 +1335,7 @@ public class AdminScreen extends JFrame {
 		pnlEventList_AE.setLayout(null);
 		pnlEventList_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pnlEventList_AE.setBounds(483, 0, 475, 365);
-		pnlEventDetails.add(pnlEventList_AE);
+		pnlEventDetails_A.add(pnlEventList_AE);
 		
 		JScrollPane scrollPane_3 = new JScrollPane((Component) null);
 		scrollPane_3.setBounds(6, 73, 453, 286);
