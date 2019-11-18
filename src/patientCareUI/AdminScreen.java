@@ -969,10 +969,6 @@ public class AdminScreen extends JFrame {
 		pnlMainTabbed_A.addTab("Bill Details", null, pnlBillDetails, null);
 		pnlBillDetails.setLayout(null);
 		
-		JPanel pnlInsuranceDetails = new JPanel();
-		pnlInsuranceDetails.setLayout(null);
-		pnlMainTabbed_A.addTab("Insurance Details", null, pnlInsuranceDetails, null);
-		
 		JPanel pnlRoomDetails = new JPanel();
 		pnlRoomDetails.setLayout(null);
 		pnlMainTabbed_A.addTab("Room Details", null, pnlRoomDetails, null);

@@ -117,11 +117,21 @@ FROM tblUser;
 SELECT patient_id as referId,first_name,last_name,'PATIENT' as UserType FROM tblPatient;
 SELECT staff_id as referId,first_name,last_name,staff_type as UserType FROM tblStaff;
 
-SELECT referId,first_name,last_name,userType FROM (
+SELECT tblUser.userId,A.referId,A.first_name,A.last_name,A.userType,tblUser.createdBy,tblUser.createdDate,tblUser.modifiedBy,tblUser.modifiedDate 
+FROM (
 SELECT patient_id as referId,first_name,last_name,'PATIENT' as userType FROM tblPatient
 UNION ALL
 SELECT staff_id as referId,first_name,last_name,staff_type as userType FROM tblStaff
-) AS A;
+) AS A
+INNER JOIN tblUser
+ON A.referId = tblUser.referId
+AND A.userType = tblUser.userType
+WHERE A.userType = 'ADMIN'
+AND A.first_name LIKE 'admin';
+
+SELECT userId,username,pwd,referId,userType,
+createdBy,createdDate,modifiedBy,modifiedDate
+FROM tblUser;
 
 IF OBJECT_ID('tblBilling', 'U') IS NOT NULL
 DROP TABLE tblBilling;
