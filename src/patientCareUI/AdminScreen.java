@@ -96,7 +96,6 @@ public class AdminScreen extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField txtOccupiedBeds_ARF;
 
@@ -1280,32 +1279,71 @@ public class AdminScreen extends JFrame {
 		pnlMainTabbed_A.addTab("Event Details", null, pnlEventDetails_A, null);
 		
 		JPanel pnlEventForm_AE = new JPanel();
-		pnlEventForm_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlEventForm_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Event Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlEventForm_AE.setBounds(0, 0, 483, 365);
 		pnlEventDetails_A.add(pnlEventForm_AE);
 		GridBagLayout gbl_pnlEventForm_AE = new GridBagLayout();
 		gbl_pnlEventForm_AE.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_pnlEventForm_AE.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_pnlEventForm_AE.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlEventForm_AE.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlEventForm_AE.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlEventForm_AE.setLayout(gbl_pnlEventForm_AE);
 		
-		JLabel label_9 = new JLabel("Username");
-		GridBagConstraints gbc_label_9 = new GridBagConstraints();
-		gbc_label_9.anchor = GridBagConstraints.EAST;
-		gbc_label_9.insets = new Insets(0, 0, 5, 5);
-		gbc_label_9.gridx = 1;
-		gbc_label_9.gridy = 1;
-		pnlEventForm_AE.add(label_9, gbc_label_9);
+		JLabel lblPatientId = new JLabel("Patient Id");
+		GridBagConstraints gbc_lblPatientId = new GridBagConstraints();
+		gbc_lblPatientId.anchor = GridBagConstraints.EAST;
+		gbc_lblPatientId.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPatientId.gridx = 1;
+		gbc_lblPatientId.gridy = 1;
+		pnlEventForm_AE.add(lblPatientId, gbc_lblPatientId);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_6.gridx = 2;
-		gbc_textField_6.gridy = 1;
-		pnlEventForm_AE.add(textField_6, gbc_textField_6);
+		JComboBox cmbPatientId = new JComboBox();
+		GridBagConstraints gbc_cmbPatientId = new GridBagConstraints();
+		gbc_cmbPatientId.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbPatientId.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbPatientId.gridx = 2;
+		gbc_cmbPatientId.gridy = 1;
+		pnlEventForm_AE.add(cmbPatientId, gbc_cmbPatientId);
+		
+		JLabel lblStaffId = new JLabel("Staff Id");
+		GridBagConstraints gbc_lblStaffId = new GridBagConstraints();
+		gbc_lblStaffId.anchor = GridBagConstraints.EAST;
+		gbc_lblStaffId.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStaffId.gridx = 1;
+		gbc_lblStaffId.gridy = 2;
+		pnlEventForm_AE.add(lblStaffId, gbc_lblStaffId);
+		
+		JComboBox cmbStaffId = new JComboBox();
+		GridBagConstraints gbc_cmbStaffId = new GridBagConstraints();
+		gbc_cmbStaffId.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbStaffId.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbStaffId.gridx = 2;
+		gbc_cmbStaffId.gridy = 2;
+		pnlEventForm_AE.add(cmbStaffId, gbc_cmbStaffId);
+		
+		JLabel lblEventType = new JLabel("Event Type");
+		GridBagConstraints gbc_lblEventType = new GridBagConstraints();
+		gbc_lblEventType.anchor = GridBagConstraints.EAST;
+		gbc_lblEventType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventType.gridx = 1;
+		gbc_lblEventType.gridy = 3;
+		pnlEventForm_AE.add(lblEventType, gbc_lblEventType);
+		
+		JComboBox cmbEventType = new JComboBox();
+		GridBagConstraints gbc_cmbEventType = new GridBagConstraints();
+		gbc_cmbEventType.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbEventType.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbEventType.gridx = 2;
+		gbc_cmbEventType.gridy = 3;
+		pnlEventForm_AE.add(cmbEventType, gbc_cmbEventType);
+		
+		JLabel lblEventDate = new JLabel("Event Date");
+		GridBagConstraints gbc_lblEventDate = new GridBagConstraints();
+		gbc_lblEventDate.anchor = GridBagConstraints.EAST;
+		gbc_lblEventDate.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventDate.gridx = 1;
+		gbc_lblEventDate.gridy = 4;
+		pnlEventForm_AE.add(lblEventDate, gbc_lblEventDate);
 		
 		JButton button_12 = new JButton("New");
 		GridBagConstraints gbc_button_12 = new GridBagConstraints();
@@ -1333,7 +1371,7 @@ public class AdminScreen extends JFrame {
 		
 		JPanel pnlEventList_AE = new JPanel();
 		pnlEventList_AE.setLayout(null);
-		pnlEventList_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlEventList_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Event List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlEventList_AE.setBounds(483, 0, 475, 365);
 		pnlEventDetails_A.add(pnlEventList_AE);
 		
