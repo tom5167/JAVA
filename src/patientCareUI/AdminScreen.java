@@ -57,6 +57,7 @@ import patientCareBusinessLogic.UserLogic;
 import patientCareConstants.CommonConstants;
 import patientCarePOJO.Patient;
 import patientCarePOJO.User;
+import java.awt.Component;
 
 public class AdminScreen extends JFrame {
 
@@ -89,6 +90,14 @@ public class AdminScreen extends JFrame {
 	private JTextField txtFirstName_AUL;
 	private JTextField txtFirstName_APL;
 	private JTable tblUserList_AUL;
+	private JTextField textField;
+	private JTextField textField_2;
+	private JTextField textField_1;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
 
 	/**
 	 * Create the frame.
@@ -965,21 +974,337 @@ public class AdminScreen extends JFrame {
 		lblNote_APL.setBounds(6, 48, 445, 14);
 		pnlPatientList_AP.add(lblNote_APL);
 		
-		JPanel pnlBillDetails = new JPanel();
-		pnlMainTabbed_A.addTab("Bill Details", null, pnlBillDetails, null);
-		pnlBillDetails.setLayout(null);
+		JPanel pnlBillDetails_A = new JPanel();
+		pnlMainTabbed_A.addTab("Bill Details", null, pnlBillDetails_A, null);
+		pnlBillDetails_A.setLayout(null);
 		
-		JPanel pnlRoomDetails = new JPanel();
-		pnlRoomDetails.setLayout(null);
-		pnlMainTabbed_A.addTab("Room Details", null, pnlRoomDetails, null);
+		JPanel pnlBillForm_AB = new JPanel();
+		pnlBillForm_AB.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlBillForm_AB.setBounds(0, 0, 483, 365);
+		pnlBillDetails_A.add(pnlBillForm_AB);
+		GridBagLayout gbl_pnlBillForm_AB = new GridBagLayout();
+		gbl_pnlBillForm_AB.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_pnlBillForm_AB.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlBillForm_AB.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlBillForm_AB.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlBillForm_AB.setLayout(gbl_pnlBillForm_AB);
 		
-		JPanel pnlStaffDetails = new JPanel();
-		pnlStaffDetails.setLayout(null);
-		pnlMainTabbed_A.addTab("Staff Details", null, pnlStaffDetails, null);
+		JLabel label = new JLabel("Username");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.EAST;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 1;
+		gbc_label.gridy = 1;
+		pnlBillForm_AB.add(label, gbc_label);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_1.gridx = 2;
+		gbc_textField_1.gridy = 1;
+		pnlBillForm_AB.add(textField_1, gbc_textField_1);
+		
+		JButton button_4 = new JButton("New");
+		GridBagConstraints gbc_button_4 = new GridBagConstraints();
+		gbc_button_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_4.insets = new Insets(0, 0, 5, 5);
+		gbc_button_4.gridx = 1;
+		gbc_button_4.gridy = 6;
+		pnlBillForm_AB.add(button_4, gbc_button_4);
+		
+		JButton button_5 = new JButton("Save");
+		GridBagConstraints gbc_button_5 = new GridBagConstraints();
+		gbc_button_5.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_5.insets = new Insets(0, 0, 5, 5);
+		gbc_button_5.gridx = 2;
+		gbc_button_5.gridy = 6;
+		pnlBillForm_AB.add(button_5, gbc_button_5);
+		
+		JButton button_6 = new JButton("Delete");
+		GridBagConstraints gbc_button_6 = new GridBagConstraints();
+		gbc_button_6.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_6.insets = new Insets(0, 0, 5, 5);
+		gbc_button_6.gridx = 3;
+		gbc_button_6.gridy = 6;
+		pnlBillForm_AB.add(button_6, gbc_button_6);
+		
+		JPanel pnlBillList_AB = new JPanel();
+		pnlBillList_AB.setLayout(null);
+		pnlBillList_AB.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlBillList_AB.setBounds(483, 0, 475, 365);
+		pnlBillDetails_A.add(pnlBillList_AB);
+		
+		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
+		scrollPane_1.setBounds(6, 73, 453, 286);
+		pnlBillList_AB.add(scrollPane_1);
+		
+		JLabel label_2 = new JLabel("First Name");
+		label_2.setBounds(179, 26, 51, 14);
+		pnlBillList_AB.add(label_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(239, 23, 127, 20);
+		pnlBillList_AB.add(textField_3);
+		
+		JButton button_7 = new JButton("Search");
+		button_7.setBounds(376, 22, 89, 23);
+		pnlBillList_AB.add(button_7);
+		
+		JLabel label_3 = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		label_3.setBounds(6, 49, 445, 14);
+		pnlBillList_AB.add(label_3);
+		
+		JPanel pnlRoomDetails_A = new JPanel();
+		pnlRoomDetails_A.setLayout(null);
+		pnlMainTabbed_A.addTab("Room Details", null, pnlRoomDetails_A, null);
+		
+		JPanel pnlRoomForm_AR = new JPanel();
+		pnlRoomForm_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlRoomForm_AR.setBounds(0, 0, 483, 365);
+		pnlRoomDetails_A.add(pnlRoomForm_AR);
+		GridBagLayout gbl_pnlRoomForm_AR = new GridBagLayout();
+		gbl_pnlRoomForm_AR.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_pnlRoomForm_AR.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlRoomForm_AR.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlRoomForm_AR.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlRoomForm_AR.setLayout(gbl_pnlRoomForm_AR);
+		
+		JLabel label_1 = new JLabel("Username");
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.anchor = GridBagConstraints.EAST;
+		gbc_label_1.insets = new Insets(0, 0, 5, 5);
+		gbc_label_1.gridx = 1;
+		gbc_label_1.gridy = 1;
+		pnlRoomForm_AR.add(label_1, gbc_label_1);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 2;
+		gbc_textField.gridy = 1;
+		pnlRoomForm_AR.add(textField, gbc_textField);
+		
+		JButton button = new JButton("New");
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 1;
+		gbc_button.gridy = 6;
+		pnlRoomForm_AR.add(button, gbc_button);
+		
+		JButton button_1 = new JButton("Save");
+		GridBagConstraints gbc_button_1 = new GridBagConstraints();
+		gbc_button_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_1.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1.gridx = 2;
+		gbc_button_1.gridy = 6;
+		pnlRoomForm_AR.add(button_1, gbc_button_1);
+		
+		JButton button_2 = new JButton("Delete");
+		GridBagConstraints gbc_button_2 = new GridBagConstraints();
+		gbc_button_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_2.insets = new Insets(0, 0, 5, 5);
+		gbc_button_2.gridx = 3;
+		gbc_button_2.gridy = 6;
+		pnlRoomForm_AR.add(button_2, gbc_button_2);
+		
+		JPanel pnlRoomList_AR = new JPanel();
+		pnlRoomList_AR.setLayout(null);
+		pnlRoomList_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlRoomList_AR.setBounds(483, 0, 475, 365);
+		pnlRoomDetails_A.add(pnlRoomList_AR);
+		
+		JScrollPane scrollPane = new JScrollPane((Component) null);
+		scrollPane.setBounds(6, 73, 453, 286);
+		pnlRoomList_AR.add(scrollPane);
+		
+		JLabel label_6 = new JLabel("First Name");
+		label_6.setBounds(179, 26, 51, 14);
+		pnlRoomList_AR.add(label_6);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(239, 23, 127, 20);
+		pnlRoomList_AR.add(textField_2);
+		
+		JButton button_3 = new JButton("Search");
+		button_3.setBounds(376, 22, 89, 23);
+		pnlRoomList_AR.add(button_3);
+		
+		JLabel label_7 = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		label_7.setBounds(6, 49, 445, 14);
+		pnlRoomList_AR.add(label_7);
+		
+		JPanel pnlStaffDetails_A = new JPanel();
+		pnlStaffDetails_A.setLayout(null);
+		pnlMainTabbed_A.addTab("Staff Details", null, pnlStaffDetails_A, null);
+		
+		JPanel pnlStaffForm_AS = new JPanel();
+		pnlStaffForm_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlStaffForm_AS.setBounds(0, 0, 483, 365);
+		pnlStaffDetails_A.add(pnlStaffForm_AS);
+		GridBagLayout gbl_pnlStaffForm_AS = new GridBagLayout();
+		gbl_pnlStaffForm_AS.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_pnlStaffForm_AS.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlStaffForm_AS.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlStaffForm_AS.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlStaffForm_AS.setLayout(gbl_pnlStaffForm_AS);
+		
+		JLabel label_4 = new JLabel("Username");
+		GridBagConstraints gbc_label_4 = new GridBagConstraints();
+		gbc_label_4.anchor = GridBagConstraints.EAST;
+		gbc_label_4.insets = new Insets(0, 0, 5, 5);
+		gbc_label_4.gridx = 1;
+		gbc_label_4.gridy = 1;
+		pnlStaffForm_AS.add(label_4, gbc_label_4);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
+		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_4.gridx = 2;
+		gbc_textField_4.gridy = 1;
+		pnlStaffForm_AS.add(textField_4, gbc_textField_4);
+		
+		JButton button_8 = new JButton("New");
+		GridBagConstraints gbc_button_8 = new GridBagConstraints();
+		gbc_button_8.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_8.insets = new Insets(0, 0, 5, 5);
+		gbc_button_8.gridx = 1;
+		gbc_button_8.gridy = 6;
+		pnlStaffForm_AS.add(button_8, gbc_button_8);
+		
+		JButton button_9 = new JButton("Save");
+		GridBagConstraints gbc_button_9 = new GridBagConstraints();
+		gbc_button_9.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_9.insets = new Insets(0, 0, 5, 5);
+		gbc_button_9.gridx = 2;
+		gbc_button_9.gridy = 6;
+		pnlStaffForm_AS.add(button_9, gbc_button_9);
+		
+		JButton button_10 = new JButton("Delete");
+		GridBagConstraints gbc_button_10 = new GridBagConstraints();
+		gbc_button_10.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_10.insets = new Insets(0, 0, 5, 5);
+		gbc_button_10.gridx = 3;
+		gbc_button_10.gridy = 6;
+		pnlStaffForm_AS.add(button_10, gbc_button_10);
+		
+		JPanel pnlStaffList_AS = new JPanel();
+		pnlStaffList_AS.setLayout(null);
+		pnlStaffList_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlStaffList_AS.setBounds(483, 0, 475, 365);
+		pnlStaffDetails_A.add(pnlStaffList_AS);
+		
+		JScrollPane scrollPane_2 = new JScrollPane((Component) null);
+		scrollPane_2.setBounds(6, 73, 453, 286);
+		pnlStaffList_AS.add(scrollPane_2);
+		
+		JLabel label_5 = new JLabel("First Name");
+		label_5.setBounds(179, 26, 51, 14);
+		pnlStaffList_AS.add(label_5);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(239, 23, 127, 20);
+		pnlStaffList_AS.add(textField_5);
+		
+		JButton button_11 = new JButton("Search");
+		button_11.setBounds(376, 22, 89, 23);
+		pnlStaffList_AS.add(button_11);
+		
+		JLabel label_8 = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		label_8.setBounds(6, 49, 445, 14);
+		pnlStaffList_AS.add(label_8);
 		
 		JPanel pnlEventDetails = new JPanel();
 		pnlEventDetails.setLayout(null);
 		pnlMainTabbed_A.addTab("Event Details", null, pnlEventDetails, null);
+		
+		JPanel pnlEventForm_AE = new JPanel();
+		pnlEventForm_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlEventForm_AE.setBounds(0, 0, 483, 365);
+		pnlEventDetails.add(pnlEventForm_AE);
+		GridBagLayout gbl_pnlEventForm_AE = new GridBagLayout();
+		gbl_pnlEventForm_AE.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_pnlEventForm_AE.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlEventForm_AE.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlEventForm_AE.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlEventForm_AE.setLayout(gbl_pnlEventForm_AE);
+		
+		JLabel label_9 = new JLabel("Username");
+		GridBagConstraints gbc_label_9 = new GridBagConstraints();
+		gbc_label_9.anchor = GridBagConstraints.EAST;
+		gbc_label_9.insets = new Insets(0, 0, 5, 5);
+		gbc_label_9.gridx = 1;
+		gbc_label_9.gridy = 1;
+		pnlEventForm_AE.add(label_9, gbc_label_9);
+		
+		textField_6 = new JTextField();
+		textField_6.setColumns(10);
+		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
+		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_6.gridx = 2;
+		gbc_textField_6.gridy = 1;
+		pnlEventForm_AE.add(textField_6, gbc_textField_6);
+		
+		JButton button_12 = new JButton("New");
+		GridBagConstraints gbc_button_12 = new GridBagConstraints();
+		gbc_button_12.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_12.insets = new Insets(0, 0, 5, 5);
+		gbc_button_12.gridx = 1;
+		gbc_button_12.gridy = 6;
+		pnlEventForm_AE.add(button_12, gbc_button_12);
+		
+		JButton button_13 = new JButton("Save");
+		GridBagConstraints gbc_button_13 = new GridBagConstraints();
+		gbc_button_13.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_13.insets = new Insets(0, 0, 5, 5);
+		gbc_button_13.gridx = 2;
+		gbc_button_13.gridy = 6;
+		pnlEventForm_AE.add(button_13, gbc_button_13);
+		
+		JButton button_14 = new JButton("Delete");
+		GridBagConstraints gbc_button_14 = new GridBagConstraints();
+		gbc_button_14.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_14.insets = new Insets(0, 0, 5, 5);
+		gbc_button_14.gridx = 3;
+		gbc_button_14.gridy = 6;
+		pnlEventForm_AE.add(button_14, gbc_button_14);
+		
+		JPanel pnlEventList_AE = new JPanel();
+		pnlEventList_AE.setLayout(null);
+		pnlEventList_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlEventList_AE.setBounds(483, 0, 475, 365);
+		pnlEventDetails.add(pnlEventList_AE);
+		
+		JScrollPane scrollPane_3 = new JScrollPane((Component) null);
+		scrollPane_3.setBounds(6, 73, 453, 286);
+		pnlEventList_AE.add(scrollPane_3);
+		
+		JLabel label_10 = new JLabel("First Name");
+		label_10.setBounds(179, 26, 51, 14);
+		pnlEventList_AE.add(label_10);
+		
+		textField_7 = new JTextField();
+		textField_7.setColumns(10);
+		textField_7.setBounds(239, 23, 127, 20);
+		pnlEventList_AE.add(textField_7);
+		
+		JButton button_15 = new JButton("Search");
+		button_15.setBounds(376, 22, 89, 23);
+		pnlEventList_AE.add(button_15);
+		
+		JLabel label_11 = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		label_11.setBounds(6, 49, 445, 14);
+		pnlEventList_AE.add(label_11);
 		
 		JPanel pnlBottom_A = new JPanel();
 		pnlBottom_A.setLayout(null);
