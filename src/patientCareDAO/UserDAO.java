@@ -42,7 +42,7 @@ public class UserDAO {
 		logger.info("UserDAO.insertAlUserDetails() starts");
 		boolean flag = true;
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblUser"
 					+ " (username,pwd,referId,userType,"
 					+ " createdBy,createdDate)" 
@@ -77,7 +77,7 @@ public class UserDAO {
 		logger.info("UserDAO.updateUserDetails() starts");
 		boolean flag = true;
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblUser"
 					+ " SET username=?,pwd=?,referId=?,userType=?,"
 					+ " modifiedBy=?,modifiedDate=?" 
@@ -113,7 +113,7 @@ public class UserDAO {
 		logger.info("UserDAO.deleteUserDetails() starts");
 		boolean flag = true;
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("DELETE FROM tblUser"
 					+ " WHERE userId = ?");
 			pstmt.setInt(1, userDetails.getUserId());
@@ -142,7 +142,7 @@ public class UserDAO {
 		logger.info("UserDAO.getAlUserDetails() starts");
 		List<User> userDetails = new ArrayList<User>();
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			String sql = "SELECT tblUser.userId,tblUser.username,tblUser.pwd,A.referId,"
 					+ " A.first_name,A.last_name,A.userType,"
 					+ " tblUser.createdBy,tblUser.createdDate,tblUser.modifiedBy,tblUser.modifiedDate"
@@ -196,7 +196,7 @@ public class UserDAO {
 		logger.info("UserDAO.getUserDetails() starts");
 		User userObj = null;
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			String sql = "SELECT userId,username,pwd,referId,userType,createdBy,createdDate,modifiedBy,modifiedDate"
 					+ " FROM tblUser"
 					+ " WHERE username=? AND pwd =?";
@@ -236,7 +236,7 @@ public class UserDAO {
 		logger.info("UserDAO.getUserList() starts");
 		List<User> userDetails = new ArrayList<User>();
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			String sql = "SELECT referId,first_name,last_name,userType"
 					+ " FROM "
 					+ " (SELECT patient_id as referId,first_name,last_name,'PATIENT' as userType"

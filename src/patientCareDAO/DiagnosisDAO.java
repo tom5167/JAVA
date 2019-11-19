@@ -40,7 +40,7 @@ public class DiagnosisDAO {
 		logger.info("getRoomDetails() starts");
 		List<Room> roomDetails = new ArrayList<Room>();
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			String sql = "SELECT room_number,total_beds,occupied_beds,room_type,building_number"
 					+ " FROM tblRoom";
 			pstmt = conn.prepareStatement(sql);
@@ -74,7 +74,7 @@ public class DiagnosisDAO {
 		logger.info("insertRoomDetails() starts");
 		boolean flag = true;
 		try {
-			conn = JdbcDBConn.jdbcConnection();
+			conn = DBConn.jdbcConnection();
 			for (int i = 0; i < roomDetails.size(); i++) {
 				pstmt = conn.prepareStatement("INSERT INTO tblRoom"
 						+ " (room_number,total_beds,occupied_beds,room_type,building_number)" 
