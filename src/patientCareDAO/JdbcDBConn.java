@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 import patientCareLogger.PatientCareLogger;
 
-public class DBConn {
+public class JdbcDBConn {
 	static Logger logger = PatientCareLogger.getLogger();
     Connection conn = null;
     

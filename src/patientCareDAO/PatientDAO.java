@@ -42,7 +42,7 @@ public class PatientDAO {
 		logger.info("PatientDAO.insertPatientDetails() starts");
 		boolean flag = true;
 		try {
-			conn = DBConn.jdbcConnection();
+			conn = JdbcDBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblPatient "
 					+ " (first_name,last_name,sex,dob,"
 					+ "	street_number,address_full,city,country,"
@@ -95,7 +95,7 @@ public class PatientDAO {
 		logger.info("PatientDAO.updatePatientDetails() starts");
 		boolean flag = true;
 		try {
-			conn = DBConn.jdbcConnection();
+			conn = JdbcDBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblPatient "
 					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
 					+ "	street_number=?,address_full=?,city=?,country=?,"
@@ -146,7 +146,7 @@ public class PatientDAO {
 		logger.info("PatientDAO.deletePatientDetails() starts");
 		boolean flag = true;
 		try {
-			conn = DBConn.jdbcConnection();
+			conn = JdbcDBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("DELETE FROM tblPatient"
 					+ " WHERE patient_id = ?");
 			pstmt.setInt(1, patientDetails.getPatientId());
@@ -174,7 +174,7 @@ public class PatientDAO {
 		logger.info("PatientDAO.getAlPatientDetails() starts");
 		List<Patient> patientDetails = new ArrayList<Patient>();
 		try {
-			conn = DBConn.jdbcConnection();
+			conn = JdbcDBConn.jdbcConnection();
 			String sql = "SELECT patient_id,first_name,last_name,sex,dob," 
 					+ " street_number,address_full,city,country,postal_code,sin_id,"
 					+ " contact_number,alternative_number,insurance_id,email_id,"

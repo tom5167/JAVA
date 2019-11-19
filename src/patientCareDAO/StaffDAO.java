@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.Room;
 
-public class RoomDAO {
+public class StaffDAO {
 	
 	static Logger logger = PatientCareLogger.getLogger();
 	
