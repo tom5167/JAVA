@@ -163,6 +163,14 @@ public class LoginScreen extends JFrame {
 						PatientScreen patientScreen = new PatientScreen();
 						patientScreen.setVisible(true);
 						dispose();
+					} else if(userObj.getUserType().equalsIgnoreCase(CommonConstants.DOCTOR)) {
+						DoctorScreen doctorScreen = new DoctorScreen();
+						doctorScreen.setVisible(true);
+						dispose();
+					} else if(userObj.getUserType().equalsIgnoreCase(CommonConstants.RECEPTIONIST)) {
+						ReceptionistScreen receptionistScreen = new ReceptionistScreen();
+						receptionistScreen.setVisible(true);
+						dispose();
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect login or password", "Error",
