@@ -15,7 +15,7 @@
  * (c) reproduce, copy, translate, modify, adapt, decompile, disassemble or reverse engineer any portion of the class or 
  *     otherwise attempt to secure the source code of all or any part of the Software; 
  */
-package patientCareUI;
+package PatientCareUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
