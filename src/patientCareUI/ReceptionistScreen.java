@@ -37,7 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 
-public class PatientScreen extends JFrame {
+public class ReceptionistScreen extends JFrame {
 
 	/**
 	 * 
@@ -54,7 +54,7 @@ public class PatientScreen extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PatientScreen() {
+	public ReceptionistScreen() {
 		setTitle("Patient Care");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 820, 494);
@@ -67,37 +67,37 @@ public class PatientScreen extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel pnlTop_P = new JPanel();
-		pnlTop_P.setLayout(null);
-		pnlTop_P.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		pnlTop_P.setBounds(5, 5, 963, 30);
-		contentPane.add(pnlTop_P);
+		JPanel pnlTop_R = new JPanel();
+		pnlTop_R.setLayout(null);
+		pnlTop_R.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlTop_R.setBounds(5, 5, 963, 30);
+		contentPane.add(pnlTop_R);
 		
 		JButton button = new JButton("Back");
 		button.setBounds(10, 6, 100, 19);
-		pnlTop_P.add(button);
+		pnlTop_R.add(button);
 		
 		JButton button_1 = new JButton("Logout");
 		button_1.setBounds(853, 6, 100, 19);
-		pnlTop_P.add(button_1);
+		pnlTop_R.add(button_1);
 		
 		JLabel label = new JLabel("Admin Control");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		label.setBounds(444, -2, 131, 31);
-		pnlTop_P.add(label);
+		pnlTop_R.add(label);
 		
-		JTabbedPane pnlMainTabbed_P = new JTabbedPane(JTabbedPane.TOP);
-		pnlMainTabbed_P.setBounds(5, 37, 963, 393);
-		contentPane.add(pnlMainTabbed_P);
+		JTabbedPane pnlMainTabbed_R = new JTabbedPane(JTabbedPane.TOP);
+		pnlMainTabbed_R.setBounds(5, 37, 963, 393);
+		contentPane.add(pnlMainTabbed_R);
 		
-		JPanel pnlPatientDetails_P = new JPanel();
-		pnlPatientDetails_P.setLayout(null);
-		pnlMainTabbed_P.addTab("New tab", null, pnlPatientDetails_P, null);
+		JPanel pnlPatientDetails_D = new JPanel();
+		pnlPatientDetails_D.setLayout(null);
+		pnlMainTabbed_R.addTab("New tab", null, pnlPatientDetails_D, null);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBounds(0, 0, 483, 365);
-		pnlPatientDetails_P.add(panel_1);
+		pnlPatientDetails_D.add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_panel_1.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
@@ -150,7 +150,7 @@ public class PatientScreen extends JFrame {
 		panel_2.setLayout(null);
 		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_2.setBounds(483, 0, 475, 365);
-		pnlPatientDetails_P.add(panel_2);
+		pnlPatientDetails_D.add(panel_2);
 		
 		JScrollPane scrollPane = new JScrollPane((Component) null);
 		scrollPane.setBounds(6, 73, 453, 286);
@@ -173,14 +173,14 @@ public class PatientScreen extends JFrame {
 		label_4.setBounds(6, 49, 445, 14);
 		panel_2.add(label_4);
 		
-		JPanel pnlBillDetails_P = new JPanel();
-		pnlMainTabbed_P.addTab("New tab", null, pnlBillDetails_P, null);
-		pnlBillDetails_P.setLayout(null);
+		JPanel pnlDiagnosisDetails_D = new JPanel();
+		pnlMainTabbed_R.addTab("New tab", null, pnlDiagnosisDetails_D, null);
+		pnlDiagnosisDetails_D.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_4.setBounds(0, 0, 483, 365);
-		pnlBillDetails_P.add(panel_4);
+		pnlDiagnosisDetails_D.add(panel_4);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_panel_4.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
@@ -233,7 +233,7 @@ public class PatientScreen extends JFrame {
 		panel_5.setLayout(null);
 		panel_5.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_5.setBounds(483, 0, 475, 365);
-		pnlBillDetails_P.add(panel_5);
+		pnlDiagnosisDetails_D.add(panel_5);
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
 		scrollPane_1.setBounds(6, 73, 453, 286);
@@ -256,14 +256,14 @@ public class PatientScreen extends JFrame {
 		label_7.setBounds(6, 49, 445, 14);
 		panel_5.add(label_7);
 		
-		JPanel pnlEventDetails_P = new JPanel();
-		pnlEventDetails_P.setLayout(null);
-		pnlMainTabbed_P.addTab("New tab", null, pnlEventDetails_P, null);
+		JPanel pnlEventDetails_D = new JPanel();
+		pnlMainTabbed_R.addTab("New tab", null, pnlEventDetails_D, null);
+		pnlEventDetails_D.setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_3.setBounds(0, 0, 483, 365);
-		pnlEventDetails_P.add(panel_3);
+		pnlEventDetails_D.add(panel_3);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_panel_3.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
@@ -316,7 +316,7 @@ public class PatientScreen extends JFrame {
 		panel_6.setLayout(null);
 		panel_6.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_6.setBounds(483, 0, 475, 365);
-		pnlEventDetails_P.add(panel_6);
+		pnlEventDetails_D.add(panel_6);
 		
 		JScrollPane scrollPane_2 = new JScrollPane((Component) null);
 		scrollPane_2.setBounds(6, 73, 453, 286);
@@ -339,14 +339,14 @@ public class PatientScreen extends JFrame {
 		label_10.setBounds(6, 49, 445, 14);
 		panel_6.add(label_10);
 		
-		JPanel pnlBottom_P = new JPanel();
-		pnlBottom_P.setLayout(null);
-		pnlBottom_P.setBounds(5, 430, 963, 23);
-		contentPane.add(pnlBottom_P);
+		JPanel pnlBottom_R = new JPanel();
+		pnlBottom_R.setLayout(null);
+		pnlBottom_R.setBounds(5, 430, 963, 23);
+		contentPane.add(pnlBottom_R);
 		
 		JLabel label_1 = new JLabel("Copyright @PatientCare 2019");
 		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		label_1.setBounds(0, 0, 268, 23);
-		pnlBottom_P.add(label_1);
+		pnlBottom_R.add(label_1);
 	}
 }
