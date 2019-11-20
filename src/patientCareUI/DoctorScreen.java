@@ -26,6 +26,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
@@ -36,6 +38,8 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DoctorScreen extends JFrame {
 
@@ -57,7 +61,7 @@ public class DoctorScreen extends JFrame {
 	public DoctorScreen() {
 		setTitle("Patient Care");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 820, 494);
+		setBounds(100, 100, 985, 494);
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -73,17 +77,25 @@ public class DoctorScreen extends JFrame {
 		pnlTop_D.setBounds(5, 5, 963, 30);
 		contentPane.add(pnlTop_D);
 		
-		JButton button = new JButton("Back");
-		button.setBounds(10, 6, 100, 19);
-		pnlTop_D.add(button);
-		
 		JButton button_1 = new JButton("Logout");
+		button_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?",
+						"Close Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.YES_OPTION) {
+					LoginScreen loginScreen = new LoginScreen();
+					loginScreen.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
 		button_1.setBounds(853, 6, 100, 19);
 		pnlTop_D.add(button_1);
 		
 		JLabel label = new JLabel("Admin Control");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(444, -2, 131, 31);
+		label.setBounds(10, -2, 131, 31);
 		pnlTop_D.add(label);
 		
 		JTabbedPane pnlMainTabbed_D = new JTabbedPane(JTabbedPane.TOP);

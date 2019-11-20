@@ -199,7 +199,8 @@ GO
 
 CREATE TABLE tblRoom
 (
-    room_number INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    room_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    room_number INT NOT NULL,
 	total_beds INT NOT NULL,
 	occupied_beds INT NOT NULL,
 	room_type VARCHAR(50) NOT NULL,

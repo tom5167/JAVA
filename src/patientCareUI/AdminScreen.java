@@ -93,12 +93,13 @@ public class AdminScreen extends JFrame {
 	private JTable tblUserList_AUL;
 	private JTextField txtTotalBeds_ARF;
 	private JTextField textField_2;
-	private JTextField textField_1;
 	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField txtFirstName_ASF;
 	private JTextField textField_5;
 	private JTextField textField_7;
 	private JTextField txtOccupiedBeds_ARF;
+	private JTextField txtRoomNumber_ARF;
+	private JTextField txtLastName_ASF;
 
 	/**
 	 * Create the frame.
@@ -124,16 +125,24 @@ public class AdminScreen extends JFrame {
 		contentPane.add(pnlTop_A);
 		pnlTop_A.setLayout(null);
 		
-		JButton btnBack_AT = new JButton("Back");
-		btnBack_AT.setBounds(10, 6, 100, 19);
-		pnlTop_A.add(btnBack_AT);
-		
 		JButton btnLogout_AT = new JButton("Logout");
+		btnLogout_AT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?",
+						"Close Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.YES_OPTION) {
+					LoginScreen loginScreen = new LoginScreen();
+					loginScreen.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
 		btnLogout_AT.setBounds(853, 6, 100, 19);
 		pnlTop_A.add(btnLogout_AT);
 		
 		JLabel lblTop_AT = new JLabel("Admin Control");
-		lblTop_AT.setBounds(444, -2, 131, 31);
+		lblTop_AT.setBounds(10, -2, 131, 31);
 		pnlTop_A.add(lblTop_AT);
 		lblTop_AT.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
@@ -151,7 +160,7 @@ public class AdminScreen extends JFrame {
 		pnlUserForm_AU.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		GridBagLayout gbl_pnlUserForm_AU = new GridBagLayout();
 		gbl_pnlUserForm_AU.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_pnlUserForm_AU.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlUserForm_AU.rowHeights = new int[]{20, 0, 0, 0, 0, 20, 0, 20, 0, 0};
 		gbl_pnlUserForm_AU.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlUserForm_AU.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlUserForm_AU.setLayout(gbl_pnlUserForm_AU);
@@ -985,60 +994,114 @@ public class AdminScreen extends JFrame {
 		pnlBillDetails_A.setLayout(null);
 		
 		JPanel pnlBillForm_AB = new JPanel();
-		pnlBillForm_AB.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlBillForm_AB.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Bill Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlBillForm_AB.setBounds(0, 0, 483, 365);
 		pnlBillDetails_A.add(pnlBillForm_AB);
 		GridBagLayout gbl_pnlBillForm_AB = new GridBagLayout();
 		gbl_pnlBillForm_AB.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_pnlBillForm_AB.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlBillForm_AB.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
 		gbl_pnlBillForm_AB.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_pnlBillForm_AB.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlBillForm_AB.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlBillForm_AB.setLayout(gbl_pnlBillForm_AB);
 		
-		JLabel label = new JLabel("Username");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.EAST;
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 1;
-		pnlBillForm_AB.add(label, gbc_label);
+		JLabel lblBillId_ARF = new JLabel("");
+		GridBagConstraints gbc_lblBillId_ARF = new GridBagConstraints();
+		gbc_lblBillId_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBillId_ARF.gridx = 2;
+		gbc_lblBillId_ARF.gridy = 0;
+		pnlBillForm_AB.add(lblBillId_ARF, gbc_lblBillId_ARF);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 1;
-		pnlBillForm_AB.add(textField_1, gbc_textField_1);
+		JLabel lblPatientid = new JLabel("Patient Id");
+		GridBagConstraints gbc_lblPatientid = new GridBagConstraints();
+		gbc_lblPatientid.anchor = GridBagConstraints.EAST;
+		gbc_lblPatientid.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPatientid.gridx = 1;
+		gbc_lblPatientid.gridy = 1;
+		pnlBillForm_AB.add(lblPatientid, gbc_lblPatientid);
 		
-		JButton button_4 = new JButton("New");
-		GridBagConstraints gbc_button_4 = new GridBagConstraints();
-		gbc_button_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_4.insets = new Insets(0, 0, 5, 5);
-		gbc_button_4.gridx = 1;
-		gbc_button_4.gridy = 6;
-		pnlBillForm_AB.add(button_4, gbc_button_4);
+		JLabel lblPatientName = new JLabel("Patient Name");
+		GridBagConstraints gbc_lblPatientName = new GridBagConstraints();
+		gbc_lblPatientName.anchor = GridBagConstraints.EAST;
+		gbc_lblPatientName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPatientName.gridx = 1;
+		gbc_lblPatientName.gridy = 2;
+		pnlBillForm_AB.add(lblPatientName, gbc_lblPatientName);
 		
-		JButton button_5 = new JButton("Save");
-		GridBagConstraints gbc_button_5 = new GridBagConstraints();
-		gbc_button_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_5.insets = new Insets(0, 0, 5, 5);
-		gbc_button_5.gridx = 2;
-		gbc_button_5.gridy = 6;
-		pnlBillForm_AB.add(button_5, gbc_button_5);
+		JLabel lblModeOfPayment_ABF = new JLabel("Mode of Payment");
+		GridBagConstraints gbc_lblModeOfPayment_ABF = new GridBagConstraints();
+		gbc_lblModeOfPayment_ABF.anchor = GridBagConstraints.EAST;
+		gbc_lblModeOfPayment_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblModeOfPayment_ABF.gridx = 1;
+		gbc_lblModeOfPayment_ABF.gridy = 3;
+		pnlBillForm_AB.add(lblModeOfPayment_ABF, gbc_lblModeOfPayment_ABF);
 		
-		JButton button_6 = new JButton("Delete");
-		GridBagConstraints gbc_button_6 = new GridBagConstraints();
-		gbc_button_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_6.insets = new Insets(0, 0, 5, 5);
-		gbc_button_6.gridx = 3;
-		gbc_button_6.gridy = 6;
-		pnlBillForm_AB.add(button_6, gbc_button_6);
+		JLabel lblPaymentDueDate_ABF = new JLabel("Payment Due Date");
+		GridBagConstraints gbc_lblPaymentDueDate_ABF = new GridBagConstraints();
+		gbc_lblPaymentDueDate_ABF.anchor = GridBagConstraints.EAST;
+		gbc_lblPaymentDueDate_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPaymentDueDate_ABF.gridx = 1;
+		gbc_lblPaymentDueDate_ABF.gridy = 4;
+		pnlBillForm_AB.add(lblPaymentDueDate_ABF, gbc_lblPaymentDueDate_ABF);
+		
+		JLabel lblBillingTimeStamp_ABF = new JLabel("Billing Time Stamp");
+		GridBagConstraints gbc_lblBillingTimeStamp_ABF = new GridBagConstraints();
+		gbc_lblBillingTimeStamp_ABF.anchor = GridBagConstraints.EAST;
+		gbc_lblBillingTimeStamp_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBillingTimeStamp_ABF.gridx = 1;
+		gbc_lblBillingTimeStamp_ABF.gridy = 5;
+		pnlBillForm_AB.add(lblBillingTimeStamp_ABF, gbc_lblBillingTimeStamp_ABF);
+		
+		JLabel lblInsuranceNumber_ABF = new JLabel("Insurance Number");
+		GridBagConstraints gbc_lblInsuranceNumber_ABF = new GridBagConstraints();
+		gbc_lblInsuranceNumber_ABF.anchor = GridBagConstraints.EAST;
+		gbc_lblInsuranceNumber_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblInsuranceNumber_ABF.gridx = 1;
+		gbc_lblInsuranceNumber_ABF.gridy = 6;
+		pnlBillForm_AB.add(lblInsuranceNumber_ABF, gbc_lblInsuranceNumber_ABF);
+		
+		JLabel lblPayerName_ABF = new JLabel("Payer Name");
+		GridBagConstraints gbc_lblPayerName_ABF = new GridBagConstraints();
+		gbc_lblPayerName_ABF.anchor = GridBagConstraints.EAST;
+		gbc_lblPayerName_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPayerName_ABF.gridx = 1;
+		gbc_lblPayerName_ABF.gridy = 7;
+		pnlBillForm_AB.add(lblPayerName_ABF, gbc_lblPayerName_ABF);
+		
+		JLabel lblBillAmount = new JLabel("Bill Amount");
+		GridBagConstraints gbc_lblBillAmount = new GridBagConstraints();
+		gbc_lblBillAmount.anchor = GridBagConstraints.EAST;
+		gbc_lblBillAmount.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBillAmount.gridx = 1;
+		gbc_lblBillAmount.gridy = 8;
+		pnlBillForm_AB.add(lblBillAmount, gbc_lblBillAmount);
+		
+		JButton btnNew_ABF = new JButton("New");
+		GridBagConstraints gbc_btnNew_ABF = new GridBagConstraints();
+		gbc_btnNew_ABF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_ABF.gridx = 1;
+		gbc_btnNew_ABF.gridy = 10;
+		pnlBillForm_AB.add(btnNew_ABF, gbc_btnNew_ABF);
+		
+		JButton btnSave_ABF = new JButton("Save");
+		GridBagConstraints gbc_btnSave_ABF = new GridBagConstraints();
+		gbc_btnSave_ABF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_ABF.gridx = 2;
+		gbc_btnSave_ABF.gridy = 10;
+		pnlBillForm_AB.add(btnSave_ABF, gbc_btnSave_ABF);
+		
+		JButton btnDelete_ABF = new JButton("Delete");
+		GridBagConstraints gbc_btnDelete_ABF = new GridBagConstraints();
+		gbc_btnDelete_ABF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete_ABF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete_ABF.gridx = 3;
+		gbc_btnDelete_ABF.gridy = 10;
+		pnlBillForm_AB.add(btnDelete_ABF, gbc_btnDelete_ABF);
 		
 		JPanel pnlBillList_AB = new JPanel();
 		pnlBillList_AB.setLayout(null);
-		pnlBillList_AB.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlBillList_AB.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Bill List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlBillList_AB.setBounds(483, 0, 475, 365);
 		pnlBillDetails_A.add(pnlBillList_AB);
 		
@@ -1073,17 +1136,41 @@ public class AdminScreen extends JFrame {
 		pnlRoomDetails_A.add(pnlRoomForm_AR);
 		GridBagLayout gbl_pnlRoomForm_AR = new GridBagLayout();
 		gbl_pnlRoomForm_AR.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_pnlRoomForm_AR.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlRoomForm_AR.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
 		gbl_pnlRoomForm_AR.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_pnlRoomForm_AR.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlRoomForm_AR.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlRoomForm_AR.setLayout(gbl_pnlRoomForm_AR);
+		
+		JLabel lblRoomId_ARF = new JLabel("");
+		GridBagConstraints gbc_lblRoomId_ARF = new GridBagConstraints();
+		gbc_lblRoomId_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRoomId_ARF.gridx = 2;
+		gbc_lblRoomId_ARF.gridy = 0;
+		pnlRoomForm_AR.add(lblRoomId_ARF, gbc_lblRoomId_ARF);
+		
+		JLabel lblRoomNumberARF = new JLabel("Room Number");
+		GridBagConstraints gbc_lblRoomNumberARF = new GridBagConstraints();
+		gbc_lblRoomNumberARF.anchor = GridBagConstraints.EAST;
+		gbc_lblRoomNumberARF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRoomNumberARF.gridx = 1;
+		gbc_lblRoomNumberARF.gridy = 1;
+		pnlRoomForm_AR.add(lblRoomNumberARF, gbc_lblRoomNumberARF);
+		
+		txtRoomNumber_ARF = new JTextField();
+		GridBagConstraints gbc_txtRoomNumber_ARF = new GridBagConstraints();
+		gbc_txtRoomNumber_ARF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtRoomNumber_ARF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtRoomNumber_ARF.gridx = 2;
+		gbc_txtRoomNumber_ARF.gridy = 1;
+		pnlRoomForm_AR.add(txtRoomNumber_ARF, gbc_txtRoomNumber_ARF);
+		txtRoomNumber_ARF.setColumns(10);
 		
 		JLabel lblTotalBeds_ARF = new JLabel("Total Beds");
 		GridBagConstraints gbc_lblTotalBeds_ARF = new GridBagConstraints();
 		gbc_lblTotalBeds_ARF.anchor = GridBagConstraints.EAST;
 		gbc_lblTotalBeds_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTotalBeds_ARF.gridx = 1;
-		gbc_lblTotalBeds_ARF.gridy = 1;
+		gbc_lblTotalBeds_ARF.gridy = 2;
 		pnlRoomForm_AR.add(lblTotalBeds_ARF, gbc_lblTotalBeds_ARF);
 		
 		txtTotalBeds_ARF = new JTextField();
@@ -1092,7 +1179,7 @@ public class AdminScreen extends JFrame {
 		gbc_txtTotalBeds_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTotalBeds_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_txtTotalBeds_ARF.gridx = 2;
-		gbc_txtTotalBeds_ARF.gridy = 1;
+		gbc_txtTotalBeds_ARF.gridy = 2;
 		pnlRoomForm_AR.add(txtTotalBeds_ARF, gbc_txtTotalBeds_ARF);
 		
 		JLabel lblOccupiedBeds_ARF = new JLabel("Occupied Beds");
@@ -1100,7 +1187,7 @@ public class AdminScreen extends JFrame {
 		gbc_lblOccupiedBeds_ARF.anchor = GridBagConstraints.EAST;
 		gbc_lblOccupiedBeds_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_lblOccupiedBeds_ARF.gridx = 1;
-		gbc_lblOccupiedBeds_ARF.gridy = 2;
+		gbc_lblOccupiedBeds_ARF.gridy = 3;
 		pnlRoomForm_AR.add(lblOccupiedBeds_ARF, gbc_lblOccupiedBeds_ARF);
 		
 		txtOccupiedBeds_ARF = new JTextField();
@@ -1109,7 +1196,7 @@ public class AdminScreen extends JFrame {
 		gbc_txtOccupiedBeds_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_txtOccupiedBeds_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtOccupiedBeds_ARF.gridx = 2;
-		gbc_txtOccupiedBeds_ARF.gridy = 2;
+		gbc_txtOccupiedBeds_ARF.gridy = 3;
 		pnlRoomForm_AR.add(txtOccupiedBeds_ARF, gbc_txtOccupiedBeds_ARF);
 		
 		JLabel lblRoomType_ARF = new JLabel("Total Beds");
@@ -1117,7 +1204,7 @@ public class AdminScreen extends JFrame {
 		gbc_lblRoomType_ARF.anchor = GridBagConstraints.EAST;
 		gbc_lblRoomType_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_lblRoomType_ARF.gridx = 1;
-		gbc_lblRoomType_ARF.gridy = 3;
+		gbc_lblRoomType_ARF.gridy = 4;
 		pnlRoomForm_AR.add(lblRoomType_ARF, gbc_lblRoomType_ARF);
 		
 		JComboBox cmbRoomType_ARF = new JComboBox();
@@ -1126,7 +1213,7 @@ public class AdminScreen extends JFrame {
 		gbc_cmbRoomType_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_cmbRoomType_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cmbRoomType_ARF.gridx = 2;
-		gbc_cmbRoomType_ARF.gridy = 3;
+		gbc_cmbRoomType_ARF.gridy = 4;
 		pnlRoomForm_AR.add(cmbRoomType_ARF, gbc_cmbRoomType_ARF);
 		
 		JLabel lblBuildingNumber_ARF = new JLabel("Building Number");
@@ -1134,7 +1221,7 @@ public class AdminScreen extends JFrame {
 		gbc_lblBuildingNumber_ARF.anchor = GridBagConstraints.EAST;
 		gbc_lblBuildingNumber_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBuildingNumber_ARF.gridx = 1;
-		gbc_lblBuildingNumber_ARF.gridy = 4;
+		gbc_lblBuildingNumber_ARF.gridy = 5;
 		pnlRoomForm_AR.add(lblBuildingNumber_ARF, gbc_lblBuildingNumber_ARF);
 		
 		JComboBox cmbBuildingNumber_ARF = new JComboBox();
@@ -1143,7 +1230,7 @@ public class AdminScreen extends JFrame {
 		gbc_cmbBuildingNumber_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_cmbBuildingNumber_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cmbBuildingNumber_ARF.gridx = 2;
-		gbc_cmbBuildingNumber_ARF.gridy = 4;
+		gbc_cmbBuildingNumber_ARF.gridy = 5;
 		pnlRoomForm_AR.add(cmbBuildingNumber_ARF, gbc_cmbBuildingNumber_ARF);
 		
 		JButton btnNew_ARF = new JButton("New");
@@ -1151,7 +1238,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnNew_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNew_ARF.gridx = 1;
-		gbc_btnNew_ARF.gridy = 6;
+		gbc_btnNew_ARF.gridy = 7;
 		pnlRoomForm_AR.add(btnNew_ARF, gbc_btnNew_ARF);
 		
 		JButton btnSave_ARF = new JButton("Save");
@@ -1159,7 +1246,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnSave_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_ARF.gridx = 2;
-		gbc_btnSave_ARF.gridy = 6;
+		gbc_btnSave_ARF.gridy = 7;
 		pnlRoomForm_AR.add(btnSave_ARF, gbc_btnSave_ARF);
 		
 		JButton btnDelete_ARF = new JButton("Delete");
@@ -1167,7 +1254,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnDelete_ARF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete_ARF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDelete_ARF.gridx = 3;
-		gbc_btnDelete_ARF.gridy = 6;
+		gbc_btnDelete_ARF.gridy = 7;
 		pnlRoomForm_AR.add(btnDelete_ARF, gbc_btnDelete_ARF);
 		
 		JPanel pnlRoomList_AR = new JPanel();
@@ -1202,60 +1289,101 @@ public class AdminScreen extends JFrame {
 		pnlMainTabbed_A.addTab("Staff Details", null, pnlStaffDetails_A, null);
 		
 		JPanel pnlStaffForm_AS = new JPanel();
-		pnlStaffForm_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlStaffForm_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Staff Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlStaffForm_AS.setBounds(0, 0, 483, 365);
 		pnlStaffDetails_A.add(pnlStaffForm_AS);
 		GridBagLayout gbl_pnlStaffForm_AS = new GridBagLayout();
 		gbl_pnlStaffForm_AS.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
 		gbl_pnlStaffForm_AS.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_pnlStaffForm_AS.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlStaffForm_AS.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlStaffForm_AS.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlStaffForm_AS.setLayout(gbl_pnlStaffForm_AS);
 		
-		JLabel label_4 = new JLabel("Username");
-		GridBagConstraints gbc_label_4 = new GridBagConstraints();
-		gbc_label_4.anchor = GridBagConstraints.EAST;
-		gbc_label_4.insets = new Insets(0, 0, 5, 5);
-		gbc_label_4.gridx = 1;
-		gbc_label_4.gridy = 1;
-		pnlStaffForm_AS.add(label_4, gbc_label_4);
+		JLabel lblStaffId_ASF = new JLabel("");
+		GridBagConstraints gbc_lblStaffId_ASF = new GridBagConstraints();
+		gbc_lblStaffId_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStaffId_ASF.gridx = 2;
+		gbc_lblStaffId_ASF.gridy = 0;
+		pnlStaffForm_AS.add(lblStaffId_ASF, gbc_lblStaffId_ASF);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 1;
-		pnlStaffForm_AS.add(textField_4, gbc_textField_4);
+		JLabel lblFirstName_ASF = new JLabel("First Name");
+		GridBagConstraints gbc_lblFirstName_ASF = new GridBagConstraints();
+		gbc_lblFirstName_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblFirstName_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFirstName_ASF.gridx = 1;
+		gbc_lblFirstName_ASF.gridy = 1;
+		pnlStaffForm_AS.add(lblFirstName_ASF, gbc_lblFirstName_ASF);
 		
-		JButton button_8 = new JButton("New");
-		GridBagConstraints gbc_button_8 = new GridBagConstraints();
-		gbc_button_8.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_8.insets = new Insets(0, 0, 5, 5);
-		gbc_button_8.gridx = 1;
-		gbc_button_8.gridy = 6;
-		pnlStaffForm_AS.add(button_8, gbc_button_8);
+		txtFirstName_ASF = new JTextField();
+		txtFirstName_ASF.setColumns(10);
+		GridBagConstraints gbc_txtFirstName_ASF = new GridBagConstraints();
+		gbc_txtFirstName_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFirstName_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFirstName_ASF.gridx = 2;
+		gbc_txtFirstName_ASF.gridy = 1;
+		pnlStaffForm_AS.add(txtFirstName_ASF, gbc_txtFirstName_ASF);
 		
-		JButton button_9 = new JButton("Save");
-		GridBagConstraints gbc_button_9 = new GridBagConstraints();
-		gbc_button_9.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_9.insets = new Insets(0, 0, 5, 5);
-		gbc_button_9.gridx = 2;
-		gbc_button_9.gridy = 6;
-		pnlStaffForm_AS.add(button_9, gbc_button_9);
+		JLabel lblLastName_ASF = new JLabel("Last Name");
+		GridBagConstraints gbc_lblLastName_ASF = new GridBagConstraints();
+		gbc_lblLastName_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblLastName_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLastName_ASF.gridx = 1;
+		gbc_lblLastName_ASF.gridy = 2;
+		pnlStaffForm_AS.add(lblLastName_ASF, gbc_lblLastName_ASF);
 		
-		JButton button_10 = new JButton("Delete");
-		GridBagConstraints gbc_button_10 = new GridBagConstraints();
-		gbc_button_10.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_10.insets = new Insets(0, 0, 5, 5);
-		gbc_button_10.gridx = 3;
-		gbc_button_10.gridy = 6;
-		pnlStaffForm_AS.add(button_10, gbc_button_10);
+		txtLastName_ASF = new JTextField();
+		GridBagConstraints gbc_txtLastName_ASF = new GridBagConstraints();
+		gbc_txtLastName_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLastName_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLastName_ASF.gridx = 2;
+		gbc_txtLastName_ASF.gridy = 2;
+		pnlStaffForm_AS.add(txtLastName_ASF, gbc_txtLastName_ASF);
+		txtLastName_ASF.setColumns(10);
+		
+		JLabel lblStaffType_ASF = new JLabel("Staff Type");
+		GridBagConstraints gbc_lblStaffType_ASF = new GridBagConstraints();
+		gbc_lblStaffType_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblStaffType_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStaffType_ASF.gridx = 1;
+		gbc_lblStaffType_ASF.gridy = 3;
+		pnlStaffForm_AS.add(lblStaffType_ASF, gbc_lblStaffType_ASF);
+		
+		JComboBox cmbStaffType_ASF = new JComboBox();
+		cmbStaffType_ASF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Admin", "Doctor", "Receptionist"}));
+		GridBagConstraints gbc_cmbStaffType_ASF = new GridBagConstraints();
+		gbc_cmbStaffType_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbStaffType_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbStaffType_ASF.gridx = 2;
+		gbc_cmbStaffType_ASF.gridy = 3;
+		pnlStaffForm_AS.add(cmbStaffType_ASF, gbc_cmbStaffType_ASF);
+		
+		JButton btnNew_ASF = new JButton("New");
+		GridBagConstraints gbc_btnNew_ASF = new GridBagConstraints();
+		gbc_btnNew_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_ASF.gridx = 1;
+		gbc_btnNew_ASF.gridy = 6;
+		pnlStaffForm_AS.add(btnNew_ASF, gbc_btnNew_ASF);
+		
+		JButton btnSave_ASF = new JButton("Save");
+		GridBagConstraints gbc_btnSave_ASF = new GridBagConstraints();
+		gbc_btnSave_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_ASF.gridx = 2;
+		gbc_btnSave_ASF.gridy = 6;
+		pnlStaffForm_AS.add(btnSave_ASF, gbc_btnSave_ASF);
+		
+		JButton btnDelete_ASF = new JButton("Delete");
+		GridBagConstraints gbc_btnDelete_ASF = new GridBagConstraints();
+		gbc_btnDelete_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete_ASF.gridx = 3;
+		gbc_btnDelete_ASF.gridy = 6;
+		pnlStaffForm_AS.add(btnDelete_ASF, gbc_btnDelete_ASF);
 		
 		JPanel pnlStaffList_AS = new JPanel();
 		pnlStaffList_AS.setLayout(null);
-		pnlStaffList_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlStaffList_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Staff List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlStaffList_AS.setBounds(483, 0, 475, 365);
 		pnlStaffDetails_A.add(pnlStaffList_AS);
 		

@@ -26,6 +26,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
@@ -36,6 +38,8 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PatientScreen extends JFrame {
 
@@ -50,6 +54,8 @@ public class PatientScreen extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
 
 	/**
 	 * Create the frame.
@@ -57,7 +63,7 @@ public class PatientScreen extends JFrame {
 	public PatientScreen() {
 		setTitle("Patient Care");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 820, 494);
+		setBounds(100, 100, 984, 494);
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -73,17 +79,25 @@ public class PatientScreen extends JFrame {
 		pnlTop_P.setBounds(5, 5, 963, 30);
 		contentPane.add(pnlTop_P);
 		
-		JButton button = new JButton("Back");
-		button.setBounds(10, 6, 100, 19);
-		pnlTop_P.add(button);
-		
 		JButton button_1 = new JButton("Logout");
+		button_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?",
+						"Close Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.YES_OPTION) {
+					LoginScreen loginScreen = new LoginScreen();
+					loginScreen.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
 		button_1.setBounds(853, 6, 100, 19);
 		pnlTop_P.add(button_1);
 		
 		JLabel label = new JLabel("Admin Control");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(444, -2, 131, 31);
+		label.setBounds(10, -2, 131, 31);
 		pnlTop_P.add(label);
 		
 		JTabbedPane pnlMainTabbed_P = new JTabbedPane(JTabbedPane.TOP);
@@ -255,6 +269,89 @@ public class PatientScreen extends JFrame {
 		JLabel label_7 = new JLabel("  Note: Result will show similar first names apart from exact match.");
 		label_7.setBounds(6, 49, 445, 14);
 		panel_5.add(label_7);
+		
+		JPanel pnlDiagnosisDetails_P = new JPanel();
+		pnlMainTabbed_P.addTab("New tab", null, pnlDiagnosisDetails_P, null);
+		pnlDiagnosisDetails_P.setLayout(null);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_7.setBounds(0, 0, 483, 365);
+		pnlDiagnosisDetails_P.add(panel_7);
+		GridBagLayout gbl_panel_7 = new GridBagLayout();
+		gbl_panel_7.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_panel_7.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_panel_7.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_7.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_7.setLayout(gbl_panel_7);
+		
+		JLabel label_11 = new JLabel("Username");
+		GridBagConstraints gbc_label_11 = new GridBagConstraints();
+		gbc_label_11.anchor = GridBagConstraints.EAST;
+		gbc_label_11.insets = new Insets(0, 0, 5, 5);
+		gbc_label_11.gridx = 1;
+		gbc_label_11.gridy = 1;
+		panel_7.add(label_11, gbc_label_11);
+		
+		textField_6 = new JTextField();
+		textField_6.setColumns(10);
+		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
+		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_6.gridx = 2;
+		gbc_textField_6.gridy = 1;
+		panel_7.add(textField_6, gbc_textField_6);
+		
+		JButton button = new JButton("New");
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 1;
+		gbc_button.gridy = 6;
+		panel_7.add(button, gbc_button);
+		
+		JButton button_14 = new JButton("Save");
+		GridBagConstraints gbc_button_14 = new GridBagConstraints();
+		gbc_button_14.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_14.insets = new Insets(0, 0, 5, 5);
+		gbc_button_14.gridx = 2;
+		gbc_button_14.gridy = 6;
+		panel_7.add(button_14, gbc_button_14);
+		
+		JButton button_15 = new JButton("Delete");
+		GridBagConstraints gbc_button_15 = new GridBagConstraints();
+		gbc_button_15.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button_15.insets = new Insets(0, 0, 5, 5);
+		gbc_button_15.gridx = 3;
+		gbc_button_15.gridy = 6;
+		panel_7.add(button_15, gbc_button_15);
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setLayout(null);
+		panel_8.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_8.setBounds(483, 0, 475, 365);
+		pnlDiagnosisDetails_P.add(panel_8);
+		
+		JScrollPane scrollPane_3 = new JScrollPane((Component) null);
+		scrollPane_3.setBounds(6, 73, 453, 286);
+		panel_8.add(scrollPane_3);
+		
+		JLabel label_12 = new JLabel("First Name");
+		label_12.setBounds(179, 26, 51, 14);
+		panel_8.add(label_12);
+		
+		textField_7 = new JTextField();
+		textField_7.setColumns(10);
+		textField_7.setBounds(239, 23, 127, 20);
+		panel_8.add(textField_7);
+		
+		JButton button_16 = new JButton("Search");
+		button_16.setBounds(376, 22, 89, 23);
+		panel_8.add(button_16);
+		
+		JLabel label_13 = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		label_13.setBounds(6, 49, 445, 14);
+		panel_8.add(label_13);
 		
 		JPanel pnlEventDetails_P = new JPanel();
 		pnlEventDetails_P.setLayout(null);
