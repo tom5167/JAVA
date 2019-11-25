@@ -21,7 +21,7 @@ CREATE TABLE tblStaff
 	first_name VARCHAR(50) NOT NULL,
 	last_name VARCHAR(50) NOT NULL,
 	staff_type VARCHAR(50) NOT NULL,
-	join_date date NOT NULL,
+	join_date VARCHAR(50) NOT NULL,
 	available_hours VARCHAR(50) NOT NULL,
 	position VARCHAR(50) NOT NULL,
 	qualification VARCHAR(50) NOT NULL,

@@ -1294,9 +1294,9 @@ public class AdminScreen extends JFrame {
 		pnlStaffDetails_A.add(pnlStaffForm_AS);
 		GridBagLayout gbl_pnlStaffForm_AS = new GridBagLayout();
 		gbl_pnlStaffForm_AS.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_pnlStaffForm_AS.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlStaffForm_AS.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
 		gbl_pnlStaffForm_AS.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_pnlStaffForm_AS.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlStaffForm_AS.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlStaffForm_AS.setLayout(gbl_pnlStaffForm_AS);
 		
 		JLabel lblStaffId_ASF = new JLabel("");
@@ -1357,12 +1357,61 @@ public class AdminScreen extends JFrame {
 		gbc_cmbStaffType_ASF.gridy = 3;
 		pnlStaffForm_AS.add(cmbStaffType_ASF, gbc_cmbStaffType_ASF);
 		
+		JLabel lblJoinDate_ASF = new JLabel("Join Date");
+		GridBagConstraints gbc_lblJoinDate_ASF = new GridBagConstraints();
+		gbc_lblJoinDate_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblJoinDate_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblJoinDate_ASF.gridx = 1;
+		gbc_lblJoinDate_ASF.gridy = 4;
+		pnlStaffForm_AS.add(lblJoinDate_ASF, gbc_lblJoinDate_ASF);
+		
+		JLabel lblAvailableHours_ASF = new JLabel("Available Hours");
+		GridBagConstraints gbc_lblAvailableHours_ASF = new GridBagConstraints();
+		gbc_lblAvailableHours_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblAvailableHours_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAvailableHours_ASF.gridx = 1;
+		gbc_lblAvailableHours_ASF.gridy = 5;
+		pnlStaffForm_AS.add(lblAvailableHours_ASF, gbc_lblAvailableHours_ASF);
+		
+		JComboBox cmbAvailableHours_ASF = new JComboBox();
+		cmbAvailableHours_ASF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Early Morning (4-8)", "Morning (8-12)", "Afternoon (12-16)", "Evening (16-20)", "Night (20-24)", "Mid Night (24-4)"}));
+		GridBagConstraints gbc_cmbAvailableHours_ASF = new GridBagConstraints();
+		gbc_cmbAvailableHours_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbAvailableHours_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbAvailableHours_ASF.gridx = 2;
+		gbc_cmbAvailableHours_ASF.gridy = 5;
+		pnlStaffForm_AS.add(cmbAvailableHours_ASF, gbc_cmbAvailableHours_ASF);
+		
+		JLabel lblPosition_ASF = new JLabel("Position");
+		GridBagConstraints gbc_lblPosition_ASF = new GridBagConstraints();
+		gbc_lblPosition_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblPosition_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPosition_ASF.gridx = 1;
+		gbc_lblPosition_ASF.gridy = 6;
+		pnlStaffForm_AS.add(lblPosition_ASF, gbc_lblPosition_ASF);
+		
+		JLabel lblQualification_ASF = new JLabel("Qualification");
+		GridBagConstraints gbc_lblQualification_ASF = new GridBagConstraints();
+		gbc_lblQualification_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblQualification_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQualification_ASF.gridx = 1;
+		gbc_lblQualification_ASF.gridy = 7;
+		pnlStaffForm_AS.add(lblQualification_ASF, gbc_lblQualification_ASF);
+		
+		JLabel lblSpecialization_ASF = new JLabel("Specialization");
+		GridBagConstraints gbc_lblSpecialization_ASF = new GridBagConstraints();
+		gbc_lblSpecialization_ASF.anchor = GridBagConstraints.EAST;
+		gbc_lblSpecialization_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSpecialization_ASF.gridx = 1;
+		gbc_lblSpecialization_ASF.gridy = 8;
+		pnlStaffForm_AS.add(lblSpecialization_ASF, gbc_lblSpecialization_ASF);
+		
 		JButton btnNew_ASF = new JButton("New");
 		GridBagConstraints gbc_btnNew_ASF = new GridBagConstraints();
 		gbc_btnNew_ASF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_ASF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNew_ASF.gridx = 1;
-		gbc_btnNew_ASF.gridy = 6;
+		gbc_btnNew_ASF.gridy = 10;
 		pnlStaffForm_AS.add(btnNew_ASF, gbc_btnNew_ASF);
 		
 		JButton btnSave_ASF = new JButton("Save");
@@ -1370,7 +1419,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnSave_ASF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_ASF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_ASF.gridx = 2;
-		gbc_btnSave_ASF.gridy = 6;
+		gbc_btnSave_ASF.gridy = 10;
 		pnlStaffForm_AS.add(btnSave_ASF, gbc_btnSave_ASF);
 		
 		JButton btnDelete_ASF = new JButton("Delete");
@@ -1378,7 +1427,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnDelete_ASF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete_ASF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDelete_ASF.gridx = 3;
-		gbc_btnDelete_ASF.gridy = 6;
+		gbc_btnDelete_ASF.gridy = 10;
 		pnlStaffForm_AS.add(btnDelete_ASF, gbc_btnDelete_ASF);
 		
 		JPanel pnlStaffList_AS = new JPanel();
@@ -1418,90 +1467,108 @@ public class AdminScreen extends JFrame {
 		pnlEventDetails_A.add(pnlEventForm_AE);
 		GridBagLayout gbl_pnlEventForm_AE = new GridBagLayout();
 		gbl_pnlEventForm_AE.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_pnlEventForm_AE.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_pnlEventForm_AE.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
 		gbl_pnlEventForm_AE.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_pnlEventForm_AE.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlEventForm_AE.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlEventForm_AE.setLayout(gbl_pnlEventForm_AE);
 		
-		JLabel lblPatientId = new JLabel("Patient Id");
-		GridBagConstraints gbc_lblPatientId = new GridBagConstraints();
-		gbc_lblPatientId.anchor = GridBagConstraints.EAST;
-		gbc_lblPatientId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPatientId.gridx = 1;
-		gbc_lblPatientId.gridy = 1;
-		pnlEventForm_AE.add(lblPatientId, gbc_lblPatientId);
+		JLabel lblPatientId_AEF = new JLabel("Patient Id");
+		GridBagConstraints gbc_lblPatientId_AEF = new GridBagConstraints();
+		gbc_lblPatientId_AEF.anchor = GridBagConstraints.EAST;
+		gbc_lblPatientId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPatientId_AEF.gridx = 1;
+		gbc_lblPatientId_AEF.gridy = 1;
+		pnlEventForm_AE.add(lblPatientId_AEF, gbc_lblPatientId_AEF);
 		
-		JComboBox cmbPatientId = new JComboBox();
-		GridBagConstraints gbc_cmbPatientId = new GridBagConstraints();
-		gbc_cmbPatientId.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbPatientId.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbPatientId.gridx = 2;
-		gbc_cmbPatientId.gridy = 1;
-		pnlEventForm_AE.add(cmbPatientId, gbc_cmbPatientId);
+		JComboBox cmbPatientId_AEF = new JComboBox();
+		GridBagConstraints gbc_cmbPatientId_AEF = new GridBagConstraints();
+		gbc_cmbPatientId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbPatientId_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbPatientId_AEF.gridx = 2;
+		gbc_cmbPatientId_AEF.gridy = 1;
+		pnlEventForm_AE.add(cmbPatientId_AEF, gbc_cmbPatientId_AEF);
 		
-		JLabel lblStaffId = new JLabel("Staff Id");
-		GridBagConstraints gbc_lblStaffId = new GridBagConstraints();
-		gbc_lblStaffId.anchor = GridBagConstraints.EAST;
-		gbc_lblStaffId.insets = new Insets(0, 0, 5, 5);
-		gbc_lblStaffId.gridx = 1;
-		gbc_lblStaffId.gridy = 2;
-		pnlEventForm_AE.add(lblStaffId, gbc_lblStaffId);
+		JLabel lblStaffId_AEF = new JLabel("Staff Id");
+		GridBagConstraints gbc_lblStaffId_AEF = new GridBagConstraints();
+		gbc_lblStaffId_AEF.anchor = GridBagConstraints.EAST;
+		gbc_lblStaffId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStaffId_AEF.gridx = 1;
+		gbc_lblStaffId_AEF.gridy = 2;
+		pnlEventForm_AE.add(lblStaffId_AEF, gbc_lblStaffId_AEF);
 		
-		JComboBox cmbStaffId = new JComboBox();
-		GridBagConstraints gbc_cmbStaffId = new GridBagConstraints();
-		gbc_cmbStaffId.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbStaffId.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbStaffId.gridx = 2;
-		gbc_cmbStaffId.gridy = 2;
-		pnlEventForm_AE.add(cmbStaffId, gbc_cmbStaffId);
+		JComboBox cmbStaffId_AEF = new JComboBox();
+		GridBagConstraints gbc_cmbStaffId_AEF = new GridBagConstraints();
+		gbc_cmbStaffId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbStaffId_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbStaffId_AEF.gridx = 2;
+		gbc_cmbStaffId_AEF.gridy = 2;
+		pnlEventForm_AE.add(cmbStaffId_AEF, gbc_cmbStaffId_AEF);
 		
-		JLabel lblEventType = new JLabel("Event Type");
-		GridBagConstraints gbc_lblEventType = new GridBagConstraints();
-		gbc_lblEventType.anchor = GridBagConstraints.EAST;
-		gbc_lblEventType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEventType.gridx = 1;
-		gbc_lblEventType.gridy = 3;
-		pnlEventForm_AE.add(lblEventType, gbc_lblEventType);
+		JLabel lblEventType_AEF = new JLabel("Event Type");
+		GridBagConstraints gbc_lblEventType_AEF = new GridBagConstraints();
+		gbc_lblEventType_AEF.anchor = GridBagConstraints.EAST;
+		gbc_lblEventType_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventType_AEF.gridx = 1;
+		gbc_lblEventType_AEF.gridy = 3;
+		pnlEventForm_AE.add(lblEventType_AEF, gbc_lblEventType_AEF);
 		
-		JComboBox cmbEventType = new JComboBox();
-		GridBagConstraints gbc_cmbEventType = new GridBagConstraints();
-		gbc_cmbEventType.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbEventType.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbEventType.gridx = 2;
-		gbc_cmbEventType.gridy = 3;
-		pnlEventForm_AE.add(cmbEventType, gbc_cmbEventType);
+		JComboBox cmbEventType_AEF = new JComboBox();
+		cmbEventType_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation", "Follow Up Check"}));
+		GridBagConstraints gbc_cmbEventType_AEF = new GridBagConstraints();
+		gbc_cmbEventType_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbEventType_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbEventType_AEF.gridx = 2;
+		gbc_cmbEventType_AEF.gridy = 3;
+		pnlEventForm_AE.add(cmbEventType_AEF, gbc_cmbEventType_AEF);
 		
-		JLabel lblEventDate = new JLabel("Event Date");
-		GridBagConstraints gbc_lblEventDate = new GridBagConstraints();
-		gbc_lblEventDate.anchor = GridBagConstraints.EAST;
-		gbc_lblEventDate.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEventDate.gridx = 1;
-		gbc_lblEventDate.gridy = 4;
-		pnlEventForm_AE.add(lblEventDate, gbc_lblEventDate);
+		JLabel lblEventDate_AEF = new JLabel("Event Date");
+		GridBagConstraints gbc_lblEventDate_AEF = new GridBagConstraints();
+		gbc_lblEventDate_AEF.anchor = GridBagConstraints.EAST;
+		gbc_lblEventDate_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventDate_AEF.gridx = 1;
+		gbc_lblEventDate_AEF.gridy = 4;
+		pnlEventForm_AE.add(lblEventDate_AEF, gbc_lblEventDate_AEF);
 		
-		JButton button_12 = new JButton("New");
-		GridBagConstraints gbc_button_12 = new GridBagConstraints();
-		gbc_button_12.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_12.insets = new Insets(0, 0, 5, 5);
-		gbc_button_12.gridx = 1;
-		gbc_button_12.gridy = 6;
-		pnlEventForm_AE.add(button_12, gbc_button_12);
+		JLabel lblEventTime_AEF = new JLabel("Event Time");
+		GridBagConstraints gbc_lblEventTime_AEF = new GridBagConstraints();
+		gbc_lblEventTime_AEF.anchor = GridBagConstraints.EAST;
+		gbc_lblEventTime_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventTime_AEF.gridx = 1;
+		gbc_lblEventTime_AEF.gridy = 5;
+		pnlEventForm_AE.add(lblEventTime_AEF, gbc_lblEventTime_AEF);
 		
-		JButton button_13 = new JButton("Save");
-		GridBagConstraints gbc_button_13 = new GridBagConstraints();
-		gbc_button_13.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_13.insets = new Insets(0, 0, 5, 5);
-		gbc_button_13.gridx = 2;
-		gbc_button_13.gridy = 6;
-		pnlEventForm_AE.add(button_13, gbc_button_13);
+		JComboBox cmbEventHours_AEF = new JComboBox();
+		cmbEventHours_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Early Morning (4-8)", "Morning (8-12)", "Afternoon (12-16)", "Evening (16-20)", "Night (20-24)", "Mid Night (24-4)"}));
+		GridBagConstraints gbc_cmbEventHours_AEF = new GridBagConstraints();
+		gbc_cmbEventHours_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbEventHours_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbEventHours_AEF.gridx = 2;
+		gbc_cmbEventHours_AEF.gridy = 5;
+		pnlEventForm_AE.add(cmbEventHours_AEF, gbc_cmbEventHours_AEF);
 		
-		JButton button_14 = new JButton("Delete");
-		GridBagConstraints gbc_button_14 = new GridBagConstraints();
-		gbc_button_14.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_14.insets = new Insets(0, 0, 5, 5);
-		gbc_button_14.gridx = 3;
-		gbc_button_14.gridy = 6;
-		pnlEventForm_AE.add(button_14, gbc_button_14);
+		JButton btnNew_AEF = new JButton("New");
+		GridBagConstraints gbc_btnNew_AEF = new GridBagConstraints();
+		gbc_btnNew_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_AEF.gridx = 1;
+		gbc_btnNew_AEF.gridy = 7;
+		pnlEventForm_AE.add(btnNew_AEF, gbc_btnNew_AEF);
+		
+		JButton btnSave_AEF = new JButton("Save");
+		GridBagConstraints gbc_btnSave_AEF = new GridBagConstraints();
+		gbc_btnSave_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_AEF.gridx = 2;
+		gbc_btnSave_AEF.gridy = 7;
+		pnlEventForm_AE.add(btnSave_AEF, gbc_btnSave_AEF);
+		
+		JButton btnDelete__AEF = new JButton("Delete");
+		GridBagConstraints gbc_btnDelete__AEF = new GridBagConstraints();
+		gbc_btnDelete__AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete__AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete__AEF.gridx = 3;
+		gbc_btnDelete__AEF.gridy = 7;
+		pnlEventForm_AE.add(btnDelete__AEF, gbc_btnDelete__AEF);
 		
 		JPanel pnlEventList_AE = new JPanel();
 		pnlEventList_AE.setLayout(null);
