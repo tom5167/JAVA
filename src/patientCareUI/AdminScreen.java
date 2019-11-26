@@ -96,7 +96,6 @@ public class AdminScreen extends JFrame {
 	private JTextField textField_3;
 	private JTextField txtFirstName_ASF;
 	private JTextField textField_5;
-	private JTextField textField_7;
 	private JTextField txtOccupiedBeds_ARF;
 	private JTextField txtRoomNumber_ARF;
 	private JTextField txtLastName_ASF;
@@ -538,12 +537,12 @@ public class AdminScreen extends JFrame {
 		gbc_lblDateOfBirth_APF.gridy = 4;
 		pnlPatientForm_AP.add(lblDateOfBirth_APF, gbc_lblDateOfBirth_APF);
 		
-		UtilDateModel model = new UtilDateModel();
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel_APF = new JDatePanelImpl(model, p);
+		UtilDateModel dateModel_APF = new UtilDateModel();
+		Properties prop_APF = new Properties();
+		prop_APF.put("text.today", "Today");
+		prop_APF.put("text.month", "Month");
+		prop_APF.put("text.year", "Year");
+		JDatePanelImpl datePanel_APF = new JDatePanelImpl(dateModel_APF, prop_APF);
 		DateLabelFormatter dateLabelFormatter_APF = new DateLabelFormatter();
 		JDatePickerImpl datePicker_APF = new JDatePickerImpl(datePanel_APF, dateLabelFormatter_APF);
 		
@@ -1513,7 +1512,7 @@ public class AdminScreen extends JFrame {
 		pnlEventForm_AE.add(lblEventType_AEF, gbc_lblEventType_AEF);
 		
 		JComboBox cmbEventType_AEF = new JComboBox();
-		cmbEventType_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation", "Follow Up Check"}));
+		cmbEventType_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation"}));
 		GridBagConstraints gbc_cmbEventType_AEF = new GridBagConstraints();
 		gbc_cmbEventType_AEF.insets = new Insets(0, 0, 5, 5);
 		gbc_cmbEventType_AEF.fill = GridBagConstraints.HORIZONTAL;
@@ -1528,6 +1527,22 @@ public class AdminScreen extends JFrame {
 		gbc_lblEventDate_AEF.gridx = 1;
 		gbc_lblEventDate_AEF.gridy = 4;
 		pnlEventForm_AE.add(lblEventDate_AEF, gbc_lblEventDate_AEF);
+		
+		UtilDateModel dateModel_AEF = new UtilDateModel();
+		Properties prop_AEF = new Properties();
+		prop_AEF.put("text.today", "Today");
+		prop_AEF.put("text.month", "Month");
+		prop_AEF.put("text.year", "Year");
+		JDatePanelImpl datePanel_AEF = new JDatePanelImpl(dateModel_AEF, prop_AEF);
+		DateLabelFormatter dateLabelFormatter_AEF = new DateLabelFormatter();
+		JDatePickerImpl datePicker_AEF = new JDatePickerImpl(datePanel_AEF, dateLabelFormatter_AEF);
+		
+		GridBagConstraints gbc_datePicker_AEF = new GridBagConstraints();
+		gbc_datePicker_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_datePicker_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_datePicker_AEF.gridx = 2;
+		gbc_datePicker_AEF.gridy = 4;
+		pnlEventForm_AE.add(datePicker_AEF, gbc_datePicker_AEF);
 		
 		JLabel lblEventTime_AEF = new JLabel("Event Time");
 		GridBagConstraints gbc_lblEventTime_AEF = new GridBagConstraints();
@@ -1580,14 +1595,20 @@ public class AdminScreen extends JFrame {
 		scrollPane_3.setBounds(6, 73, 453, 286);
 		pnlEventList_AE.add(scrollPane_3);
 		
-		JLabel label_10 = new JLabel("First Name");
-		label_10.setBounds(179, 26, 51, 14);
-		pnlEventList_AE.add(label_10);
+		JLabel lblEventDate = new JLabel("Event Date");
+		lblEventDate.setBounds(192, 22, 71, 23);
+		pnlEventList_AE.add(lblEventDate);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(239, 23, 127, 20);
-		pnlEventList_AE.add(textField_7);
+		UtilDateModel dateModel_AEL = new UtilDateModel();
+		Properties prop_AEL = new Properties();
+		prop_AEL.put("text.today", "Today");
+		prop_AEL.put("text.month", "Month");
+		prop_AEL.put("text.year", "Year");
+		JDatePanelImpl datePanel_AEL = new JDatePanelImpl(dateModel_AEL, prop_AEL);
+		DateLabelFormatter dateLabelFormatter_AEL = new DateLabelFormatter();
+		JDatePickerImpl datePicker_AEL = new JDatePickerImpl(datePanel_AEL, dateLabelFormatter_AEL);
+		datePicker_AEL.setBounds(249, 22, 117, 23);
+		pnlEventList_AE.add(datePicker_AEL);
 		
 		JButton button_15 = new JButton("Search");
 		button_15.setBounds(376, 22, 89, 23);
@@ -1596,6 +1617,15 @@ public class AdminScreen extends JFrame {
 		JLabel label_11 = new JLabel("  Note: Result will show similar first names apart from exact match.");
 		label_11.setBounds(6, 49, 445, 14);
 		pnlEventList_AE.add(label_11);
+		
+		JLabel label = new JLabel("Event Type");
+		label.setBounds(10, 26, 55, 14);
+		pnlEventList_AE.add(label);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation"}));
+		comboBox.setBounds(75, 23, 111, 20);
+		pnlEventList_AE.add(comboBox);
 		
 		JPanel pnlBottom_A = new JPanel();
 		pnlBottom_A.setLayout(null);
