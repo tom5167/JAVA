@@ -52,8 +52,8 @@ public class DoctorScreen extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTextField textField_4;
 	private JTextField textField_5;
+	private JTextField textField_4;
 
 	/**
 	 * Create the frame.
@@ -272,16 +272,16 @@ public class DoctorScreen extends JFrame {
 		pnlMainTabbed_D.addTab("Event Details", null, pnlEventDetails_D, null);
 		pnlEventDetails_D.setLayout(null);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_3.setBounds(0, 0, 483, 365);
-		pnlEventDetails_D.add(panel_3);
-		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_panel_3.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_3.setLayout(gbl_panel_3);
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(0, 0, 483, 365);
+		pnlEventDetails_D.add(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_panel.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
 		JLabel label_8 = new JLabel("Username");
 		GridBagConstraints gbc_label_8 = new GridBagConstraints();
@@ -289,7 +289,7 @@ public class DoctorScreen extends JFrame {
 		gbc_label_8.insets = new Insets(0, 0, 5, 5);
 		gbc_label_8.gridx = 1;
 		gbc_label_8.gridy = 1;
-		panel_3.add(label_8, gbc_label_8);
+		panel.add(label_8, gbc_label_8);
 		
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
@@ -298,31 +298,31 @@ public class DoctorScreen extends JFrame {
 		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_4.gridx = 2;
 		gbc_textField_4.gridy = 1;
-		panel_3.add(textField_4, gbc_textField_4);
+		panel.add(textField_4, gbc_textField_4);
 		
-		JButton button_10 = new JButton("New");
+		JButton button = new JButton("New");
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.fill = GridBagConstraints.HORIZONTAL;
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 1;
+		gbc_button.gridy = 6;
+		panel.add(button, gbc_button);
+		
+		JButton button_10 = new JButton("Save");
 		GridBagConstraints gbc_button_10 = new GridBagConstraints();
 		gbc_button_10.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_10.insets = new Insets(0, 0, 5, 5);
-		gbc_button_10.gridx = 1;
+		gbc_button_10.gridx = 2;
 		gbc_button_10.gridy = 6;
-		panel_3.add(button_10, gbc_button_10);
+		panel.add(button_10, gbc_button_10);
 		
-		JButton button_11 = new JButton("Save");
+		JButton button_11 = new JButton("Delete");
 		GridBagConstraints gbc_button_11 = new GridBagConstraints();
 		gbc_button_11.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_11.insets = new Insets(0, 0, 5, 5);
-		gbc_button_11.gridx = 2;
+		gbc_button_11.gridx = 3;
 		gbc_button_11.gridy = 6;
-		panel_3.add(button_11, gbc_button_11);
-		
-		JButton button_12 = new JButton("Delete");
-		GridBagConstraints gbc_button_12 = new GridBagConstraints();
-		gbc_button_12.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_12.insets = new Insets(0, 0, 5, 5);
-		gbc_button_12.gridx = 3;
-		gbc_button_12.gridy = 6;
-		panel_3.add(button_12, gbc_button_12);
+		panel.add(button_11, gbc_button_11);
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setLayout(null);

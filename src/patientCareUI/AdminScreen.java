@@ -1541,11 +1541,11 @@ public class AdminScreen extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Patient Id", "Doctor Id", "Event Type", "Event Date", "Event Time"
+				"Event Id", "Patient Id", "Doctor Id", "Event Type", "Event Date", "Event Time"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
