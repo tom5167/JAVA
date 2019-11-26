@@ -31,7 +31,7 @@ CREATE TABLE tblStaff
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
 );
-
+alter table tblStaff ADD constraint tblStaff_staff_id_pk PRIMARY KEY(staff_id);
 INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
 	available_hours,position,qualification,specialization,
 	createdBy,createdDate,modifiedBy,modifiedDate)
