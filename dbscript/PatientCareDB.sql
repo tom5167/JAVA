@@ -60,7 +60,7 @@ CREATE TABLE tblPatient
 	city VARCHAR(50) NOT NULL,
 	country VARCHAR(50) NOT NULL,
 	postal_code VARCHAR(50) NOT NULL,
-	sin_id VARCHAR(50) NOT NULL,
+	sin_id VARCHAR(50) NOT NULL unique ,
 	contact_number VARCHAR(50) NOT NULL,
 	alternative_number VARCHAR(50) NOT NULL,
 	insurance_id VARCHAR(50) NOT NULL,
@@ -71,6 +71,8 @@ CREATE TABLE tblPatient
 	createdDate VARCHAR(50) NULL,
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
+	Check (sin_id>= 0 and sin_id<= 999999999 ),
+	Check(sex='F' or sex='M'),
 );
 
 INSERT INTO tblPatient (first_name,last_name,sex,dob,
