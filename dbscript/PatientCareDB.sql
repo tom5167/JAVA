@@ -71,12 +71,15 @@ CREATE TABLE tblPatient
 	createdDate VARCHAR(50) NULL,
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
-	Check (sin_id>= 0 and sin_id<= 999999999 ),
-	Check(sex='F' or sex='M'),
+	
 );
 alter table tblPatient ADD constraint tblPatient_patient_id_pk PRIMARY KEY(patient_id);
 alter table tblPatient ADD constraint tblPatient_sin_id_uq Unique(sin_id);
 alter table tblPatient ADD constraint tblPatient_sin_id_ck CHECK (sin_id>= 0 and sin_id<= 999999999 );
+alter table tblPatient ADD constraint tblPatient_blood_group_ck CHECK (blood_group='AB+' or blood_group='AB-' or blood_group='A' or
+								       blood_group='A-' or blood_group='B' or blood_group='B-' or blood_group='o+' or blood_group='o-');
+alter table tblPatient ADD constraint tblPatient_sex_ck CHECK (sex='F' or sex='M');
+
 
 
 INSERT INTO tblPatient (first_name,last_name,sex,dob,
