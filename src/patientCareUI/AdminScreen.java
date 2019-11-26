@@ -92,13 +92,16 @@ public class AdminScreen extends JFrame {
 	private JTextField txtFirstName_APL;
 	private JTable tblUserList_AUL;
 	private JTextField txtTotalBeds_ARF;
-	private JTextField textField_2;
+	private JTextField txtRoomNumber_ARL;
 	private JTextField textField_3;
 	private JTextField txtFirstName_ASF;
-	private JTextField textField_5;
+	private JTextField txtFirstName_ASL;
 	private JTextField txtOccupiedBeds_ARF;
 	private JTextField txtRoomNumber_ARF;
 	private JTextField txtLastName_ASF;
+	private JTable tblEventList_AEL;
+	private JTable tblStaffList_ASL;
+	private JTable tblRoomList_ARL;
 
 	/**
 	 * Create the frame.
@@ -925,7 +928,7 @@ public class AdminScreen extends JFrame {
 		
 		tblPatientList_APL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scrollPatientList_APL = new JScrollPane(tblPatientList_APL);
-		scrollPatientList_APL.setBounds(6, 73, 453, 286);
+		scrollPatientList_APL.setBounds(6, 73, 449, 286);
 		pnlPatientList_AP.add(scrollPatientList_APL);
 		
 		JLabel lblFirstName_APL = new JLabel("First Name");
@@ -998,9 +1001,9 @@ public class AdminScreen extends JFrame {
 		pnlBillDetails_A.add(pnlBillForm_AB);
 		GridBagLayout gbl_pnlBillForm_AB = new GridBagLayout();
 		gbl_pnlBillForm_AB.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_pnlBillForm_AB.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
-		gbl_pnlBillForm_AB.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_pnlBillForm_AB.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlBillForm_AB.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
+		gbl_pnlBillForm_AB.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlBillForm_AB.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlBillForm_AB.setLayout(gbl_pnlBillForm_AB);
 		
 		JLabel lblBillId_ARF = new JLabel("");
@@ -1074,12 +1077,29 @@ public class AdminScreen extends JFrame {
 		gbc_lblBillAmount.gridy = 8;
 		pnlBillForm_AB.add(lblBillAmount, gbc_lblBillAmount);
 		
+		JLabel lblPaymentCompleted = new JLabel("Payment Completed");
+		GridBagConstraints gbc_lblPaymentCompleted = new GridBagConstraints();
+		gbc_lblPaymentCompleted.anchor = GridBagConstraints.EAST;
+		gbc_lblPaymentCompleted.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPaymentCompleted.gridx = 1;
+		gbc_lblPaymentCompleted.gridy = 9;
+		pnlBillForm_AB.add(lblPaymentCompleted, gbc_lblPaymentCompleted);
+		
+		JComboBox cmbPaymentCompleted = new JComboBox();
+		cmbPaymentCompleted.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Yes", "No"}));
+		GridBagConstraints gbc_cmbPaymentCompleted = new GridBagConstraints();
+		gbc_cmbPaymentCompleted.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbPaymentCompleted.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbPaymentCompleted.gridx = 2;
+		gbc_cmbPaymentCompleted.gridy = 9;
+		pnlBillForm_AB.add(cmbPaymentCompleted, gbc_cmbPaymentCompleted);
+		
 		JButton btnNew_ABF = new JButton("New");
 		GridBagConstraints gbc_btnNew_ABF = new GridBagConstraints();
 		gbc_btnNew_ABF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_ABF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNew_ABF.gridx = 1;
-		gbc_btnNew_ABF.gridy = 10;
+		gbc_btnNew_ABF.gridy = 11;
 		pnlBillForm_AB.add(btnNew_ABF, gbc_btnNew_ABF);
 		
 		JButton btnSave_ABF = new JButton("Save");
@@ -1087,7 +1107,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnSave_ABF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_ABF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_ABF.gridx = 2;
-		gbc_btnSave_ABF.gridy = 10;
+		gbc_btnSave_ABF.gridy = 11;
 		pnlBillForm_AB.add(btnSave_ABF, gbc_btnSave_ABF);
 		
 		JButton btnDelete_ABF = new JButton("Delete");
@@ -1095,7 +1115,7 @@ public class AdminScreen extends JFrame {
 		gbc_btnDelete_ABF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete_ABF.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDelete_ABF.gridx = 3;
-		gbc_btnDelete_ABF.gridy = 10;
+		gbc_btnDelete_ABF.gridy = 11;
 		pnlBillForm_AB.add(btnDelete_ABF, gbc_btnDelete_ABF);
 		
 		JPanel pnlBillList_AB = new JPanel();
@@ -1262,18 +1282,36 @@ public class AdminScreen extends JFrame {
 		pnlRoomList_AR.setBounds(483, 0, 475, 365);
 		pnlRoomDetails_A.add(pnlRoomList_AR);
 		
-		JScrollPane scrollPane = new JScrollPane((Component) null);
-		scrollPane.setBounds(6, 73, 453, 286);
-		pnlRoomList_AR.add(scrollPane);
+		tblRoomList_ARL = new JTable();
+		tblRoomList_ARL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Room Id", "Room Number", "Total Beds", "Occupied Beds", "Total Beds", "Building Number"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tblRoomList_ARL.getColumnModel().getColumn(3).setPreferredWidth(88);
+		tblRoomList_ARL.getColumnModel().getColumn(5).setPreferredWidth(103);
+		tblRoomList_ARL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollRoomList_ARL = new JScrollPane(tblRoomList_ARL);
+		scrollRoomList_ARL.setBounds(6, 73, 459, 286);
+		pnlRoomList_AR.add(scrollRoomList_ARL);
 		
-		JLabel label_6 = new JLabel("First Name");
-		label_6.setBounds(179, 26, 51, 14);
-		pnlRoomList_AR.add(label_6);
+		JLabel lblRoomNumber_ARL = new JLabel("Room Number");
+		lblRoomNumber_ARL.setBounds(179, 26, 51, 14);
+		pnlRoomList_AR.add(lblRoomNumber_ARL);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(239, 23, 127, 20);
-		pnlRoomList_AR.add(textField_2);
+		txtRoomNumber_ARL = new JTextField();
+		txtRoomNumber_ARL.setColumns(10);
+		txtRoomNumber_ARL.setBounds(239, 23, 127, 20);
+		pnlRoomList_AR.add(txtRoomNumber_ARL);
 		
 		JButton button_3 = new JButton("Search");
 		button_3.setBounds(376, 22, 89, 23);
@@ -1364,6 +1402,22 @@ public class AdminScreen extends JFrame {
 		gbc_lblJoinDate_ASF.gridy = 4;
 		pnlStaffForm_AS.add(lblJoinDate_ASF, gbc_lblJoinDate_ASF);
 		
+		UtilDateModel dateModel_ASF = new UtilDateModel();
+		Properties prop_ASF = new Properties();
+		prop_ASF.put("text.today", "Today");
+		prop_ASF.put("text.month", "Month");
+		prop_ASF.put("text.year", "Year");
+		JDatePanelImpl datePanel_ASF = new JDatePanelImpl(dateModel_ASF, prop_ASF);
+		DateLabelFormatter dateLabelFormatter_ASF = new DateLabelFormatter();
+		JDatePickerImpl datePicker_ASF = new JDatePickerImpl(datePanel_ASF, dateLabelFormatter_ASF);
+		
+		GridBagConstraints gbc_datePicker_ASF = new GridBagConstraints();
+		gbc_datePicker_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_datePicker_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_datePicker_ASF.gridx = 2;
+		gbc_datePicker_ASF.gridy = 4;
+		pnlStaffForm_AS.add(datePicker_ASF, gbc_datePicker_ASF);
+		
 		JLabel lblAvailableHours_ASF = new JLabel("Available Hours");
 		GridBagConstraints gbc_lblAvailableHours_ASF = new GridBagConstraints();
 		gbc_lblAvailableHours_ASF.anchor = GridBagConstraints.EAST;
@@ -1389,13 +1443,31 @@ public class AdminScreen extends JFrame {
 		gbc_lblPosition_ASF.gridy = 6;
 		pnlStaffForm_AS.add(lblPosition_ASF, gbc_lblPosition_ASF);
 		
-		JLabel lblQualification_ASF = new JLabel("Qualification");
+		JComboBox cmbPosition_ASF = new JComboBox();
+		cmbPosition_ASF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Junior", "Senior"}));
+		GridBagConstraints gbc_cmbPosition_ASF = new GridBagConstraints();
+		gbc_cmbPosition_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbPosition_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbPosition_ASF.gridx = 2;
+		gbc_cmbPosition_ASF.gridy = 6;
+		pnlStaffForm_AS.add(cmbPosition_ASF, gbc_cmbPosition_ASF);
+		
+		JLabel lblQualification_ASF = new JLabel("Highest Qualification");
 		GridBagConstraints gbc_lblQualification_ASF = new GridBagConstraints();
 		gbc_lblQualification_ASF.anchor = GridBagConstraints.EAST;
 		gbc_lblQualification_ASF.insets = new Insets(0, 0, 5, 5);
 		gbc_lblQualification_ASF.gridx = 1;
 		gbc_lblQualification_ASF.gridy = 7;
 		pnlStaffForm_AS.add(lblQualification_ASF, gbc_lblQualification_ASF);
+		
+		JComboBox cmbQualification_ASF = new JComboBox();
+		cmbQualification_ASF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "MBBS", "BTECH", "BCOM", "MTECH", "MD", "PHD"}));
+		GridBagConstraints gbc_cmbQualification_ASF = new GridBagConstraints();
+		gbc_cmbQualification_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbQualification_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbQualification_ASF.gridx = 2;
+		gbc_cmbQualification_ASF.gridy = 7;
+		pnlStaffForm_AS.add(cmbQualification_ASF, gbc_cmbQualification_ASF);
 		
 		JLabel lblSpecialization_ASF = new JLabel("Specialization");
 		GridBagConstraints gbc_lblSpecialization_ASF = new GridBagConstraints();
@@ -1404,6 +1476,15 @@ public class AdminScreen extends JFrame {
 		gbc_lblSpecialization_ASF.gridx = 1;
 		gbc_lblSpecialization_ASF.gridy = 8;
 		pnlStaffForm_AS.add(lblSpecialization_ASF, gbc_lblSpecialization_ASF);
+		
+		JComboBox cmbSpecialization_ASF = new JComboBox();
+		cmbSpecialization_ASF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Administration", "Receptionist", "Ortho", "Cardio", "ENT", "Physician", "General Medicine"}));
+		GridBagConstraints gbc_cmbSpecialization_ASF = new GridBagConstraints();
+		gbc_cmbSpecialization_ASF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbSpecialization_ASF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbSpecialization_ASF.gridx = 2;
+		gbc_cmbSpecialization_ASF.gridy = 8;
+		pnlStaffForm_AS.add(cmbSpecialization_ASF, gbc_cmbSpecialization_ASF);
 		
 		JButton btnNew_ASF = new JButton("New");
 		GridBagConstraints gbc_btnNew_ASF = new GridBagConstraints();
@@ -1434,27 +1515,44 @@ public class AdminScreen extends JFrame {
 		pnlStaffList_AS.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Staff List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlStaffList_AS.setBounds(483, 0, 475, 365);
 		pnlStaffDetails_A.add(pnlStaffList_AS);
+				
+		tblStaffList_ASL = new JTable();		
+		tblStaffList_ASL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Staff Id", "First Name", "Last Name", "Staff Type", "Join Date", "Available Hours", "Position", "Qualification", "Specialization"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tblStaffList_ASL.getColumnModel().getColumn(5).setPreferredWidth(89);
+		tblStaffList_ASL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollStaffList_ASL = new JScrollPane(tblStaffList_ASL);
+		scrollStaffList_ASL.setBounds(6, 73, 459, 286);
+		pnlStaffList_AS.add(scrollStaffList_ASL);
+
+		JLabel lblFirstName_ASL = new JLabel("First Name");
+		lblFirstName_ASL.setBounds(179, 26, 51, 14);
+		pnlStaffList_AS.add(lblFirstName_ASL);
 		
-		JScrollPane scrollPane_2 = new JScrollPane((Component) null);
-		scrollPane_2.setBounds(6, 73, 453, 286);
-		pnlStaffList_AS.add(scrollPane_2);
+		txtFirstName_ASL = new JTextField();
+		txtFirstName_ASL.setColumns(10);
+		txtFirstName_ASL.setBounds(239, 23, 127, 20);
+		pnlStaffList_AS.add(txtFirstName_ASL);
 		
-		JLabel label_5 = new JLabel("First Name");
-		label_5.setBounds(179, 26, 51, 14);
-		pnlStaffList_AS.add(label_5);
+		JButton btnSearch_ASL = new JButton("Search");
+		btnSearch_ASL.setBounds(376, 22, 89, 23);
+		pnlStaffList_AS.add(btnSearch_ASL);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(239, 23, 127, 20);
-		pnlStaffList_AS.add(textField_5);
-		
-		JButton button_11 = new JButton("Search");
-		button_11.setBounds(376, 22, 89, 23);
-		pnlStaffList_AS.add(button_11);
-		
-		JLabel label_8 = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		label_8.setBounds(6, 49, 445, 14);
-		pnlStaffList_AS.add(label_8);
+		JLabel lblNote_ASL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_ASL.setBounds(6, 49, 445, 14);
+		pnlStaffList_AS.add(lblNote_ASL);
 		
 		JPanel pnlEventDetails_A = new JPanel();
 		pnlEventDetails_A.setLayout(null);
@@ -1480,6 +1578,7 @@ public class AdminScreen extends JFrame {
 		pnlEventForm_AE.add(lblPatientId_AEF, gbc_lblPatientId_AEF);
 		
 		JComboBox cmbPatientId_AEF = new JComboBox();
+		cmbPatientId_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select"}));
 		GridBagConstraints gbc_cmbPatientId_AEF = new GridBagConstraints();
 		gbc_cmbPatientId_AEF.insets = new Insets(0, 0, 5, 5);
 		gbc_cmbPatientId_AEF.fill = GridBagConstraints.HORIZONTAL;
@@ -1487,21 +1586,22 @@ public class AdminScreen extends JFrame {
 		gbc_cmbPatientId_AEF.gridy = 1;
 		pnlEventForm_AE.add(cmbPatientId_AEF, gbc_cmbPatientId_AEF);
 		
-		JLabel lblStaffId_AEF = new JLabel("Staff Id");
-		GridBagConstraints gbc_lblStaffId_AEF = new GridBagConstraints();
-		gbc_lblStaffId_AEF.anchor = GridBagConstraints.EAST;
-		gbc_lblStaffId_AEF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblStaffId_AEF.gridx = 1;
-		gbc_lblStaffId_AEF.gridy = 2;
-		pnlEventForm_AE.add(lblStaffId_AEF, gbc_lblStaffId_AEF);
+		JLabel lblDoctorId_AEF = new JLabel("Doctor Id");
+		GridBagConstraints gbc_lblDoctorId_AEF = new GridBagConstraints();
+		gbc_lblDoctorId_AEF.anchor = GridBagConstraints.EAST;
+		gbc_lblDoctorId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDoctorId_AEF.gridx = 1;
+		gbc_lblDoctorId_AEF.gridy = 2;
+		pnlEventForm_AE.add(lblDoctorId_AEF, gbc_lblDoctorId_AEF);
 		
-		JComboBox cmbStaffId_AEF = new JComboBox();
-		GridBagConstraints gbc_cmbStaffId_AEF = new GridBagConstraints();
-		gbc_cmbStaffId_AEF.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbStaffId_AEF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbStaffId_AEF.gridx = 2;
-		gbc_cmbStaffId_AEF.gridy = 2;
-		pnlEventForm_AE.add(cmbStaffId_AEF, gbc_cmbStaffId_AEF);
+		JComboBox cmbDoctorId_AEF = new JComboBox();
+		cmbDoctorId_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select"}));
+		GridBagConstraints gbc_cmbDoctorId_AEF = new GridBagConstraints();
+		gbc_cmbDoctorId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbDoctorId_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbDoctorId_AEF.gridx = 2;
+		gbc_cmbDoctorId_AEF.gridy = 2;
+		pnlEventForm_AE.add(cmbDoctorId_AEF, gbc_cmbDoctorId_AEF);
 		
 		JLabel lblEventType_AEF = new JLabel("Event Type");
 		GridBagConstraints gbc_lblEventType_AEF = new GridBagConstraints();
@@ -1590,10 +1690,26 @@ public class AdminScreen extends JFrame {
 		pnlEventList_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Event List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlEventList_AE.setBounds(483, 0, 475, 365);
 		pnlEventDetails_A.add(pnlEventList_AE);
-		
-		JScrollPane scrollPane_3 = new JScrollPane((Component) null);
-		scrollPane_3.setBounds(6, 73, 453, 286);
-		pnlEventList_AE.add(scrollPane_3);
+				
+		tblEventList_AEL = new JTable();
+		tblEventList_AEL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Patient Id", "Doctor Id", "Event Type", "Event Date", "Event Time"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tblEventList_AEL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollEventList_AEL = new JScrollPane(tblEventList_AEL);
+		scrollEventList_AEL.setBounds(6, 73, 459, 286);
+		pnlEventList_AE.add(scrollEventList_AEL);
 		
 		JLabel lblEventDate = new JLabel("Event Date");
 		lblEventDate.setBounds(192, 22, 71, 23);
@@ -1610,22 +1726,22 @@ public class AdminScreen extends JFrame {
 		datePicker_AEL.setBounds(249, 22, 117, 23);
 		pnlEventList_AE.add(datePicker_AEL);
 		
-		JButton button_15 = new JButton("Search");
-		button_15.setBounds(376, 22, 89, 23);
-		pnlEventList_AE.add(button_15);
+		JButton btnSearch_AEL = new JButton("Search");
+		btnSearch_AEL.setBounds(376, 22, 89, 23);
+		pnlEventList_AE.add(btnSearch_AEL);
 		
-		JLabel label_11 = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		label_11.setBounds(6, 49, 445, 14);
-		pnlEventList_AE.add(label_11);
+		JLabel lblNote_AEL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_AEL.setBounds(6, 49, 445, 14);
+		pnlEventList_AE.add(lblNote_AEL);
 		
-		JLabel label = new JLabel("Event Type");
-		label.setBounds(10, 26, 55, 14);
-		pnlEventList_AE.add(label);
+		JLabel lblEventType_AEL = new JLabel("Event Type");
+		lblEventType_AEL.setBounds(10, 26, 55, 14);
+		pnlEventList_AE.add(lblEventType_AEL);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation"}));
-		comboBox.setBounds(75, 23, 111, 20);
-		pnlEventList_AE.add(comboBox);
+		JComboBox cmbEventType_AEL = new JComboBox();
+		cmbEventType_AEL.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation"}));
+		cmbEventType_AEL.setBounds(75, 23, 111, 20);
+		pnlEventList_AE.add(cmbEventType_AEL);
 		
 		JPanel pnlBottom_A = new JPanel();
 		pnlBottom_A.setLayout(null);
