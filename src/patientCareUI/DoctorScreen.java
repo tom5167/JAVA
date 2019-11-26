@@ -104,7 +104,7 @@ public class DoctorScreen extends JFrame {
 		
 		JPanel pnlPatientDetails_D = new JPanel();
 		pnlPatientDetails_D.setLayout(null);
-		pnlMainTabbed_D.addTab("New tab", null, pnlPatientDetails_D, null);
+		pnlMainTabbed_D.addTab("Patient Details", null, pnlPatientDetails_D, null);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -186,7 +186,7 @@ public class DoctorScreen extends JFrame {
 		panel_2.add(label_4);
 		
 		JPanel pnlDiagnosisDetails_D = new JPanel();
-		pnlMainTabbed_D.addTab("New tab", null, pnlDiagnosisDetails_D, null);
+		pnlMainTabbed_D.addTab("Diagnosis Details", null, pnlDiagnosisDetails_D, null);
 		pnlDiagnosisDetails_D.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
@@ -269,7 +269,7 @@ public class DoctorScreen extends JFrame {
 		panel_5.add(label_7);
 		
 		JPanel pnlEventDetails_D = new JPanel();
-		pnlMainTabbed_D.addTab("New tab", null, pnlEventDetails_D, null);
+		pnlMainTabbed_D.addTab("Event Details", null, pnlEventDetails_D, null);
 		pnlEventDetails_D.setLayout(null);
 		
 		JPanel panel_3 = new JPanel();

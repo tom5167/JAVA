@@ -40,6 +40,7 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 public class ReceptionistScreen extends JFrame {
 
@@ -54,7 +55,6 @@ public class ReceptionistScreen extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	private JTextField textField_6;
 	private JTextField textField_7;
 
 	/**
@@ -106,7 +106,7 @@ public class ReceptionistScreen extends JFrame {
 		
 		JPanel pnlPatientDetails_R = new JPanel();
 		pnlPatientDetails_R.setLayout(null);
-		pnlMainTabbed_R.addTab("New tab", null, pnlPatientDetails_R, null);
+		pnlMainTabbed_R.addTab("Patient Details", null, pnlPatientDetails_R, null);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -189,59 +189,129 @@ public class ReceptionistScreen extends JFrame {
 		
 		JPanel pnlBillDetails_R = new JPanel();
 		pnlBillDetails_R.setLayout(null);
-		pnlMainTabbed_R.addTab("New tab", null, pnlBillDetails_R, null);
+		pnlMainTabbed_R.addTab("Bill Details", null, pnlBillDetails_R, null);
 		
-		JPanel panel_7 = new JPanel();
-		panel_7.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_7.setBounds(0, 0, 483, 365);
-		pnlBillDetails_R.add(panel_7);
-		GridBagLayout gbl_panel_7 = new GridBagLayout();
-		gbl_panel_7.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_panel_7.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_panel_7.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_7.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_7.setLayout(gbl_panel_7);
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Bill Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(0, 0, 483, 365);
+		pnlBillDetails_R.add(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_panel.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
-		JLabel label_11 = new JLabel("Username");
+		JLabel label_11 = new JLabel("");
 		GridBagConstraints gbc_label_11 = new GridBagConstraints();
-		gbc_label_11.anchor = GridBagConstraints.EAST;
 		gbc_label_11.insets = new Insets(0, 0, 5, 5);
-		gbc_label_11.gridx = 1;
-		gbc_label_11.gridy = 1;
-		panel_7.add(label_11, gbc_label_11);
+		gbc_label_11.gridx = 2;
+		gbc_label_11.gridy = 0;
+		panel.add(label_11, gbc_label_11);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_6.gridx = 2;
-		gbc_textField_6.gridy = 1;
-		panel_7.add(textField_6, gbc_textField_6);
+		JLabel label_14 = new JLabel("Patient Id");
+		GridBagConstraints gbc_label_14 = new GridBagConstraints();
+		gbc_label_14.anchor = GridBagConstraints.EAST;
+		gbc_label_14.insets = new Insets(0, 0, 5, 5);
+		gbc_label_14.gridx = 1;
+		gbc_label_14.gridy = 1;
+		panel.add(label_14, gbc_label_14);
+		
+		JLabel label_15 = new JLabel("Patient Name");
+		GridBagConstraints gbc_label_15 = new GridBagConstraints();
+		gbc_label_15.anchor = GridBagConstraints.EAST;
+		gbc_label_15.insets = new Insets(0, 0, 5, 5);
+		gbc_label_15.gridx = 1;
+		gbc_label_15.gridy = 2;
+		panel.add(label_15, gbc_label_15);
+		
+		JLabel label_16 = new JLabel("Mode of Payment");
+		GridBagConstraints gbc_label_16 = new GridBagConstraints();
+		gbc_label_16.anchor = GridBagConstraints.EAST;
+		gbc_label_16.insets = new Insets(0, 0, 5, 5);
+		gbc_label_16.gridx = 1;
+		gbc_label_16.gridy = 3;
+		panel.add(label_16, gbc_label_16);
+		
+		JLabel label_17 = new JLabel("Payment Due Date");
+		GridBagConstraints gbc_label_17 = new GridBagConstraints();
+		gbc_label_17.anchor = GridBagConstraints.EAST;
+		gbc_label_17.insets = new Insets(0, 0, 5, 5);
+		gbc_label_17.gridx = 1;
+		gbc_label_17.gridy = 4;
+		panel.add(label_17, gbc_label_17);
+		
+		JLabel label_18 = new JLabel("Billing Time Stamp");
+		GridBagConstraints gbc_label_18 = new GridBagConstraints();
+		gbc_label_18.anchor = GridBagConstraints.EAST;
+		gbc_label_18.insets = new Insets(0, 0, 5, 5);
+		gbc_label_18.gridx = 1;
+		gbc_label_18.gridy = 5;
+		panel.add(label_18, gbc_label_18);
+		
+		JLabel label_19 = new JLabel("Insurance Number");
+		GridBagConstraints gbc_label_19 = new GridBagConstraints();
+		gbc_label_19.anchor = GridBagConstraints.EAST;
+		gbc_label_19.insets = new Insets(0, 0, 5, 5);
+		gbc_label_19.gridx = 1;
+		gbc_label_19.gridy = 6;
+		panel.add(label_19, gbc_label_19);
+		
+		JLabel label_20 = new JLabel("Payer Name");
+		GridBagConstraints gbc_label_20 = new GridBagConstraints();
+		gbc_label_20.anchor = GridBagConstraints.EAST;
+		gbc_label_20.insets = new Insets(0, 0, 5, 5);
+		gbc_label_20.gridx = 1;
+		gbc_label_20.gridy = 7;
+		panel.add(label_20, gbc_label_20);
+		
+		JLabel label_21 = new JLabel("Bill Amount");
+		GridBagConstraints gbc_label_21 = new GridBagConstraints();
+		gbc_label_21.anchor = GridBagConstraints.EAST;
+		gbc_label_21.insets = new Insets(0, 0, 5, 5);
+		gbc_label_21.gridx = 1;
+		gbc_label_21.gridy = 8;
+		panel.add(label_21, gbc_label_21);
+		
+		JLabel label_22 = new JLabel("Payment Completed");
+		GridBagConstraints gbc_label_22 = new GridBagConstraints();
+		gbc_label_22.anchor = GridBagConstraints.EAST;
+		gbc_label_22.insets = new Insets(0, 0, 5, 5);
+		gbc_label_22.gridx = 1;
+		gbc_label_22.gridy = 9;
+		panel.add(label_22, gbc_label_22);
+		
+		JComboBox comboBox = new JComboBox();
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 9;
+		panel.add(comboBox, gbc_comboBox);
 		
 		JButton button = new JButton("New");
 		GridBagConstraints gbc_button = new GridBagConstraints();
 		gbc_button.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button.insets = new Insets(0, 0, 5, 5);
 		gbc_button.gridx = 1;
-		gbc_button.gridy = 6;
-		panel_7.add(button, gbc_button);
+		gbc_button.gridy = 11;
+		panel.add(button, gbc_button);
 		
 		JButton button_14 = new JButton("Save");
 		GridBagConstraints gbc_button_14 = new GridBagConstraints();
 		gbc_button_14.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_14.insets = new Insets(0, 0, 5, 5);
 		gbc_button_14.gridx = 2;
-		gbc_button_14.gridy = 6;
-		panel_7.add(button_14, gbc_button_14);
+		gbc_button_14.gridy = 11;
+		panel.add(button_14, gbc_button_14);
 		
 		JButton button_15 = new JButton("Delete");
 		GridBagConstraints gbc_button_15 = new GridBagConstraints();
 		gbc_button_15.fill = GridBagConstraints.HORIZONTAL;
 		gbc_button_15.insets = new Insets(0, 0, 5, 5);
 		gbc_button_15.gridx = 3;
-		gbc_button_15.gridy = 6;
-		panel_7.add(button_15, gbc_button_15);
+		gbc_button_15.gridy = 11;
+		panel.add(button_15, gbc_button_15);
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setLayout(null);
@@ -271,7 +341,7 @@ public class ReceptionistScreen extends JFrame {
 		panel_8.add(label_13);
 		
 		JPanel pnlDiagnosisDetails_R = new JPanel();
-		pnlMainTabbed_R.addTab("New tab", null, pnlDiagnosisDetails_R, null);
+		pnlMainTabbed_R.addTab("Diagnosis Details", null, pnlDiagnosisDetails_R, null);
 		pnlDiagnosisDetails_R.setLayout(null);
 		
 		JPanel panel_4 = new JPanel();
@@ -354,7 +424,7 @@ public class ReceptionistScreen extends JFrame {
 		panel_5.add(label_7);
 		
 		JPanel pnlEventDetails_R = new JPanel();
-		pnlMainTabbed_R.addTab("New tab", null, pnlEventDetails_R, null);
+		pnlMainTabbed_R.addTab("Event Details", null, pnlEventDetails_R, null);
 		pnlEventDetails_R.setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
