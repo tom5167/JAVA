@@ -31,13 +31,40 @@ CREATE TABLE tblStaff
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
 );
-
+alter table tblStaff ADD constraint tblStaff_staff_id_pk PRIMARY KEY(staff_id);
 INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
 	available_hours,position,qualification,specialization,
 	createdBy,createdDate,modifiedBy,modifiedDate)
 VALUES('ADMIN','ADMIN','ADMIN',GETDATE(),
 '20','ADMIN','ADMIN','ADMIN',
 'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Jinal','Shah','Doctor',GETDATE(),
+'20','Doctor','MS','Neurologist',
+'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Dolly','Shah','Doctor',GETDATE(),
+'20','Doctor','MS','Gynecologists ',
+'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Olivia','Martin','Nurse',GETDATE(),
+'20','Nurse','ADN','Gynecologists ',
+'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Sophia','Wilson','Nurse',GETDATE(),
+'20','Nurse','RNs','Physiology ',
+'admin',GETDATE(),'','');
+
+
+
 
 SELECT staff_id,first_name,last_name,staff_type,join_date,
 	available_hours,position,qualification,specialization,
@@ -60,7 +87,7 @@ CREATE TABLE tblPatient
 	city VARCHAR(50) NOT NULL,
 	country VARCHAR(50) NOT NULL,
 	postal_code VARCHAR(50) NOT NULL,
-	sin_id VARCHAR(50) NOT NULL,
+	sin_id VARCHAR(50) NOT NULL unique ,
 	contact_number VARCHAR(50) NOT NULL,
 	alternative_number VARCHAR(50) NOT NULL,
 	insurance_id VARCHAR(50) NOT NULL,
@@ -71,7 +98,16 @@ CREATE TABLE tblPatient
 	createdDate VARCHAR(50) NULL,
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
+	
 );
+alter table tblPatient ADD constraint tblPatient_patient_id_pk PRIMARY KEY(patient_id);
+alter table tblPatient ADD constraint tblPatient_sin_id_uq Unique(sin_id);
+alter table tblPatient ADD constraint tblPatient_sin_id_ck CHECK (sin_id>= 0 and sin_id<= 999999999 );
+alter table tblPatient ADD constraint tblPatient_blood_group_ck CHECK (blood_group='AB+' or blood_group='AB-' or blood_group='A' or
+								       blood_group='A-' or blood_group='B' or blood_group='B-' or blood_group='o+' or blood_group='o-');
+
+
+
 
 INSERT INTO tblPatient (first_name,last_name,sex,dob,
 	street_number,address_full,city,country,postal_code,sin_id,
