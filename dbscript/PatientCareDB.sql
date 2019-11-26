@@ -76,6 +76,7 @@ CREATE TABLE tblPatient
 );
 alter table tblPatient ADD constraint tblPatient_patient_id_pk PRIMARY KEY(patient_id);
 alter table tblPatient ADD constraint tblPatient_sin_id_uq Unique(sin_id);
+alter table tblPatient ADD constraint tblPatient_sin_id_ck CHECK (sin_id>= 0 and sin_id<= 999999999 );
 
 
 INSERT INTO tblPatient (first_name,last_name,sex,dob,
