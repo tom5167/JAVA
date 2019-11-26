@@ -74,6 +74,9 @@ CREATE TABLE tblPatient
 	Check (sin_id>= 0 and sin_id<= 999999999 ),
 	Check(sex='F' or sex='M'),
 );
+alter table tblPatient ADD constraint tblPatient_patient_id_pk PRIMARY KEY(patient_id);
+alter table tblPatient ADD constraint tblPatient_sin_id_uq Unique(sin_id);
+
 
 INSERT INTO tblPatient (first_name,last_name,sex,dob,
 	street_number,address_full,city,country,postal_code,sin_id,
