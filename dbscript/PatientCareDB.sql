@@ -38,6 +38,33 @@ INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
 VALUES('ADMIN','ADMIN','ADMIN',GETDATE(),
 '20','ADMIN','ADMIN','ADMIN',
 'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Jinal','Shah','Doctor',GETDATE(),
+'20','Doctor','MS','Neurologist',
+'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Dolly','Shah','Doctor',GETDATE(),
+'20','Doctor','MS','Gynecologists ',
+'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Olivia','Martin','Nurse',GETDATE(),
+'20','Nurse','ADN','Gynecologists ',
+'admin',GETDATE(),'','');
+INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,
+	available_hours,position,qualification,specialization,
+	createdBy,createdDate,modifiedBy,modifiedDate)
+VALUES('Sophia','Wilson','Nurse',GETDATE(),
+'20','Nurse','RNs','Physiology ',
+'admin',GETDATE(),'','');
+
+
+
 
 SELECT staff_id,first_name,last_name,staff_type,join_date,
 	available_hours,position,qualification,specialization,
