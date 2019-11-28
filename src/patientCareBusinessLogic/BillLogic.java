@@ -17,6 +17,29 @@
  */
 package patientCareBusinessLogic;
 
+import java.util.List;
+
+import patientCareDAO.BillDAO;
+import patientCarePOJO.Bill;
+
 public class BillLogic {
+	BillDAO billDAO = new BillDAO();
+
+	public List<Bill> getAlBillDetails(String firstName) {
+		return billDAO.getAlBillDetails(firstName);
+	}
+	
+	public boolean saveBillDetails(Bill billDetails) {
+		if(billDetails.getBillId() < 1) {
+			return billDAO.insertBillDetails(billDetails);
+		} else {
+			return billDAO.updateBillDetails(billDetails);
+		}
+	}
+	
+	public boolean deleteBillDetails(Bill billDetails) {
+		return billDAO.deleteBillDetails(billDetails);
+	}
+
 
 }

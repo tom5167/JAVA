@@ -58,7 +58,6 @@ import patientCareBusinessLogic.UserLogic;
 import patientCareConstants.CommonConstants;
 import patientCarePOJO.Patient;
 import patientCarePOJO.User;
-import java.awt.Component;
 
 public class AdminScreen extends JFrame {
 
@@ -82,10 +81,6 @@ public class AdminScreen extends JFrame {
 	private JTextField txtAlternativeNumber_APF;
 	private JTextField txtInsuranceId_APF;
 	private JTextField txtEmailId_APF;
-	private JTextField txtCreatedBy_APF;
-	private JTextField txtCreatedDate_APF;
-	private JTextField txtModifiedBy_APF;
-	private JTextField txtModifiedDate_APF;
 	private JTextField txtUserName_AUF;
 	private JTextField txtPassword_AUF;
 	private JTextField txtFirstName_AUL;
@@ -657,23 +652,6 @@ public class AdminScreen extends JFrame {
 		pnlPatientForm_AP.add(txtAddress_APF, gbc_txtAddress_APF);
 		txtAddress_APF.setColumns(10);
 		
-		JLabel lblCreatedBy_APF = new JLabel("Created By");
-		GridBagConstraints gbc_lblCreatedBy_APF = new GridBagConstraints();
-		gbc_lblCreatedBy_APF.anchor = GridBagConstraints.EAST;
-		gbc_lblCreatedBy_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCreatedBy_APF.gridx = 3;
-		gbc_lblCreatedBy_APF.gridy = 7;
-		pnlPatientForm_AP.add(lblCreatedBy_APF, gbc_lblCreatedBy_APF);
-		
-		txtCreatedBy_APF = new JTextField();
-		GridBagConstraints gbc_txtCreatedBy_APF = new GridBagConstraints();
-		gbc_txtCreatedBy_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtCreatedBy_APF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtCreatedBy_APF.gridx = 4;
-		gbc_txtCreatedBy_APF.gridy = 7;
-		pnlPatientForm_AP.add(txtCreatedBy_APF, gbc_txtCreatedBy_APF);
-		txtCreatedBy_APF.setColumns(10);
-		
 		JLabel lblCity_APF = new JLabel("City");
 		GridBagConstraints gbc_lblCity_APF = new GridBagConstraints();
 		gbc_lblCity_APF.anchor = GridBagConstraints.EAST;
@@ -690,23 +668,6 @@ public class AdminScreen extends JFrame {
 		gbc_txtCity_APF.gridy = 8;
 		pnlPatientForm_AP.add(txtCity_APF, gbc_txtCity_APF);
 		txtCity_APF.setColumns(10);
-		
-		JLabel lblCreatedDate_APF = new JLabel("Created Date");
-		GridBagConstraints gbc_lblCreatedDate_APF = new GridBagConstraints();
-		gbc_lblCreatedDate_APF.anchor = GridBagConstraints.EAST;
-		gbc_lblCreatedDate_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCreatedDate_APF.gridx = 3;
-		gbc_lblCreatedDate_APF.gridy = 8;
-		pnlPatientForm_AP.add(lblCreatedDate_APF, gbc_lblCreatedDate_APF);
-		
-		txtCreatedDate_APF = new JTextField();
-		GridBagConstraints gbc_txtCreatedDate_APF = new GridBagConstraints();
-		gbc_txtCreatedDate_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtCreatedDate_APF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtCreatedDate_APF.gridx = 4;
-		gbc_txtCreatedDate_APF.gridy = 8;
-		pnlPatientForm_AP.add(txtCreatedDate_APF, gbc_txtCreatedDate_APF);
-		txtCreatedDate_APF.setColumns(10);
 		
 		JLabel lblCountry_APF = new JLabel("Country");
 		GridBagConstraints gbc_lblCountry_APF = new GridBagConstraints();
@@ -725,23 +686,6 @@ public class AdminScreen extends JFrame {
 		pnlPatientForm_AP.add(txtCountry_APF, gbc_txtCountry_APF);
 		txtCountry_APF.setColumns(10);
 		
-		JLabel lblModifiedBy_APF = new JLabel("Modified By");
-		GridBagConstraints gbc_lblModifiedBy_APF = new GridBagConstraints();
-		gbc_lblModifiedBy_APF.anchor = GridBagConstraints.EAST;
-		gbc_lblModifiedBy_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblModifiedBy_APF.gridx = 3;
-		gbc_lblModifiedBy_APF.gridy = 9;
-		pnlPatientForm_AP.add(lblModifiedBy_APF, gbc_lblModifiedBy_APF);
-		
-		txtModifiedBy_APF = new JTextField();
-		GridBagConstraints gbc_txtModifiedBy_APF = new GridBagConstraints();
-		gbc_txtModifiedBy_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtModifiedBy_APF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtModifiedBy_APF.gridx = 4;
-		gbc_txtModifiedBy_APF.gridy = 9;
-		pnlPatientForm_AP.add(txtModifiedBy_APF, gbc_txtModifiedBy_APF);
-		txtModifiedBy_APF.setColumns(10);
-		
 		JLabel lblPostalCode_APF = new JLabel("Postal Code");
 		GridBagConstraints gbc_lblPostalCode_APF = new GridBagConstraints();
 		gbc_lblPostalCode_APF.anchor = GridBagConstraints.EAST;
@@ -758,23 +702,6 @@ public class AdminScreen extends JFrame {
 		gbc_txtPostalCode_APF.gridy = 10;
 		pnlPatientForm_AP.add(txtPostalCode_APF, gbc_txtPostalCode_APF);
 		txtPostalCode_APF.setColumns(10);
-		
-		JLabel lblModifiedDate_APF = new JLabel("Modified Date");
-		GridBagConstraints gbc_lblModifiedDate_APF = new GridBagConstraints();
-		gbc_lblModifiedDate_APF.anchor = GridBagConstraints.EAST;
-		gbc_lblModifiedDate_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_lblModifiedDate_APF.gridx = 3;
-		gbc_lblModifiedDate_APF.gridy = 10;
-		pnlPatientForm_AP.add(lblModifiedDate_APF, gbc_lblModifiedDate_APF);
-		
-		txtModifiedDate_APF = new JTextField();
-		GridBagConstraints gbc_txtModifiedDate_APF = new GridBagConstraints();
-		gbc_txtModifiedDate_APF.insets = new Insets(0, 0, 5, 5);
-		gbc_txtModifiedDate_APF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtModifiedDate_APF.gridx = 4;
-		gbc_txtModifiedDate_APF.gridy = 10;
-		pnlPatientForm_AP.add(txtModifiedDate_APF, gbc_txtModifiedDate_APF);
-		txtModifiedDate_APF.setColumns(10);
 		
 		JButton btnDelete_APF = new JButton("Delete");
 		btnDelete_APF.addMouseListener(new MouseAdapter() {
@@ -816,10 +743,6 @@ public class AdminScreen extends JFrame {
 				patientDetails.setEmailId(txtEmailId_APF.getText());
 				patientDetails.setBloodGroup(cmbBloodGroup_APF.getSelectedItem().toString());
 				patientDetails.setMaritalStatus(cmbMaritalStatus_APF.getSelectedItem().toString());
-				patientDetails.setCreatedBy(txtCreatedBy_APF.getText());
-				patientDetails.setCreatedDate(txtCreatedDate_APF.getText());
-				patientDetails.setModifiedBy(txtModifiedBy_APF.getText());
-				patientDetails.setModifiedDate(txtModifiedDate_APF.getText());
 				patientLogic.savePatientDetails(patientDetails);
 			}
 		});
@@ -845,10 +768,6 @@ public class AdminScreen extends JFrame {
 				txtEmailId_APF.setText(CommonConstants.EMPTY_STRING);
 				cmbBloodGroup_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
 				cmbMaritalStatus_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
-				txtCreatedBy_APF.setText(CommonConstants.EMPTY_STRING);
-				txtCreatedDate_APF.setText(CommonConstants.EMPTY_STRING);
-				txtModifiedBy_APF.setText(CommonConstants.EMPTY_STRING);
-				txtModifiedDate_APF.setText(CommonConstants.EMPTY_STRING);
 			}
 		});
 		GridBagConstraints gbc_btnNew_APF = new GridBagConstraints();
@@ -900,10 +819,6 @@ public class AdminScreen extends JFrame {
 					txtEmailId_APF.setText(modelPatient.getValueAt(selectedRowIndex, 14).toString());
 					cmbBloodGroup_APF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 15).toString());
 					cmbMaritalStatus_APF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 16).toString());
-					txtCreatedBy_APF.setText(modelPatient.getValueAt(selectedRowIndex, 16).toString());
-					txtCreatedDate_APF.setText(modelPatient.getValueAt(selectedRowIndex, 16).toString());
-					txtModifiedBy_APF.setText(modelPatient.getValueAt(selectedRowIndex, 16).toString());
-					txtModifiedDate_APF.setText(modelPatient.getValueAt(selectedRowIndex, 16).toString());
 				}
 			}
 		});

@@ -17,6 +17,26 @@
  */
 package patientCareBusinessLogic;
 
-public class EventLogic {
+import java.util.List;
+import patientCarePOJO.Event;
+import patientCareDAO.EventDAO;
 
+public class EventLogic {
+	EventDAO eventDAO = new EventDAO();
+
+	public List<Event> getAlEventDetails(String firstName) {
+		return eventDAO.getAlEventDetails(firstName);
+	}
+	
+	public boolean saveEventDetails(Event eventDetails) {
+		if(eventDetails.getEventId() < 1) {
+			return eventDAO.insertEventDetails(eventDetails);
+		} else {
+			return eventDAO.updateEventDetails(eventDetails);
+		}
+	}
+	
+	public boolean deleteEventDetails(Event eventDetails) {
+		return eventDAO.deleteEventDetails(eventDetails);
+	}
 }

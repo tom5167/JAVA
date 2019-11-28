@@ -4,7 +4,7 @@
  * Licensed under PatientCare CLIENT LICENSE AGREEMENT (the "License");
  * you may not use this file except in compliance with the License.
  *
- * User acknowledges and agrees that this class constitute and incorporate PatientCare's confidential information. 
+ * User acknowledges and agrees that this class constitute and incorporate EventCare's confidential information. 
  * User shall take all reasonable precautions necessary to safeguard the confidentiality of all confidential information.  
  * 
  * User shall not:
@@ -25,67 +25,72 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import PatientCareUtil.CommonUtil;
 import patientCareLogger.PatientCareLogger;
-import patientCarePOJO.Room;
+import patientCarePOJO.Event;
 
 public class EventDAO {
 	
 	static Logger logger = PatientCareLogger.getLogger();
 	
+	CommonUtil commonUtil = new CommonUtil();
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	
-	public List<Room> getRoomDetails() {
-		logger.info("getRoomDetails() starts");
-		List<Room> roomDetails = new ArrayList<Room>();
+		
+	public boolean insertEventDetails(Event eventDetails) {
+		logger.info("EventDAO.insertEventDetails() starts");
+		boolean flag = true;
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT room_number,total_beds,occupied_beds,room_type,building_number"
-					+ " FROM tblRoom";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			Room roomObj = null;
-			if (rs.next()) {
-				roomObj = new Room();
-				roomObj.setRoomNumber(rs.getInt("room_number"));
-				roomObj.setTotalBeds(rs.getInt("total_beds"));
-				roomObj.setOccupiedBeds(rs.getInt("occupied_beds"));
-				roomObj.setRoomType(rs.getString("room_type"));
-				roomObj.setBuildingNumber(rs.getString("building_number"));
-				roomDetails.add(roomObj);
-			}
+			pstmt = conn.prepareStatement("INSERT INTO tblEvent "
+					+ " (first_name,last_name,sex,dob,"
+					+ "	street_number,address_full,city,country,"
+					+ " postal_code,sin_id,contact_number,alternative_number,"
+					+ " insurance_id,email_id,blood_group,marital_status,"
+					+ " createdBy,createdDate)" 
+					+ " VALUES(?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?)");
+			pstmt.setString(17, commonUtil.getUserId());
+			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
+			flag =  false;
+			return flag;
 		} finally {
 			try {
 				conn.close();
 				pstmt.close();
-				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				flag =  false;
+				return flag;
 			}
 		}
-		logger.info("getRoomDetails() ends");
-		return roomDetails;
+		logger.info("EventDAO.insertEventDetails() ends");
+		return flag;
 	}
 	
-	public boolean insertRoomDetails(List<Room> roomDetails) {
-		logger.info("insertRoomDetails() starts");
+	public boolean updateEventDetails(Event eventDetails) {
+		logger.info("EventDAO.updateEventDetails() starts");
 		boolean flag = true;
 		try {
 			conn = DBConn.jdbcConnection();
-			for (int i = 0; i < roomDetails.size(); i++) {
-				pstmt = conn.prepareStatement("INSERT INTO tblRoom"
-						+ " (room_number,total_beds,occupied_beds,room_type,building_number)" 
-						+ " VALUES(?,?,?,?,?)");
-				pstmt.setInt(1, roomDetails.get(i).getRoomNumber());
-				pstmt.setInt(2, roomDetails.get(i).getTotalBeds());
-				pstmt.setInt(3, roomDetails.get(i).getOccupiedBeds());
-				pstmt.setString(4, roomDetails.get(i).getRoomType());
-				pstmt.setString(5, roomDetails.get(i).getBuildingNumber());
-				pstmt.execute();
-			}
+			pstmt = conn.prepareStatement("UPDATE tblEvent "
+					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
+					+ "	street_number=?,address_full=?,city=?,country=?,"
+					+ " postal_code=?,sin_id=?,contact_number=?,alternative_number=?,"
+					+ " insurance_id=?,email_id=?,blood_group=?,marital_status=?,"
+					+ " modifiedBy=?,modifiedDate=?" 
+					+ " WHERE patient_id = ?");
+			pstmt.setString(17, commonUtil.getUserId());
+			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setInt(19, eventDetails.getEventId());
+			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag =  false;
@@ -101,8 +106,77 @@ public class EventDAO {
 				return flag;
 			}
 		}
-		logger.info("insertRoomDetails() ends");
+		logger.info("EventDAO.updateEventDetails() ends");
 		return flag;
+	}
+	
+	public boolean deleteEventDetails(Event eventDetails) {
+		logger.info("EventDAO.deleteEventDetails() starts");
+		boolean flag = true;
+		try {
+			conn = DBConn.jdbcConnection();
+			pstmt = conn.prepareStatement("DELETE FROM tblEvent"
+					+ " WHERE event_id = ?");
+			pstmt.setInt(1, eventDetails.getEventId());
+			pstmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			flag =  false;
+			return flag;
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				flag =  false;
+				return flag;
+			}
+		}
+		logger.info("EventDAO.deleteEventDetails() ends");
+		return flag;
+	}
+	
+	public List<Event> getAlEventDetails(String firstName) {
+		logger.info("EventDAO.getAlEventDetails() starts");
+		List<Event> eventDetails = new ArrayList<Event>();
+		try {
+			conn = DBConn.jdbcConnection();
+			String sql = "SELECT patient_id,first_name,last_name,sex,dob," 
+					+ " street_number,address_full,city,country,postal_code,sin_id,"
+					+ " contact_number,alternative_number,insurance_id,email_id,"
+					+ " blood_group,marital_status,"
+					+ " createdBy,createdDate,modifiedBy,modifiedDate"
+					+ " FROM tblEvent"
+					+ " WHERE first_name LIKE ?";
+			logger.info("EventDAO.getAlEventDetails() - "+sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + firstName + "%");
+			rs = pstmt.executeQuery();
+			Event eventObj = null;
+			while (rs.next()) {
+				eventObj = new Event();
+				eventObj.setEventId(rs.getInt("event_id"));
+				eventObj.setCreatedBy(rs.getString("createdBy"));
+				eventObj.setCreatedDate(rs.getString("createdDate"));
+				eventObj.setModifiedBy(rs.getString("modifiedBy"));
+				eventObj.setModifiedDate(rs.getString("modifiedDate"));
+				eventDetails.add(eventObj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		logger.info("EventDAO.getAlEventDetails() ends");
+		return eventDetails;
 	}
 
 }

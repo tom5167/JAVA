@@ -17,6 +17,28 @@
  */
 package patientCareBusinessLogic;
 
+import java.util.List;
+
+import patientCareDAO.StaffDAO;
+import patientCarePOJO.Staff;
+
 public class StaffLogic {
+	StaffDAO staffDAO = new StaffDAO();
+
+	public List<Staff> getAlStaffDetails(String firstName) {
+		return staffDAO.getAlStaffDetails(firstName);
+	}
+	
+	public boolean saveStaffDetails(Staff staffDetails) {
+		if(staffDetails.getStaffId() < 1) {
+			return staffDAO.insertStaffDetails(staffDetails);
+		} else {
+			return staffDAO.updateStaffDetails(staffDetails);
+		}
+	}
+	
+	public boolean deleteStaffDetails(Staff staffDetails) {
+		return staffDAO.deleteStaffDetails(staffDetails);
+	}
 
 }

@@ -17,6 +17,28 @@
  */
 package patientCareBusinessLogic;
 
+import java.util.List;
+
+import patientCareDAO.DiagnosisDAO;
+import patientCarePOJO.Diagnosis;
+
 public class DiagnosisLogic {
+	DiagnosisDAO diagnosisDAO = new DiagnosisDAO();
+
+	public List<Diagnosis> getAlDiagnosisDetails(String firstName) {
+		return diagnosisDAO.getAlDiagnosisDetails(firstName);
+	}
+	
+	public boolean saveDiagnosisDetails(Diagnosis diagnosisDetails) {
+		if(diagnosisDetails.getDiagnosisId() < 1) {
+			return diagnosisDAO.insertDiagnosisDetails(diagnosisDetails);
+		} else {
+			return diagnosisDAO.updateDiagnosisDetails(diagnosisDetails);
+		}
+	}
+	
+	public boolean deleteDiagnosisDetails(Diagnosis diagnosisDetails) {
+		return diagnosisDAO.deleteDiagnosisDetails(diagnosisDetails);
+	}
 
 }

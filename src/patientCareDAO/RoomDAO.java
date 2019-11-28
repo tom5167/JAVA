@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import PatientCareUtil.CommonUtil;
 import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.Room;
 
@@ -32,60 +33,64 @@ public class RoomDAO {
 	
 	static Logger logger = PatientCareLogger.getLogger();
 	
+	CommonUtil commonUtil = new CommonUtil();
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	
-	public List<Room> getRoomDetails() {
-		logger.info("getRoomDetails() starts");
-		List<Room> roomDetails = new ArrayList<Room>();
+		
+	public boolean insertRoomDetails(Room roomDetails) {
+		logger.info("RoomDAO.insertRoomDetails() starts");
+		boolean flag = true;
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT room_number,total_beds,occupied_beds,room_type,building_number"
-					+ " FROM tblRoom";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			Room roomObj = null;
-			if (rs.next()) {
-				roomObj = new Room();
-				roomObj.setRoomNumber(rs.getInt("room_number"));
-				roomObj.setTotalBeds(rs.getInt("total_beds"));
-				roomObj.setOccupiedBeds(rs.getInt("occupied_beds"));
-				roomObj.setRoomType(rs.getString("room_type"));
-				roomObj.setBuildingNumber(rs.getString("building_number"));
-				roomDetails.add(roomObj);
-			}
+			pstmt = conn.prepareStatement("INSERT INTO tblRoom "
+					+ " (first_name,last_name,sex,dob,"
+					+ "	street_number,address_full,city,country,"
+					+ " postal_code,sin_id,contact_number,alternative_number,"
+					+ " insurance_id,email_id,blood_group,marital_status,"
+					+ " createdBy,createdDate)" 
+					+ " VALUES(?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?,?,?,"
+					+ " ?,?)");
+			pstmt.setString(17, commonUtil.getUserId());
+			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
+			flag =  false;
+			return flag;
 		} finally {
 			try {
 				conn.close();
 				pstmt.close();
-				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				flag =  false;
+				return flag;
 			}
 		}
-		logger.info("getRoomDetails() ends");
-		return roomDetails;
+		logger.info("RoomDAO.insertRoomDetails() ends");
+		return flag;
 	}
 	
-	public boolean insertRoomDetails(List<Room> roomDetails) {
-		logger.info("insertRoomDetails() starts");
+	public boolean updateRoomDetails(Room roomDetails) {
+		logger.info("RoomDAO.updateRoomDetails() starts");
 		boolean flag = true;
 		try {
 			conn = DBConn.jdbcConnection();
-			for (int i = 0; i < roomDetails.size(); i++) {
-				pstmt = conn.prepareStatement("INSERT INTO tblRoom"
-						+ " (room_number,total_beds,occupied_beds,room_type,building_number)" 
-						+ " VALUES(?,?,?,?,?)");
-				pstmt.setInt(1, roomDetails.get(i).getRoomNumber());
-				pstmt.setInt(2, roomDetails.get(i).getTotalBeds());
-				pstmt.setInt(3, roomDetails.get(i).getOccupiedBeds());
-				pstmt.setString(4, roomDetails.get(i).getRoomType());
-				pstmt.setString(5, roomDetails.get(i).getBuildingNumber());
-				pstmt.execute();
-			}
+			pstmt = conn.prepareStatement("UPDATE tblRoom "
+					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
+					+ "	street_number=?,address_full=?,city=?,country=?,"
+					+ " postal_code=?,sin_id=?,contact_number=?,alternative_number=?,"
+					+ " insurance_id=?,email_id=?,blood_group=?,marital_status=?,"
+					+ " modifiedBy=?,modifiedDate=?" 
+					+ " WHERE patient_id = ?");
+			pstmt.setString(17, commonUtil.getUserId());
+			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setInt(19, roomDetails.getRoomId());
+			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 			flag =  false;
@@ -101,8 +106,77 @@ public class RoomDAO {
 				return flag;
 			}
 		}
-		logger.info("insertRoomDetails() ends");
+		logger.info("RoomDAO.updateRoomDetails() ends");
 		return flag;
+	}
+	
+	public boolean deleteRoomDetails(Room roomDetails) {
+		logger.info("RoomDAO.deleteRoomDetails() starts");
+		boolean flag = true;
+		try {
+			conn = DBConn.jdbcConnection();
+			pstmt = conn.prepareStatement("DELETE FROM tblRoom"
+					+ " WHERE room_id = ?");
+			pstmt.setInt(1, roomDetails.getRoomId());
+			pstmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			flag =  false;
+			return flag;
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				flag =  false;
+				return flag;
+			}
+		}
+		logger.info("RoomDAO.deleteRoomDetails() ends");
+		return flag;
+	}
+	
+	public List<Room> getAlRoomDetails(String firstName) {
+		logger.info("RoomDAO.getAlRoomDetails() starts");
+		List<Room> roomDetails = new ArrayList<Room>();
+		try {
+			conn = DBConn.jdbcConnection();
+			String sql = "SELECT patient_id,first_name,last_name,sex,dob," 
+					+ " street_number,address_full,city,country,postal_code,sin_id,"
+					+ " contact_number,alternative_number,insurance_id,email_id,"
+					+ " blood_group,marital_status,"
+					+ " createdBy,createdDate,modifiedBy,modifiedDate"
+					+ " FROM tblRoom"
+					+ " WHERE first_name LIKE ?";
+			logger.info("RoomDAO.getAlRoomDetails() - "+sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + firstName + "%");
+			rs = pstmt.executeQuery();
+			Room roomObj = null;
+			while (rs.next()) {
+				roomObj = new Room();
+				roomObj.setRoomId(rs.getInt("room_id"));
+				roomObj.setCreatedBy(rs.getString("createdBy"));
+				roomObj.setCreatedDate(rs.getString("createdDate"));
+				roomObj.setModifiedBy(rs.getString("modifiedBy"));
+				roomObj.setModifiedDate(rs.getString("modifiedDate"));
+				roomDetails.add(roomObj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		logger.info("RoomDAO.getAlRoomDetails() ends");
+		return roomDetails;
 	}
 
 }
