@@ -196,6 +196,7 @@ FROM tblBilling;
 IF OBJECT_ID('tblPatientBilling', 'U') IS NOT NULL
 DROP TABLE tblPatientBilling;
 GO
+
 CREATE TABLE tblPatientBilling
 (
     billing_id INT NOT NULL,
@@ -204,6 +205,9 @@ CREATE TABLE tblPatientBilling
 	createdDate VARCHAR(50) NULL,
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
+	PRIMARY KEY(billing_id,patient_id),
+	FOREIGN KEY(billing_id) REFERENCES tblBilling(billing_id),
+	FOREIGN KEY(patient_id) REFERENCES tblPatient(patient_id)
 );
 
 INSERT INTO tblPatientBilling (billing_id,patient_id)
@@ -272,6 +276,7 @@ CREATE TABLE tblDiagnosis
 IF OBJECT_ID('tblPatientDiagnosis', 'U') IS NOT NULL
 DROP TABLE tblPatientDiagnosis;
 GO
+
 CREATE TABLE tblPatientDiagnosis
 (
     patient_id INT NOT NULL,
@@ -280,11 +285,15 @@ CREATE TABLE tblPatientDiagnosis
 	createdDate VARCHAR(50) NULL,
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
+	PRIMARY KEY(patient_id,medication_id),
+	FOREIGN KEY(medication_id) REFERENCES tblDiagnosis(medication_id),
+	FOREIGN KEY(patient_id) REFERENCES tblPatient(patient_id)
 );
 
 IF OBJECT_ID('tblEvent', 'U') IS NOT NULL
 DROP TABLE tblEvent;
 GO
+
 CREATE TABLE tblEvent
 (
     event_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -296,4 +305,7 @@ CREATE TABLE tblEvent
 	createdDate VARCHAR(50) NULL,
 	modifiedBy VARCHAR(50) NULL,
 	modifiedDate VARCHAR(50) NULL,
+	FOREIGN KEY(staff_id) REFERENCES tblStaff(staff_id),
+	FOREIGN KEY(patient_id) REFERENCES tblPatient(patient_id)
 );
+
