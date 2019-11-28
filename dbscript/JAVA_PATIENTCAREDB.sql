@@ -175,21 +175,20 @@ CREATE TABLE tblEvent
 
 
 -----------------------INSERT----------------------
-
 INSERT INTO tblStaff(first_name,last_name,staff_type,join_date,available_hours,position,qualification,specialization,createdBy,createdDate,modifiedBy,modifiedDate)
 VALUES('ADMIN','ADMIN','ADMIN',GETDATE(),'20','ADMIN','ADMIN','ADMIN','admin',GETDATE(),'','');
 INSERT INTO tblUser(username,pwd,referId,userType,createdBy,createdDate,modifiedBy,modifiedDate)
 VALUES('admin','admin',1,'ADMIN','admin','10/30/2019','','');
 INSERT INTO tblPatient (first_name,last_name,sex,dob,street_number,address_full,city,country,postal_code,sin_id,contact_number,alternative_number,insurance_id,email_id,blood_group,marital_status)
 VALUES('abc','def','Male','2017-11-13','42','Heatherside Drive','TORONTO','Canada','M1W1T7','345','345','765','567','abc@xyz.com','A+','Single');
-
 ----------------------------------------------------
+SELECT staff_id,first_name,last_name,staff_type,join_date,available_hours,position,qualification,specialization,createdBy,createdDate,modifiedBy,modifiedDate
+FROM tblStaff;
 SELECT userId,username,pwd,referId,userType,createdBy,createdDate,modifiedBy,modifiedDate 
 FROM tblUser;
-
 SELECT patient_id,first_name,last_name,sex,dob,street_number,address_full,city,country,postal_code,sin_id,contact_number,alternative_number,insurance_id,email_id,blood_group,marital_status 
 FROM tblPatient;
-
+-----------------------------------------------------
 INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount)
 VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0);
 INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount)
