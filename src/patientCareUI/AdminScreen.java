@@ -1477,7 +1477,7 @@ public class AdminScreen extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				Event eventDetails = new Event();
-				if(lblPatientId_APF.getText().equalsIgnoreCase("")) {
+				if(lblEventId_AEF.getText().equalsIgnoreCase("")) {
 					eventDetails.setEventId(0);
 				} else {
 					eventDetails.setEventId(Integer.parseInt(lblEventId_AEF.getText()));
