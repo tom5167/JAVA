@@ -46,6 +46,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -53,10 +55,14 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import PatientCareUtil.DateLabelFormatter;
+import patientCareBusinessLogic.EventLogic;
 import patientCareBusinessLogic.PatientLogic;
+import patientCareBusinessLogic.StaffLogic;
 import patientCareBusinessLogic.UserLogic;
 import patientCareConstants.CommonConstants;
+import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
+import patientCarePOJO.Staff;
 import patientCarePOJO.User;
 
 public class AdminScreen extends JFrame {
@@ -67,6 +73,8 @@ public class AdminScreen extends JFrame {
 	private static final long serialVersionUID = 3642295893091456420L;
 	UserLogic userLogic = new UserLogic();
 	PatientLogic patientLogic = new PatientLogic();
+	StaffLogic staffLogic = new StaffLogic();
+	EventLogic eventLogic = new EventLogic();
 	private JPanel contentPane;
 	private JTable tblPatientList_APL;
 	private JTextField txtFirstName_APF;
@@ -1329,6 +1337,14 @@ public class AdminScreen extends JFrame {
 		gbl_pnlEventForm_AE.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlEventForm_AE.setLayout(gbl_pnlEventForm_AE);
 		
+		JLabel lblEventId_AEF = new JLabel("");
+		lblEventId_AEF.setEnabled(false);
+		GridBagConstraints gbc_lblEventId_AEF = new GridBagConstraints();
+		gbc_lblEventId_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEventId_AEF.gridx = 2;
+		gbc_lblEventId_AEF.gridy = 0;
+		pnlEventForm_AE.add(lblEventId_AEF, gbc_lblEventId_AEF);
+		
 		JLabel lblPatientId_AEF = new JLabel("Patient Id");
 		GridBagConstraints gbc_lblPatientId_AEF = new GridBagConstraints();
 		gbc_lblPatientId_AEF.anchor = GridBagConstraints.EAST;
@@ -1412,14 +1428,14 @@ public class AdminScreen extends JFrame {
 		gbc_lblEventTime_AEF.gridy = 5;
 		pnlEventForm_AE.add(lblEventTime_AEF, gbc_lblEventTime_AEF);
 		
-		JComboBox cmbEventHours_AEF = new JComboBox();
-		cmbEventHours_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Early Morning (4-8)", "Morning (8-12)", "Afternoon (12-16)", "Evening (16-20)", "Night (20-24)", "Mid Night (24-4)"}));
-		GridBagConstraints gbc_cmbEventHours_AEF = new GridBagConstraints();
-		gbc_cmbEventHours_AEF.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbEventHours_AEF.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbEventHours_AEF.gridx = 2;
-		gbc_cmbEventHours_AEF.gridy = 5;
-		pnlEventForm_AE.add(cmbEventHours_AEF, gbc_cmbEventHours_AEF);
+		JComboBox cmbEventTime_AEF = new JComboBox();
+		cmbEventTime_AEF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Early Morning (4-8)", "Morning (8-12)", "Afternoon (12-16)", "Evening (16-20)", "Night (20-24)", "Mid Night (24-4)"}));
+		GridBagConstraints gbc_cmbEventTime_AEF = new GridBagConstraints();
+		gbc_cmbEventTime_AEF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbEventTime_AEF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbEventTime_AEF.gridx = 2;
+		gbc_cmbEventTime_AEF.gridy = 5;
+		pnlEventForm_AE.add(cmbEventTime_AEF, gbc_cmbEventTime_AEF);
 		
 		JButton btnNew_AEF = new JButton("New");
 		GridBagConstraints gbc_btnNew_AEF = new GridBagConstraints();
@@ -1430,6 +1446,25 @@ public class AdminScreen extends JFrame {
 		pnlEventForm_AE.add(btnNew_AEF, gbc_btnNew_AEF);
 		
 		JButton btnSave_AEF = new JButton("Save");
+		btnSave_AEF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Event eventDetails = new Event();
+				if(lblEventId_AEF.getText().equalsIgnoreCase("")) {
+					eventDetails.setEventId(0);
+				} else {
+					eventDetails.setEventId(Integer.parseInt(lblUserId_AUF.getText()));
+				}
+				String patientObj = cmbPatientId_AEF.getSelectedItem().toString();
+				eventDetails.setPatientId(Integer.parseInt(patientObj.split("_")[0]));
+				String doctorObj = cmbDoctorId_AEF.getSelectedItem().toString();
+				eventDetails.setDoctorId(Integer.parseInt(doctorObj.split("_")[0]));
+				eventDetails.setEventType(cmbEventType_AEF.getSelectedItem().toString());
+				eventDetails.setEventDate(datePicker_AEF.getJFormattedTextField().getText());
+				eventDetails.setEventTime(cmbEventTime_AEF.getSelectedItem().toString());
+				eventLogic.saveEventDetails(eventDetails);
+			}
+		});
 		GridBagConstraints gbc_btnSave_AEF = new GridBagConstraints();
 		gbc_btnSave_AEF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_AEF.insets = new Insets(0, 0, 5, 5);
@@ -1502,6 +1537,42 @@ public class AdminScreen extends JFrame {
 		cmbEventType_AEL.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation"}));
 		cmbEventType_AEL.setBounds(75, 23, 111, 20);
 		pnlEventList_AE.add(cmbEventType_AEL);
+		
+		//Tab Change Listener
+		pnlMainTabbed_A.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	            if(pnlMainTabbed_A.getSelectedIndex() == 4) {
+	            	List<Patient> patientDetails = new ArrayList<Patient>();
+					patientDetails = patientLogic.getAlPatientDetails("");
+					if(patientDetails.size() == 0) {
+						cmbPatientId_AEF.removeAllItems();
+					} else {
+						cmbPatientId_AEF.removeAllItems();
+						cmbPatientId_AEF.addItem(CommonConstants.PLEASE_SELECT);
+						for(int i=0;i<patientDetails.size();i++) {
+							cmbPatientId_AEF.addItem(patientDetails.get(i).getPatientId()
+									+ "_" + patientDetails.get(i).getFirstName()
+									+ "_" + patientDetails.get(i).getLastName());
+						}
+					}
+	            	List<Staff> staffDetails = new ArrayList<Staff>();
+	            	staffDetails = staffLogic.getAlStaffDetails("");
+					if(staffDetails.size() == 0) {
+						cmbDoctorId_AEF.removeAllItems();
+					} else {
+						cmbDoctorId_AEF.removeAllItems();
+						cmbDoctorId_AEF.addItem(CommonConstants.PLEASE_SELECT);
+						for(int i=0;i<staffDetails.size();i++) {
+							if(staffDetails.get(i).getStaffType().equalsIgnoreCase(CommonConstants.DOCTOR)){
+								cmbDoctorId_AEF.addItem(staffDetails.get(i).getStaffId()
+										+ "_" + staffDetails.get(i).getFirstName()
+										+ "_" + staffDetails.get(i).getLastName());
+							}
+						}
+					}
+	            }
+	        }
+	    });
 		
 		JPanel pnlBottom_A = new JPanel();
 		pnlBottom_A.setLayout(null);

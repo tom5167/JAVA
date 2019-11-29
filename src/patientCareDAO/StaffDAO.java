@@ -143,10 +143,8 @@ public class StaffDAO {
 		List<Staff> staffDetails = new ArrayList<Staff>();
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT patient_id,first_name,last_name,sex,dob," 
-					+ " street_number,address_full,city,country,postal_code,sin_id,"
-					+ " contact_number,alternative_number,insurance_id,email_id,"
-					+ " blood_group,marital_status,"
+			String sql = "SELECT staff_id,first_name,last_name,staff_type,"
+					+ " join_date,available_hours,position,qualification,specialization,"
 					+ " createdBy,createdDate,modifiedBy,modifiedDate"
 					+ " FROM tblStaff"
 					+ " WHERE first_name LIKE ?";
@@ -158,6 +156,14 @@ public class StaffDAO {
 			while (rs.next()) {
 				staffObj = new Staff();
 				staffObj.setStaffId(rs.getInt("staff_id"));
+				staffObj.setFirstName(rs.getString("first_name"));
+				staffObj.setLastName(rs.getString("last_name"));
+				staffObj.setStaffType(rs.getString("staff_type"));
+				staffObj.setJoinDate(rs.getString("join_date"));
+				staffObj.setAvailableHours(rs.getString("available_hours"));
+				staffObj.setPosition(rs.getString("position"));
+				staffObj.setHighestQualification(rs.getString("qualification"));
+				staffObj.setSpecialization(rs.getString("specialization"));
 				staffObj.setCreatedBy(rs.getString("createdBy"));
 				staffObj.setCreatedDate(rs.getString("createdDate"));
 				staffObj.setModifiedBy(rs.getString("modifiedBy"));
