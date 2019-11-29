@@ -1473,6 +1473,18 @@ public class AdminScreen extends JFrame {
 		pnlEventForm_AE.add(btnSave_AEF, gbc_btnSave_AEF);
 		
 		JButton btnDelete__AEF = new JButton("Delete");
+		btnDelete__AEF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Event eventDetails = new Event();
+				if(lblPatientId_APF.getText().equalsIgnoreCase("")) {
+					eventDetails.setEventId(0);
+				} else {
+					eventDetails.setEventId(Integer.parseInt(lblEventId_AEF.getText()));
+				}
+				eventLogic.deleteEventDetails(eventDetails);
+			}
+		});
 		GridBagConstraints gbc_btnDelete__AEF = new GridBagConstraints();
 		gbc_btnDelete__AEF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete__AEF.insets = new Insets(0, 0, 5, 5);
