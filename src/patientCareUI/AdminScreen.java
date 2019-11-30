@@ -290,6 +290,11 @@ public class AdminScreen extends JFrame {
 		btnNew_AUF.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				lblUserId_AUF.setText(CommonConstants.EMPTY_STRING);
+				txtUserName_AUF.setText(CommonConstants.EMPTY_STRING);
+				txtPassword_AUF.setText(CommonConstants.EMPTY_STRING);
+				cmbUserType_AUF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbFirstName_AUF.setSelectedItem(CommonConstants.PLEASE_SELECT);
 			}
 		});
 		GridBagConstraints gbc_btnNew_AUF = new GridBagConstraints();
@@ -1438,6 +1443,17 @@ public class AdminScreen extends JFrame {
 		pnlEventForm_AE.add(cmbEventTime_AEF, gbc_cmbEventTime_AEF);
 		
 		JButton btnNew_AEF = new JButton("New");
+		btnNew_AEF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				lblUserId_AUF.setText(CommonConstants.EMPTY_STRING);
+				cmbPatientId_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbDoctorId_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbEventType_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				datePicker_AEF.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+				cmbEventTime_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+			}
+		});
 		GridBagConstraints gbc_btnNew_AEF = new GridBagConstraints();
 		gbc_btnNew_AEF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_AEF.insets = new Insets(0, 0, 5, 5);

@@ -94,7 +94,9 @@ public class PatientCareMainUI {
 		
 		JLabel lblWelcomelabel = new JLabel("");
 		lblWelcomelabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblWelcomelabel.setIcon(new ImageIcon(System.getProperty("user.dir")+"\\image\\hospitalWelcome.png"));
+		String imagePath = System.getProperty("user.dir")+"\\image\\hospitalWelcome.png";
+		logger.info("PatientCareMainUI.main() - imagePath - "+imagePath);
+		lblWelcomelabel.setIcon(new ImageIcon(imagePath));
 		welcomePanel.add(lblWelcomelabel, BorderLayout.CENTER);
 		
 		JMenuBar menuBar = new JMenuBar();
