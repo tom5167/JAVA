@@ -50,6 +50,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -60,12 +61,15 @@ import patientCareBusinessLogic.PatientLogic;
 import patientCareBusinessLogic.StaffLogic;
 import patientCareBusinessLogic.UserLogic;
 import patientCareConstants.CommonConstants;
+import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
 import patientCarePOJO.Staff;
 import patientCarePOJO.User;
 
 public class AdminScreen extends JFrame {
+	
+	static Logger logger = PatientCareLogger.getLogger();
 
 	/**
 	 * 
@@ -920,7 +924,7 @@ public class AdminScreen extends JFrame {
 		
 		JPanel pnlRoomDetails_A = new JPanel();
 		pnlRoomDetails_A.setLayout(null);
-		pnlMainTabbed_A.addTab("Room Details", null, pnlRoomDetails_A, null);
+		//pnlMainTabbed_A.addTab("Room Details", null, pnlRoomDetails_A, null);
 		
 		JPanel pnlRoomForm_AR = new JPanel();
 		pnlRoomForm_AR.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Room Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -1569,7 +1573,8 @@ public class AdminScreen extends JFrame {
 		//Tab Change Listener
 		pnlMainTabbed_A.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {
-	            if(pnlMainTabbed_A.getSelectedIndex() == 4) {
+	        	logger.info("pnlMainTabbed_A Number "+pnlMainTabbed_A.getSelectedIndex());
+	        	if(pnlMainTabbed_A.getSelectedIndex() == 3) {
 	            	List<Patient> patientDetails = new ArrayList<Patient>();
 					patientDetails = patientLogic.getAlPatientDetails("");
 					if(patientDetails.size() == 0) {
