@@ -44,18 +44,16 @@ public class EventDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblEvent "
-					+ " (first_name,last_name,sex,dob,"
-					+ "	street_number,address_full,city,country,"
-					+ " postal_code,sin_id,contact_number,alternative_number,"
-					+ " insurance_id,email_id,blood_group,marital_status,"
-					+ " createdBy,createdDate)" 
+					+ " (patient_id,staff_id,event_type,event_date,"
+					+ "	createdBy,createdDate)" 
 					+ " VALUES(?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
 					+ " ?,?)");
-			pstmt.setString(17, commonUtil.getUserId());
-			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setInt(1, eventDetails.getPatientId());
+			pstmt.setInt(2, eventDetails.getDoctorId());
+			pstmt.setString(3, eventDetails.getEventType());
+			pstmt.setString(4, eventDetails.getEventDate());
+			pstmt.setString(5, commonUtil.getUserId());
+			pstmt.setString(6, commonUtil.getCurrentDateTime());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

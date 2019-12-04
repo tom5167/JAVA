@@ -29,17 +29,17 @@ public class DBConn {
     Connection conn = null;
     
     public static Connection jdbcConnection(){
-    	String serverName = "DESKTOP-R652O6A\\SQLEXPRESS";
-    	//String portNo = "1433";
-    	String portNo = "65377";
+    	String serverName = "patientcare.database.windows.net";
+    	String portNo = "1433";
+    	//String portNo = "65377";
     	String databaseName = "PatientCareDB";
-    	String userName = "sa";
-    	String password = "admin";
+    	String userName = "admina@patientcare";
+    	String password = "VonDob@sudo890";
     	String connectionUrl ="jdbc:sqlserver://"+serverName+":"+portNo+";"
                         + "database="+databaseName+";"
                         + "user="+userName+";"
-                        + "password="+password+";"
-                        //+ "integratedSecurity=true"
+                        + "password="+password+";"+
+                        "encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
                         ;
     	//System.out.println("connectionUrl -> "+connectionUrl);
         try{

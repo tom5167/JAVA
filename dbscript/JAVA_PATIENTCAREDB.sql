@@ -189,12 +189,12 @@ FROM tblUser;
 SELECT patient_id,first_name,last_name,sex,dob,street_number,address_full,city,country,postal_code,sin_id,contact_number,alternative_number,insurance_id,email_id,blood_group,marital_status 
 FROM tblPatient;
 -----------------------------------------------------
-INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount)
-VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0);
-INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount)
-VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0);
-INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount)
-VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0);
+INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount,paymentstatus)
+VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0,'Paid');
+INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount,paymentstatus)
+VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0,'Paid');
+INSERT INTO tblBilling (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name,bill_amount,paymentstatus)
+VALUES('cash',GETDATE(),GETDATE(),567,'ghi',10.0,'Paid');
 
 SELECT billing_id,mode_of_payment,payment_due_date,billing_timestamp,insurance_number,payer_name 
 FROM tblBilling;
@@ -209,12 +209,12 @@ VALUES(1,2);
 SELECT billing_id,patient_id 
 FROM tblPatientBilling;
 
-INSERT INTO tblRoom (total_beds,occupied_beds,room_type,building_number)
-VALUES(1,0,'operation room','A101');
-INSERT INTO tblRoom (total_beds,occupied_beds,room_type,building_number)
-VALUES(1,0,'operation room','A101');
-INSERT INTO tblRoom (total_beds,occupied_beds,room_type,building_number)
-VALUES(1,0,'operation room','A101');
+INSERT INTO tblRoom (room_number,total_beds,occupied_beds,room_type,building_number)
+VALUES(11,1,0,'operation room','A101');
+INSERT INTO tblRoom (room_number,total_beds,occupied_beds,room_type,building_number)
+VALUES(12,1,0,'operation room','A101');
+INSERT INTO tblRoom (room_number,total_beds,occupied_beds,room_type,building_number)
+VALUES(13,1,0,'operation room','A101');
 
 SELECT room_number,total_beds,occupied_beds,room_type,building_number 
 FROM tblRoom;
@@ -241,12 +241,12 @@ VALUES ('azithromizine','tablet','fever','3','ADMIN',GETDATE(),'','');
 SELECT medication_id,medication_name,medication_type,illness,dosage,createdBy,createdDate,modifiedBy,modifiedDate
 FROM tblDiagnosis;
 
-INSERT INTO tblPatientDiagnosis (medication_id,createdBy,createdDate,modifiedBy,modifiedDate) 
-VALUES (1,'ADMIN',GETDATE(),'','');
-INSERT INTO tblPatientDiagnosis (medication_id,createdBy,createdDate,modifiedBy,modifiedDate) 
-VALUES (2,'ADMIN',GETDATE(),'','');
-INSERT INTO tblPatientDiagnosis (medication_id,createdBy,createdDate,modifiedBy,modifiedDate) 
-VALUES (3,'ADMIN',GETDATE(),'','');
+INSERT INTO tblPatientDiagnosis (patient_id,medication_id,createdBy,createdDate,modifiedBy,modifiedDate) 
+VALUES (1,1,'ADMIN',GETDATE(),'','');
+INSERT INTO tblPatientDiagnosis (patient_id,medication_id,createdBy,createdDate,modifiedBy,modifiedDate) 
+VALUES (1,2,'ADMIN',GETDATE(),'','');
+INSERT INTO tblPatientDiagnosis (patient_id,medication_id,createdBy,createdDate,modifiedBy,modifiedDate) 
+VALUES (1,3,'ADMIN',GETDATE(),'','');
 
 SELECT medication_id,createdBy,createdDate,modifiedBy,modifiedDate
 FROM tblPatientDiagnosis;

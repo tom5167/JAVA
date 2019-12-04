@@ -1554,6 +1554,9 @@ public class AdminScreen extends JFrame {
 		pnlEventList_AE.add(datePicker_AEL);
 		
 		JButton btnSearch_AEL = new JButton("Search");
+		btnSearch_AEL.addMouseListener(new MouseAdapter() {
+			
+		});
 		btnSearch_AEL.setBounds(376, 22, 89, 23);
 		pnlEventList_AE.add(btnSearch_AEL);
 		

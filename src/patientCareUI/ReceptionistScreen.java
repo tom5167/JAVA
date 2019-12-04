@@ -24,13 +24,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import PatientCareUtil.DateLabelFormatter;
+import patientCareBusinessLogic.PatientLogic;
+import patientCareConstants.CommonConstants;
+import patientCarePOJO.Patient;
+
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -40,6 +53,9 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Properties;
+
 import javax.swing.JComboBox;
 
 public class ReceptionistScreen extends JFrame {
@@ -48,14 +64,27 @@ public class ReceptionistScreen extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 400619205466386651L;
+	PatientLogic patientLogic = new PatientLogic();
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_7;
+	private JTextField txtFirstName_APF;
+	private JTextField txtLastName_APF;
+	private JTextField txtStreetNumber_APF;
+	private JTextField txtAddress_APF;
+	private JTextField txtCity_APF;
+	private JTextField txtCountry_APF;
+	private JTextField txtPostalCode_APF;
+	private JTextField txtSinId_APF;
+	private JTextField txtContactNumber_APF;
+	private JTextField txtAlternativeNumber_APF;
+	private JTextField txtInsuranceId_APF;
+	private JTextField txtEmailId_APF;
+	private JTable tblPatientList_APL;
+	private JTextField txtFirstName_APL;
 
 	/**
 	 * Create the frame.
@@ -95,7 +124,7 @@ public class ReceptionistScreen extends JFrame {
 		button_1.setBounds(853, 6, 100, 19);
 		pnlTop_R.add(button_1);
 		
-		JLabel label = new JLabel("Admin Control");
+		JLabel label = new JLabel("Receptionist Control");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		label.setBounds(10, -2, 131, 31);
 		pnlTop_R.add(label);
@@ -108,84 +137,512 @@ public class ReceptionistScreen extends JFrame {
 		pnlPatientDetails_R.setLayout(null);
 		pnlMainTabbed_R.addTab("Patient Details", null, pnlPatientDetails_R, null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(0, 0, 483, 365);
-		pnlPatientDetails_R.add(panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		JPanel pnlPatientForm_AP = new JPanel();
+		pnlPatientForm_AP.setBounds(0, 0, 493, 365);
+		pnlPatientDetails_R.add(pnlPatientForm_AP);
+		pnlPatientForm_AP.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Patient Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		GridBagLayout gbl_pnlPatientForm_AP = new GridBagLayout();
+		gbl_pnlPatientForm_AP.columnWidths = new int[]{26, 95, 106, 79, 0, 0, 0};
+		gbl_pnlPatientForm_AP.rowHeights = new int[]{20, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_pnlPatientForm_AP.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlPatientForm_AP.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		pnlPatientForm_AP.setLayout(gbl_pnlPatientForm_AP);
 		
-		JLabel label_2 = new JLabel("Username");
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.anchor = GridBagConstraints.EAST;
-		gbc_label_2.insets = new Insets(0, 0, 5, 5);
-		gbc_label_2.gridx = 1;
-		gbc_label_2.gridy = 1;
-		panel_1.add(label_2, gbc_label_2);
+		JLabel lblPatientId_APF = new JLabel("");
+		lblPatientId_APF.setEnabled(false);
+		GridBagConstraints gbc_lblPatientId_APF = new GridBagConstraints();
+		gbc_lblPatientId_APF.fill = GridBagConstraints.VERTICAL;
+		gbc_lblPatientId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPatientId_APF.gridx = 2;
+		gbc_lblPatientId_APF.gridy = 0;
+		pnlPatientForm_AP.add(lblPatientId_APF, gbc_lblPatientId_APF);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		panel_1.add(textField, gbc_textField);
+		JLabel lblFirstName_APF = new JLabel("First Name");
+		GridBagConstraints gbc_lblFirstName_APF = new GridBagConstraints();
+		gbc_lblFirstName_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblFirstName_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFirstName_APF.gridx = 1;
+		gbc_lblFirstName_APF.gridy = 1;
+		pnlPatientForm_AP.add(lblFirstName_APF, gbc_lblFirstName_APF);
 		
-		JButton button_2 = new JButton("New");
-		GridBagConstraints gbc_button_2 = new GridBagConstraints();
-		gbc_button_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_2.insets = new Insets(0, 0, 5, 5);
-		gbc_button_2.gridx = 1;
-		gbc_button_2.gridy = 6;
-		panel_1.add(button_2, gbc_button_2);
+		txtFirstName_APF = new JTextField();
+		GridBagConstraints gbc_txtFirstName_APF = new GridBagConstraints();
+		gbc_txtFirstName_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFirstName_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFirstName_APF.anchor = GridBagConstraints.NORTH;
+		gbc_txtFirstName_APF.gridx = 2;
+		gbc_txtFirstName_APF.gridy = 1;
+		pnlPatientForm_AP.add(txtFirstName_APF, gbc_txtFirstName_APF);
+		txtFirstName_APF.setColumns(10);
 		
-		JButton button_3 = new JButton("Save");
-		GridBagConstraints gbc_button_3 = new GridBagConstraints();
-		gbc_button_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_3.insets = new Insets(0, 0, 5, 5);
-		gbc_button_3.gridx = 2;
-		gbc_button_3.gridy = 6;
-		panel_1.add(button_3, gbc_button_3);
+		JLabel lblBloodGroup_APF = new JLabel("Blood Group");
+		GridBagConstraints gbc_lblBloodGroup_APF = new GridBagConstraints();
+		gbc_lblBloodGroup_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblBloodGroup_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBloodGroup_APF.gridx = 3;
+		gbc_lblBloodGroup_APF.gridy = 1;
+		pnlPatientForm_AP.add(lblBloodGroup_APF, gbc_lblBloodGroup_APF);
 		
-		JButton button_4 = new JButton("Delete");
-		GridBagConstraints gbc_button_4 = new GridBagConstraints();
-		gbc_button_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_4.insets = new Insets(0, 0, 5, 5);
-		gbc_button_4.gridx = 3;
-		gbc_button_4.gridy = 6;
-		panel_1.add(button_4, gbc_button_4);
+		JComboBox cmbBloodGroup_APF = new JComboBox();
+		cmbBloodGroup_APF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "A+", "B+", "B-", "C+", "O+", "AB+"}));
+		GridBagConstraints gbc_cmbBloodGroup_APF = new GridBagConstraints();
+		gbc_cmbBloodGroup_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbBloodGroup_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbBloodGroup_APF.gridx = 4;
+		gbc_cmbBloodGroup_APF.gridy = 1;
+		pnlPatientForm_AP.add(cmbBloodGroup_APF, gbc_cmbBloodGroup_APF);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(483, 0, 475, 365);
-		pnlPatientDetails_R.add(panel_2);
+		JLabel lblLastName_APF = new JLabel("Last Name");
+		GridBagConstraints gbc_lblLastName_APF = new GridBagConstraints();
+		gbc_lblLastName_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblLastName_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLastName_APF.gridx = 1;
+		gbc_lblLastName_APF.gridy = 2;
+		pnlPatientForm_AP.add(lblLastName_APF, gbc_lblLastName_APF);
 		
-		JScrollPane scrollPane = new JScrollPane((Component) null);
-		scrollPane.setBounds(6, 73, 453, 286);
-		panel_2.add(scrollPane);
+		txtLastName_APF = new JTextField();
+		GridBagConstraints gbc_txtLastName_APF = new GridBagConstraints();
+		gbc_txtLastName_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtLastName_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLastName_APF.gridx = 2;
+		gbc_txtLastName_APF.gridy = 2;
+		pnlPatientForm_AP.add(txtLastName_APF, gbc_txtLastName_APF);
+		txtLastName_APF.setColumns(10);
 		
-		JLabel label_3 = new JLabel("First Name");
-		label_3.setBounds(179, 26, 51, 14);
-		panel_2.add(label_3);
+		JLabel lblContactNumber_APF = new JLabel("Contact Number");
+		GridBagConstraints gbc_lblContactNumber_APF = new GridBagConstraints();
+		gbc_lblContactNumber_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblContactNumber_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblContactNumber_APF.gridx = 3;
+		gbc_lblContactNumber_APF.gridy = 2;
+		pnlPatientForm_AP.add(lblContactNumber_APF, gbc_lblContactNumber_APF);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(239, 23, 127, 20);
-		panel_2.add(textField_1);
+		txtContactNumber_APF = new JTextField();
+		GridBagConstraints gbc_txtContactNumber_APF = new GridBagConstraints();
+		gbc_txtContactNumber_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtContactNumber_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtContactNumber_APF.gridx = 4;
+		gbc_txtContactNumber_APF.gridy = 2;
+		pnlPatientForm_AP.add(txtContactNumber_APF, gbc_txtContactNumber_APF);
+		txtContactNumber_APF.setColumns(10);
 		
-		JButton button_5 = new JButton("Search");
-		button_5.setBounds(376, 22, 89, 23);
-		panel_2.add(button_5);
+		JLabel lblSex_APF = new JLabel("Sex");
+		GridBagConstraints gbc_lblSex_APF = new GridBagConstraints();
+		gbc_lblSex_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblSex_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSex_APF.gridx = 1;
+		gbc_lblSex_APF.gridy = 3;
+		pnlPatientForm_AP.add(lblSex_APF, gbc_lblSex_APF);
 		
-		JLabel label_4 = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		label_4.setBounds(6, 49, 445, 14);
-		panel_2.add(label_4);
+		JComboBox cmbSex_APF = new JComboBox();
+		cmbSex_APF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Male", "Female", "Other"}));
+		GridBagConstraints gbc_cmbSex_APF = new GridBagConstraints();
+		gbc_cmbSex_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbSex_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbSex_APF.gridx = 2;
+		gbc_cmbSex_APF.gridy = 3;
+		pnlPatientForm_AP.add(cmbSex_APF, gbc_cmbSex_APF);
+		
+		JLabel lblAlternativeNumber_APF = new JLabel("Alternative Number");
+		GridBagConstraints gbc_lblAlternativeNumber_APF = new GridBagConstraints();
+		gbc_lblAlternativeNumber_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblAlternativeNumber_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAlternativeNumber_APF.gridx = 3;
+		gbc_lblAlternativeNumber_APF.gridy = 3;
+		pnlPatientForm_AP.add(lblAlternativeNumber_APF, gbc_lblAlternativeNumber_APF);
+		
+		txtAlternativeNumber_APF = new JTextField();
+		GridBagConstraints gbc_txtAlternativeNumber_APF = new GridBagConstraints();
+		gbc_txtAlternativeNumber_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAlternativeNumber_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAlternativeNumber_APF.gridx = 4;
+		gbc_txtAlternativeNumber_APF.gridy = 3;
+		pnlPatientForm_AP.add(txtAlternativeNumber_APF, gbc_txtAlternativeNumber_APF);
+		txtAlternativeNumber_APF.setColumns(10);
+		
+		JLabel lblDateOfBirth_APF = new JLabel("Date of Birth");
+		GridBagConstraints gbc_lblDateOfBirth_APF = new GridBagConstraints();
+		gbc_lblDateOfBirth_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblDateOfBirth_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDateOfBirth_APF.gridx = 1;
+		gbc_lblDateOfBirth_APF.gridy = 4;
+		pnlPatientForm_AP.add(lblDateOfBirth_APF, gbc_lblDateOfBirth_APF);
+		
+		UtilDateModel dateModel_APF = new UtilDateModel();
+		Properties prop_APF = new Properties();
+		prop_APF.put("text.today", "Today");
+		prop_APF.put("text.month", "Month");
+		prop_APF.put("text.year", "Year");
+		JDatePanelImpl datePanel_APF = new JDatePanelImpl(dateModel_APF, prop_APF);
+		DateLabelFormatter dateLabelFormatter_APF = new DateLabelFormatter();
+		JDatePickerImpl datePicker_APF = new JDatePickerImpl(datePanel_APF, dateLabelFormatter_APF);
+		
+		GridBagConstraints gbc_datePicker_APF = new GridBagConstraints();
+		gbc_datePicker_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_datePicker_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_datePicker_APF.gridx = 2;
+		gbc_datePicker_APF.gridy = 4;
+		pnlPatientForm_AP.add(datePicker_APF, gbc_datePicker_APF);
+		
+		JLabel lblEmailId_APF = new JLabel("Email Id");
+		GridBagConstraints gbc_lblEmailId_APF = new GridBagConstraints();
+		gbc_lblEmailId_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblEmailId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEmailId_APF.gridx = 3;
+		gbc_lblEmailId_APF.gridy = 4;
+		pnlPatientForm_AP.add(lblEmailId_APF, gbc_lblEmailId_APF);
+		
+		txtEmailId_APF = new JTextField();
+		GridBagConstraints gbc_txtEmailId_APF = new GridBagConstraints();
+		gbc_txtEmailId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtEmailId_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtEmailId_APF.gridx = 4;
+		gbc_txtEmailId_APF.gridy = 4;
+		pnlPatientForm_AP.add(txtEmailId_APF, gbc_txtEmailId_APF);
+		txtEmailId_APF.setColumns(10);
+		
+		JLabel lblMaritalStatus_APF = new JLabel("Marital Status");
+		GridBagConstraints gbc_lblMaritalStatus_APF = new GridBagConstraints();
+		gbc_lblMaritalStatus_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblMaritalStatus_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMaritalStatus_APF.gridx = 1;
+		gbc_lblMaritalStatus_APF.gridy = 5;
+		pnlPatientForm_AP.add(lblMaritalStatus_APF, gbc_lblMaritalStatus_APF);
+		
+		JComboBox cmbMaritalStatus_APF = new JComboBox();
+		cmbMaritalStatus_APF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Single", "Married", "Divorced"}));
+		GridBagConstraints gbc_cmbMaritalStatus_APF = new GridBagConstraints();
+		gbc_cmbMaritalStatus_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbMaritalStatus_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbMaritalStatus_APF.gridx = 2;
+		gbc_cmbMaritalStatus_APF.gridy = 5;
+		pnlPatientForm_AP.add(cmbMaritalStatus_APF, gbc_cmbMaritalStatus_APF);
+		
+		JLabel lblSinId_APF = new JLabel("Sin Id");
+		GridBagConstraints gbc_lblSinId_APF = new GridBagConstraints();
+		gbc_lblSinId_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblSinId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSinId_APF.gridx = 3;
+		gbc_lblSinId_APF.gridy = 5;
+		pnlPatientForm_AP.add(lblSinId_APF, gbc_lblSinId_APF);
+		
+		txtSinId_APF = new JTextField();
+		txtSinId_APF.setColumns(10);
+		GridBagConstraints gbc_txtSinId_APF = new GridBagConstraints();
+		gbc_txtSinId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtSinId_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSinId_APF.gridx = 4;
+		gbc_txtSinId_APF.gridy = 5;
+		pnlPatientForm_AP.add(txtSinId_APF, gbc_txtSinId_APF);
+		
+		JLabel lblStreetNumber_APF = new JLabel("Street Number");
+		GridBagConstraints gbc_lblStreetNumber_APF = new GridBagConstraints();
+		gbc_lblStreetNumber_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblStreetNumber_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStreetNumber_APF.gridx = 1;
+		gbc_lblStreetNumber_APF.gridy = 6;
+		pnlPatientForm_AP.add(lblStreetNumber_APF, gbc_lblStreetNumber_APF);
+		
+		txtStreetNumber_APF = new JTextField();
+		GridBagConstraints gbc_txtStreetNumber_APF = new GridBagConstraints();
+		gbc_txtStreetNumber_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtStreetNumber_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtStreetNumber_APF.gridx = 2;
+		gbc_txtStreetNumber_APF.gridy = 6;
+		pnlPatientForm_AP.add(txtStreetNumber_APF, gbc_txtStreetNumber_APF);
+		txtStreetNumber_APF.setColumns(10);
+		
+		JLabel lblInsuranceId_APF = new JLabel("Insurance Id");
+		GridBagConstraints gbc_lblInsuranceId_APF = new GridBagConstraints();
+		gbc_lblInsuranceId_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblInsuranceId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblInsuranceId_APF.gridx = 3;
+		gbc_lblInsuranceId_APF.gridy = 6;
+		pnlPatientForm_AP.add(lblInsuranceId_APF, gbc_lblInsuranceId_APF);
+		
+		txtInsuranceId_APF = new JTextField();
+		GridBagConstraints gbc_txtInsuranceId_APF = new GridBagConstraints();
+		gbc_txtInsuranceId_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtInsuranceId_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtInsuranceId_APF.gridx = 4;
+		gbc_txtInsuranceId_APF.gridy = 6;
+		pnlPatientForm_AP.add(txtInsuranceId_APF, gbc_txtInsuranceId_APF);
+		txtInsuranceId_APF.setColumns(10);
+		
+		JLabel lblAddress_APF = new JLabel("Address");
+		GridBagConstraints gbc_lblAddress_APF = new GridBagConstraints();
+		gbc_lblAddress_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblAddress_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAddress_APF.gridx = 1;
+		gbc_lblAddress_APF.gridy = 7;
+		pnlPatientForm_AP.add(lblAddress_APF, gbc_lblAddress_APF);
+		
+		txtAddress_APF = new JTextField();
+		GridBagConstraints gbc_txtAddress_APF = new GridBagConstraints();
+		gbc_txtAddress_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAddress_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAddress_APF.gridx = 2;
+		gbc_txtAddress_APF.gridy = 7;
+		pnlPatientForm_AP.add(txtAddress_APF, gbc_txtAddress_APF);
+		txtAddress_APF.setColumns(10);
+		
+		JLabel lblCity_APF = new JLabel("City");
+		GridBagConstraints gbc_lblCity_APF = new GridBagConstraints();
+		gbc_lblCity_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblCity_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCity_APF.gridx = 1;
+		gbc_lblCity_APF.gridy = 8;
+		pnlPatientForm_AP.add(lblCity_APF, gbc_lblCity_APF);
+		
+		txtCity_APF = new JTextField();
+		GridBagConstraints gbc_txtCity_APF = new GridBagConstraints();
+		gbc_txtCity_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCity_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCity_APF.gridx = 2;
+		gbc_txtCity_APF.gridy = 8;
+		pnlPatientForm_AP.add(txtCity_APF, gbc_txtCity_APF);
+		txtCity_APF.setColumns(10);
+		
+		JLabel lblCountry_APF = new JLabel("Country");
+		GridBagConstraints gbc_lblCountry_APF = new GridBagConstraints();
+		gbc_lblCountry_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblCountry_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCountry_APF.gridx = 1;
+		gbc_lblCountry_APF.gridy = 9;
+		pnlPatientForm_AP.add(lblCountry_APF, gbc_lblCountry_APF);
+		
+		txtCountry_APF = new JTextField();
+		GridBagConstraints gbc_txtCountry_APF = new GridBagConstraints();
+		gbc_txtCountry_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtCountry_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCountry_APF.gridx = 2;
+		gbc_txtCountry_APF.gridy = 9;
+		pnlPatientForm_AP.add(txtCountry_APF, gbc_txtCountry_APF);
+		txtCountry_APF.setColumns(10);
+		
+		JLabel lblPostalCode_APF = new JLabel("Postal Code");
+		GridBagConstraints gbc_lblPostalCode_APF = new GridBagConstraints();
+		gbc_lblPostalCode_APF.anchor = GridBagConstraints.EAST;
+		gbc_lblPostalCode_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPostalCode_APF.gridx = 1;
+		gbc_lblPostalCode_APF.gridy = 10;
+		pnlPatientForm_AP.add(lblPostalCode_APF, gbc_lblPostalCode_APF);
+		
+		txtPostalCode_APF = new JTextField();
+		GridBagConstraints gbc_txtPostalCode_APF = new GridBagConstraints();
+		gbc_txtPostalCode_APF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPostalCode_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPostalCode_APF.gridx = 2;
+		gbc_txtPostalCode_APF.gridy = 10;
+		pnlPatientForm_AP.add(txtPostalCode_APF, gbc_txtPostalCode_APF);
+		txtPostalCode_APF.setColumns(10);
+		
+		JButton btnDelete_APF = new JButton("Delete");
+		btnDelete_APF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Patient patientDetails = new Patient();
+				if(lblPatientId_APF.getText().equalsIgnoreCase("")) {
+					patientDetails.setPatientId(0);
+				} else {
+					patientDetails.setPatientId(Integer.parseInt(lblPatientId_APF.getText()));
+				}
+				patientLogic.deletePatientDetails(patientDetails);
+			}
+		});
+		
+		JButton btnSave_APF = new JButton("Save");
+		btnSave_APF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Patient patientDetails = new Patient();
+				if(lblPatientId_APF.getText().equalsIgnoreCase("")) {
+					patientDetails.setPatientId(0);
+				} else {
+					patientDetails.setPatientId(Integer.parseInt(lblPatientId_APF.getText()));
+				}
+				patientDetails.setFirstName(txtFirstName_APF.getText());
+				patientDetails.setLastName(txtLastName_APF.getText());
+				patientDetails.setSex(cmbSex_APF.getSelectedItem().toString());
+				patientDetails.setDob(datePicker_APF.getJFormattedTextField().getText());
+				patientDetails.setStreetNumber(txtStreetNumber_APF.getText());
+				patientDetails.setAddressFull(txtAddress_APF.getText());
+				patientDetails.setCity(txtCity_APF.getText());
+				patientDetails.setCountry(txtCountry_APF.getText());
+				patientDetails.setPostalCode(txtPostalCode_APF.getText());
+				patientDetails.setSinId(txtSinId_APF.getText());
+				patientDetails.setContactNumber(txtContactNumber_APF.getText());
+				patientDetails.setAlternativeNumber(txtAlternativeNumber_APF.getText());
+				patientDetails.setInsuranceId(txtInsuranceId_APF.getText());
+				patientDetails.setEmailId(txtEmailId_APF.getText());
+				patientDetails.setBloodGroup(cmbBloodGroup_APF.getSelectedItem().toString());
+				patientDetails.setMaritalStatus(cmbMaritalStatus_APF.getSelectedItem().toString());
+				patientLogic.savePatientDetails(patientDetails);
+			}
+		});
+		
+		JButton btnNew_APF = new JButton("New");
+		btnNew_APF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				lblPatientId_APF.setText(CommonConstants.EMPTY_STRING);
+				txtFirstName_APF.setText(CommonConstants.EMPTY_STRING);
+				txtLastName_APF.setText(CommonConstants.EMPTY_STRING);
+				cmbSex_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				datePicker_APF.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+				txtStreetNumber_APF.setText(CommonConstants.EMPTY_STRING);
+				txtCountry_APF.setText(CommonConstants.EMPTY_STRING);
+				txtAddress_APF.setText(CommonConstants.EMPTY_STRING);
+				txtCity_APF.setText(CommonConstants.EMPTY_STRING);
+				txtPostalCode_APF.setText(CommonConstants.EMPTY_STRING);
+				txtSinId_APF.setText(CommonConstants.EMPTY_STRING);
+				txtContactNumber_APF.setText(CommonConstants.EMPTY_STRING);
+				txtAlternativeNumber_APF.setText(CommonConstants.EMPTY_STRING);
+				txtInsuranceId_APF.setText(CommonConstants.EMPTY_STRING);
+				txtEmailId_APF.setText(CommonConstants.EMPTY_STRING);
+				cmbBloodGroup_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbMaritalStatus_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+			}
+		});
+		GridBagConstraints gbc_btnNew_APF = new GridBagConstraints();
+		gbc_btnNew_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_APF.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNew_APF.gridx = 2;
+		gbc_btnNew_APF.gridy = 12;
+		pnlPatientForm_AP.add(btnNew_APF, gbc_btnNew_APF);
+		GridBagConstraints gbc_btnSave_APF = new GridBagConstraints();
+		gbc_btnSave_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_APF.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSave_APF.gridx = 3;
+		gbc_btnSave_APF.gridy = 12;
+		pnlPatientForm_AP.add(btnSave_APF, gbc_btnSave_APF);
+		GridBagConstraints gbc_btnDelete_APF = new GridBagConstraints();
+		gbc_btnDelete_APF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete_APF.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDelete_APF.gridx = 4;
+		gbc_btnDelete_APF.gridy = 12;
+		pnlPatientForm_AP.add(btnDelete_APF, gbc_btnDelete_APF);
+		
+		JPanel pnlPatientList_AP = new JPanel();
+		pnlPatientList_AP.setBounds(493, 0, 465, 365);
+		pnlPatientDetails_R.add(pnlPatientList_AP);
+		pnlPatientList_AP.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Patient List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlPatientList_AP.setLayout(null);
+		
+		// Patient Details View
+		
+		tblPatientList_APL = new JTable();
+		tblPatientList_APL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				DefaultTableModel modelPatient = (DefaultTableModel) tblPatientList_APL.getModel();
+				int selectedRowIndex = tblPatientList_APL.getSelectedRow();
+				if(selectedRowIndex > -1) {
+					lblPatientId_APF.setText(modelPatient.getValueAt(selectedRowIndex, 0).toString());
+					txtFirstName_APF.setText(modelPatient.getValueAt(selectedRowIndex, 1).toString());
+					txtLastName_APF.setText(modelPatient.getValueAt(selectedRowIndex, 2).toString());
+					cmbSex_APF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 3).toString());
+					datePicker_APF.getJFormattedTextField().setText(modelPatient.getValueAt(selectedRowIndex, 4).toString());
+					txtStreetNumber_APF.setText(modelPatient.getValueAt(selectedRowIndex, 5).toString());
+					txtCountry_APF.setText(modelPatient.getValueAt(selectedRowIndex, 6).toString());
+					txtAddress_APF.setText(modelPatient.getValueAt(selectedRowIndex, 7).toString());
+					txtCity_APF.setText(modelPatient.getValueAt(selectedRowIndex, 8).toString());
+					txtPostalCode_APF.setText(modelPatient.getValueAt(selectedRowIndex, 9).toString());
+					txtSinId_APF.setText(modelPatient.getValueAt(selectedRowIndex, 10).toString());
+					txtContactNumber_APF.setText(modelPatient.getValueAt(selectedRowIndex, 11).toString());
+					txtAlternativeNumber_APF.setText(modelPatient.getValueAt(selectedRowIndex, 12).toString());
+					txtInsuranceId_APF.setText(modelPatient.getValueAt(selectedRowIndex, 13).toString());
+					txtEmailId_APF.setText(modelPatient.getValueAt(selectedRowIndex, 14).toString());
+					cmbBloodGroup_APF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 15).toString());
+					cmbMaritalStatus_APF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 16).toString());
+				}
+			}
+		});
+		tblPatientList_APL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Patient Id", "First Name", "Last Name", "Sex", "Date of Birth", "Street Number", "Address", "City", "Country","Postal Code", "Sin Id", "Contact Number", "Alternative Number", "Insurance Id", "Email Id", "Blood_group", "Marital Status", "Created By", "Created Date", "Modified By", "Modified Date"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				return false;
+			}
+		});
+		
+		tblPatientList_APL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPatientList_APL = new JScrollPane(tblPatientList_APL);
+		scrollPatientList_APL.setBounds(6, 73, 449, 286);
+		pnlPatientList_AP.add(scrollPatientList_APL);
+		
+		JLabel lblFirstName_APL = new JLabel("First Name");
+		lblFirstName_APL.setBounds(10, 23, 51, 14);
+		pnlPatientList_AP.add(lblFirstName_APL);
+		
+		txtFirstName_APL = new JTextField();
+		txtFirstName_APL.setColumns(10);
+		txtFirstName_APL.setBounds(70, 20, 127, 20);
+		pnlPatientList_AP.add(txtFirstName_APL);
+		
+		JButton btnSearch_APL = new JButton("Search");
+		btnSearch_APL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(txtFirstName_APL.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the first name to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelPatient = (DefaultTableModel) tblPatientList_APL.getModel();
+				List<Patient> alPatientDetails = patientLogic.getAlPatientDetails(txtFirstName_APL.getText());
+				modelPatient.setRowCount(0);
+				if(alPatientDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alPatientDetails.size();i++) {
+						Object[] row = new String[21];
+						row[0] = alPatientDetails.get(i).getPatientId()+"";
+						row[1] = alPatientDetails.get(i).getFirstName();
+						row[2] = alPatientDetails.get(i).getLastName();
+						row[3] = alPatientDetails.get(i).getSex();
+						row[4] = alPatientDetails.get(i).getDob();
+						row[5] = alPatientDetails.get(i).getStreetNumber();
+						row[6] = alPatientDetails.get(i).getAddressFull();
+						row[7] = alPatientDetails.get(i).getCity();
+						row[8] = alPatientDetails.get(i).getCountry();
+						row[9] = alPatientDetails.get(i).getPostalCode();
+						row[10] = alPatientDetails.get(i).getSinId();
+						row[11] = alPatientDetails.get(i).getContactNumber();
+						row[12] = alPatientDetails.get(i).getAlternativeNumber();
+						row[13] = alPatientDetails.get(i).getInsuranceId();
+						row[14] = alPatientDetails.get(i).getEmailId();
+						row[15] = alPatientDetails.get(i).getBloodGroup();
+						row[16] = alPatientDetails.get(i).getMaritalStatus();
+						row[17] = alPatientDetails.get(i).getCreatedBy();
+						row[18] = alPatientDetails.get(i).getCreatedDate();
+						row[19] = alPatientDetails.get(i).getModifiedBy();
+						row[20] = alPatientDetails.get(i).getModifiedDate();
+						modelPatient.addRow(row);
+					}
+				}
+			}
+		});
+		btnSearch_APL.setBounds(366, 19, 89, 23);
+		pnlPatientList_AP.add(btnSearch_APL);
+		
+		JLabel lblNote_APL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_APL.setBounds(6, 48, 445, 14);
+		pnlPatientList_AP.add(lblNote_APL);
+		
+		
+		// Patient Details View
 		
 		JPanel pnlBillDetails_R = new JPanel();
 		pnlBillDetails_R.setLayout(null);

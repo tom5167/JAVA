@@ -39,6 +39,7 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import patientCareLogger.PatientCareLogger;
+import javax.swing.JTabbedPane;
 
 public class PatientCareMainUI {
 
