@@ -44,18 +44,17 @@ public class EventDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblEvent "
-					+ " (first_name,last_name,sex,dob,"
-					+ "	street_number,address_full,city,country,"
-					+ " postal_code,sin_id,contact_number,alternative_number,"
-					+ " insurance_id,email_id,blood_group,marital_status,"
+					+ " (patient_id,staff_id,event_type,event_date,event_time,"
 					+ " createdBy,createdDate)" 
-					+ " VALUES(?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
+					+ " VALUES(?,?,?,?,?,"
 					+ " ?,?)");
-			pstmt.setString(17, commonUtil.getUserId());
-			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setInt(1, eventDetails.getPatientId());
+			pstmt.setInt(2, eventDetails.getDoctorId());
+			pstmt.setString(3, eventDetails.getEventType());
+			pstmt.setString(4, eventDetails.getEventDate());
+			pstmt.setString(5, eventDetails.getEventTime());
+			pstmt.setString(6, commonUtil.getUserId());
+			pstmt.setString(7, commonUtil.getCurrentDateTime());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,15 +80,17 @@ public class EventDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblEvent "
-					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
-					+ "	street_number=?,address_full=?,city=?,country=?,"
-					+ " postal_code=?,sin_id=?,contact_number=?,alternative_number=?,"
-					+ " insurance_id=?,email_id=?,blood_group=?,marital_status=?,"
+					+ " SET patient_id=?,staff_id=?,event_type=?,event_date=?,event_time=?,"
 					+ " modifiedBy=?,modifiedDate=?" 
-					+ " WHERE patient_id = ?");
-			pstmt.setString(17, commonUtil.getUserId());
-			pstmt.setString(18, commonUtil.getCurrentDateTime());
-			pstmt.setInt(19, eventDetails.getEventId());
+					+ " WHERE event_id = ?");
+			pstmt.setInt(1, eventDetails.getPatientId());
+			pstmt.setInt(2, eventDetails.getDoctorId());
+			pstmt.setString(3, eventDetails.getEventType());
+			pstmt.setString(4, eventDetails.getEventDate());
+			pstmt.setString(5, eventDetails.getEventTime());
+			pstmt.setString(6, commonUtil.getUserId());
+			pstmt.setString(7, commonUtil.getCurrentDateTime());
+			pstmt.setInt(8, eventDetails.getEventId());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,10 +144,8 @@ public class EventDAO {
 		List<Event> eventDetails = new ArrayList<Event>();
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT patient_id,first_name,last_name,sex,dob," 
-					+ " street_number,address_full,city,country,postal_code,sin_id,"
-					+ " contact_number,alternative_number,insurance_id,email_id,"
-					+ " blood_group,marital_status,"
+			String sql = "SELECT event_id,patient_id,staff_id,event_type,"
+					+ " event_date,event_time,"
 					+ " createdBy,createdDate,modifiedBy,modifiedDate"
 					+ " FROM tblEvent"
 					+ " WHERE first_name LIKE ?";
