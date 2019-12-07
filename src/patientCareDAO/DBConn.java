@@ -17,34 +17,39 @@
  */
 package patientCareDAO;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
 import patientCareLogger.PatientCareLogger;
 
 public class DBConn {
+	
 	static Logger logger = PatientCareLogger.getLogger();
-    Connection conn = null;
-    
-    public static Connection jdbcConnection(){
-    	String serverName = "DESKTOP-R652O6A\\SQLEXPRESS";
-    	//String portNo = "1433";
-    	String portNo = "65377";
-    	String databaseName = "PatientCareDB";
-    	String userName = "sa";
-    	String password = "admin";
-    	String connectionUrl ="jdbc:sqlserver://"+serverName+":"+portNo+";"
-                        + "database="+databaseName+";"
-                        + "user="+userName+";"
-                        + "password="+password+";"
-                        //+ "integratedSecurity=true"
-                        ;
-    	//System.out.println("connectionUrl -> "+connectionUrl);
+        
+	public static Connection jdbcConnection(){
+		Connection conn = null;
         try{
-        	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-            Connection conn = DriverManager.getConnection(connectionUrl);
+        	Properties props = new Properties();
+			FileInputStream in = new FileInputStream(System.getProperty("user.dir")+"\\resources\\database.properties");
+			props.load(in);
+			in.close();
+			String driver = props.getProperty("jdbc.driver");
+			String connUrl = props.getProperty("jdbc.url");
+			String username = props.getProperty("jdbc.username");
+			String password = props.getProperty("jdbc.password");
+			logger.info("connectionUrl -> "+connUrl);
+			logger.info("jdbcDriver -> "+driver);
+        	Class.forName(driver);
+        	if(username != null && !username.isEmpty() 
+        			&& password != null && !password.isEmpty()) {
+        		conn = DriverManager.getConnection(connUrl,username, password);
+        	} else {
+        		conn = DriverManager.getConnection(connUrl);
+        	}
             return conn;
         }catch(Exception e){
         	e.printStackTrace();
