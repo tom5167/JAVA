@@ -1473,7 +1473,7 @@ public class AdminScreen extends JFrame {
 				if(lblEventId_AEF.getText().equalsIgnoreCase("")) {
 					eventDetails.setEventId(0);
 				} else {
-					eventDetails.setEventId(Integer.parseInt(lblUserId_AUF.getText()));
+					eventDetails.setEventId(Integer.parseInt(lblEventId_AEF.getText()));
 				}
 				String patientObj = cmbPatientId_AEF.getSelectedItem().toString();
 				eventDetails.setPatientId(Integer.parseInt(patientObj.split("_")[0]));
@@ -1519,15 +1519,36 @@ public class AdminScreen extends JFrame {
 		pnlEventDetails_A.add(pnlEventList_AE);
 				
 		tblEventList_AEL = new JTable();
+		tblEventList_AEL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				DefaultTableModel modelPatient = (DefaultTableModel) tblEventList_AEL.getModel();
+				int selectedRowIndex = tblEventList_AEL.getSelectedRow();
+				if(selectedRowIndex > -1) {
+					lblEventId_AEF.setText(modelPatient.getValueAt(selectedRowIndex, 0).toString());
+					cmbPatientId_AEF.setSelectedItem(
+							modelPatient.getValueAt(selectedRowIndex, 1).toString()+"_"
+							+modelPatient.getValueAt(selectedRowIndex, 2).toString()+"_"
+							+modelPatient.getValueAt(selectedRowIndex, 3).toString());
+					cmbDoctorId_AEF.setSelectedItem(
+							modelPatient.getValueAt(selectedRowIndex, 4).toString()+"_"
+							+modelPatient.getValueAt(selectedRowIndex, 5).toString()+"_"
+							+modelPatient.getValueAt(selectedRowIndex, 6).toString());
+					cmbEventType_AEF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 7).toString());
+					datePicker_AEF.getJFormattedTextField().setText(modelPatient.getValueAt(selectedRowIndex, 8).toString());
+					cmbEventTime_AEF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 9).toString());
+				}
+			}
+		});
 		tblEventList_AEL.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Event Id", "Patient Id", "Doctor Id", "Event Type", "Event Date", "Event Time"
+				"Event Id", "Patient Id", "Patient First Name", "Patient Last Name", "Doctor Id", "Doctor First Name", "Doctor Last Name", "Event Type", "Event Date", "Event Time", "Created By", "Created Date", "Modified By", "Modified Date" 
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class
+				String.class, String.class,	String.class, String.class,String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -1553,14 +1574,6 @@ public class AdminScreen extends JFrame {
 		datePicker_AEL.setBounds(249, 22, 117, 23);
 		pnlEventList_AE.add(datePicker_AEL);
 		
-		JButton btnSearch_AEL = new JButton("Search");
-		btnSearch_AEL.setBounds(376, 22, 89, 23);
-		pnlEventList_AE.add(btnSearch_AEL);
-		
-		JLabel lblNote_AEL = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		lblNote_AEL.setBounds(6, 49, 445, 14);
-		pnlEventList_AE.add(lblNote_AEL);
-		
 		JLabel lblEventType_AEL = new JLabel("Event Type");
 		lblEventType_AEL.setBounds(10, 26, 55, 14);
 		pnlEventList_AE.add(lblEventType_AEL);
@@ -1570,6 +1583,56 @@ public class AdminScreen extends JFrame {
 		cmbEventType_AEL.setBounds(75, 23, 111, 20);
 		pnlEventList_AE.add(cmbEventType_AEL);
 		
+		JButton btnSearch_AEL = new JButton("Search");
+		btnSearch_AEL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(cmbEventType_AEL.getSelectedItem().toString().equalsIgnoreCase("Please Select")) {
+					JOptionPane.showMessageDialog(null, "Please select the event type to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if(datePicker_AEL.getJFormattedTextField().getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the event date to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelEvent = (DefaultTableModel) tblEventList_AEL.getModel();
+				List<Event> alEventDetails = eventLogic.getAlEventDetails(cmbEventType_AEL.getSelectedItem().toString(),
+						datePicker_AEL.getJFormattedTextField().getText());
+				modelEvent.setRowCount(0);
+				if(alEventDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alEventDetails.size();i++) {
+						Object[] row = new String[14];
+						row[0] = alEventDetails.get(i).getEventId()+"";
+						row[1] = alEventDetails.get(i).getPatientId()+"";
+						row[2] = alEventDetails.get(i).getpFirstName();
+						row[3] = alEventDetails.get(i).getpLastName();
+						row[4] = alEventDetails.get(i).getDoctorId()+"";
+						row[5] = alEventDetails.get(i).getdFirstName();
+						row[6] = alEventDetails.get(i).getdLastName();
+						row[7] = alEventDetails.get(i).getEventType();
+						row[8] = alEventDetails.get(i).getEventDate();
+						row[9] = alEventDetails.get(i).getEventTime();
+						row[10] = alEventDetails.get(i).getCreatedBy();
+						row[11] = alEventDetails.get(i).getCreatedDate();
+						row[12] = alEventDetails.get(i).getModifiedBy();
+						row[13] = alEventDetails.get(i).getModifiedDate();
+						modelEvent.addRow(row);
+					}
+				}
+			}
+		});
+		btnSearch_AEL.setBounds(376, 22, 89, 23);
+		pnlEventList_AE.add(btnSearch_AEL);
+		
+		JLabel lblNote_AEL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_AEL.setBounds(6, 49, 445, 14);
+		pnlEventList_AE.add(lblNote_AEL);
+				
 		//Tab Change Listener
 		pnlMainTabbed_A.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {

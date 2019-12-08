@@ -24,8 +24,8 @@ import patientCareDAO.EventDAO;
 public class EventLogic {
 	EventDAO eventDAO = new EventDAO();
 
-	public List<Event> getAlEventDetails(String firstName) {
-		return eventDAO.getAlEventDetails(firstName);
+	public List<Event> getAlEventDetails(String eventType,String eventDate) {
+		return eventDAO.getAlEventDetails(eventType,eventDate);
 	}
 	
 	public boolean saveEventDetails(Event eventDetails) {

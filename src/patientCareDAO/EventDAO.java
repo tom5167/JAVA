@@ -139,24 +139,45 @@ public class EventDAO {
 		return flag;
 	}
 	
-	public List<Event> getAlEventDetails(String firstName) {
+	public List<Event> getAlEventDetails(String eventType,String eventDate) {
 		logger.info("EventDAO.getAlEventDetails() starts");
 		List<Event> eventDetails = new ArrayList<Event>();
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT event_id,patient_id,staff_id,event_type,"
-					+ " event_date,event_time,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate"
-					+ " FROM tblEvent"
-					+ " WHERE first_name LIKE ?";
-			logger.info("EventDAO.getAlEventDetails() - "+sql);
+			String sql = "SELECT event_id,patient_id,pfirst_name,plast_name,"
+					+ " staff_id,sfirst_name,slast_name,"
+					+ " event_type,event_date,event_time,"
+					+ " createdBy,createdDate,modifiedBy,modifiedDate" 
+					+ " FROM (" 
+					+ " SELECT A.event_id,A.patient_id,C.first_name AS pfirst_name,C.last_name AS plast_name,"
+					+ " A.staff_id,B.first_name AS sfirst_name,B.last_name AS slast_name,"
+					+ " A.event_type,A.event_date,A.event_time,"
+					+ " A.createdBy,A.createdDate,A.modifiedBy,A.modifiedDate"
+					+ " FROM tblEvent AS A " 
+					+ " INNER JOIN tblStaff AS B" 
+					+ " ON A.staff_id = B.staff_id" 
+					+ " INNER JOIN tblPatient AS C" 
+					+ " ON C.patient_id = C.patient_id" 
+					+ ") AS tbl"
+					+ " WHERE event_type=? AND event_date=?";
+			logger.info("EventDAO.getAlEventDetails() - "+sql +"-"+eventType +"-"+eventDate);
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + firstName + "%");
+			pstmt.setString(1, eventType);
+			pstmt.setString(2, eventDate);
 			rs = pstmt.executeQuery();
 			Event eventObj = null;
 			while (rs.next()) {
 				eventObj = new Event();
 				eventObj.setEventId(rs.getInt("event_id"));
+				eventObj.setPatientId(rs.getInt("patient_id"));
+				eventObj.setpFirstName(rs.getString("pfirst_name"));
+				eventObj.setpLastName(rs.getString("plast_name"));
+				eventObj.setDoctorId(rs.getInt("staff_id"));
+				eventObj.setdFirstName(rs.getString("sfirst_name"));
+				eventObj.setdLastName(rs.getString("slast_name"));
+				eventObj.setEventType(rs.getString("event_type"));
+				eventObj.setEventDate(rs.getString("event_date"));
+				eventObj.setEventTime(rs.getString("event_time"));
 				eventObj.setCreatedBy(rs.getString("createdBy"));
 				eventObj.setCreatedDate(rs.getString("createdDate"));
 				eventObj.setModifiedBy(rs.getString("modifiedBy"));
