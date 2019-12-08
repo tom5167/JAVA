@@ -44,18 +44,22 @@ public class StaffDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblStaff "
-					+ " (first_name,last_name,sex,dob,"
-					+ "	street_number,address_full,city,country,"
-					+ " postal_code,sin_id,contact_number,alternative_number,"
-					+ " insurance_id,email_id,blood_group,marital_status,"
+					+ " (first_name,last_name,staff_type,join_date,"
+					+ " available_hours,position,qualification,specialization,"
 					+ " createdBy,createdDate)" 
 					+ " VALUES(?,?,?,?,"
 					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
 					+ " ?,?)");
-			pstmt.setString(17, commonUtil.getUserId());
-			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setString(1, staffDetails.getFirstName());
+			pstmt.setString(2, staffDetails.getLastName());
+			pstmt.setString(3, staffDetails.getStaffType());
+			pstmt.setString(4, staffDetails.getJoinDate());
+			pstmt.setString(5, staffDetails.getAvailableHours());
+			pstmt.setString(6, staffDetails.getPosition());
+			pstmt.setString(7, staffDetails.getHighestQualification());
+			pstmt.setString(8, staffDetails.getSpecialization());
+			pstmt.setString(9, commonUtil.getUserId());
+			pstmt.setString(10, commonUtil.getCurrentDateTime());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,12 +85,18 @@ public class StaffDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblStaff "
-					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
-					+ "	street_number=?,address_full=?,city=?,country=?,"
-					+ " postal_code=?,sin_id=?,contact_number=?,alternative_number=?,"
-					+ " insurance_id=?,email_id=?,blood_group=?,marital_status=?,"
+					+ " SET first_name=?,last_name=?,staff_type=?,join_date=?," 
+					+ " available_hours=?,position=?,qualification=?,specialization=?,"
 					+ " modifiedBy=?,modifiedDate=?" 
-					+ " WHERE patient_id = ?");
+					+ " WHERE staff_id = ?");
+			pstmt.setString(1, staffDetails.getFirstName());
+			pstmt.setString(2, staffDetails.getLastName());
+			pstmt.setString(3, staffDetails.getStaffType());
+			pstmt.setString(4, staffDetails.getJoinDate());
+			pstmt.setString(5, staffDetails.getAvailableHours());
+			pstmt.setString(6, staffDetails.getPosition());
+			pstmt.setString(7, staffDetails.getHighestQualification());
+			pstmt.setString(8, staffDetails.getSpecialization());
 			pstmt.setString(17, commonUtil.getUserId());
 			pstmt.setString(18, commonUtil.getCurrentDateTime());
 			pstmt.setInt(19, staffDetails.getStaffId());
