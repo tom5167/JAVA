@@ -142,6 +142,7 @@ public class LoginScreen extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				String username = txtUsername.getText();
 				String password = pwdPassword.getText();
+				String userType = cmbUserType.getSelectedItem().toString();
 				LoginLogic loginObj = new LoginLogic();
 				if (username.isEmpty() ) {
 					JOptionPane.showMessageDialog(null, "Please enter the username", "Error",
@@ -149,11 +150,14 @@ public class LoginScreen extends JFrame {
 				} else if (password.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please enter the password", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				} else if (loginObj.checkUser(username, password)) {
+				} else if (userType.equalsIgnoreCase(CommonConstants.PLEASE_SELECT)) {
+					JOptionPane.showMessageDialog(null, "Please select the user type", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (loginObj.checkUser(username, password, userType)) {
 					JOptionPane.showMessageDialog(null, "Welcome - "+username, "Success",
 							JOptionPane.INFORMATION_MESSAGE);
 					User userObj = new User();
-					userObj = loginObj.getUserDetails(username, password);
+					userObj = loginObj.getUserDetails(username, password, userType);
 					commonUtil.setUserId(userObj.getUserId());
 					if(userObj.getUserType().equalsIgnoreCase(CommonConstants.ADMIN)) {
 						AdminScreen adminScreen = new AdminScreen();

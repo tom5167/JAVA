@@ -28,10 +28,10 @@ public class LoginLogic {
 	
 	UserDAO userDAO =  new UserDAO();
 	
-	public boolean checkUser(String username,String password) {
+	public boolean checkUser(String username,String password, String userType) {
 		logger.info("LoginLogic.checkUser() starts"); 
 		boolean flag = false;
-		User userObj = userDAO.getUserDetails(username,password);
+		User userObj = userDAO.getUserDetails(username,password,userType);
 		if(userObj == null) {
 			flag = false;
 		} else {
@@ -41,9 +41,9 @@ public class LoginLogic {
 		return flag;
 	}
 	
-	public User getUserDetails(String username,String password) {
+	public User getUserDetails(String username,String password,String userType) {
 		logger.info("LoginLogic.getUserDetails() starts"); 
-		User userObj = userDAO.getUserDetails(username,password);
+		User userObj = userDAO.getUserDetails(username,password,userType);
 		logger.info("LoginLogic.getUserDetails() ends"); 
 		return userObj;
 	}

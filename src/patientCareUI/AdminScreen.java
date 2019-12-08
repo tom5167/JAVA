@@ -349,7 +349,7 @@ public class AdminScreen extends JFrame {
 		
 		tblUserList_AUL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scrollUserList_AUL = new JScrollPane(tblUserList_AUL);
-		scrollUserList_AUL.setBounds(6, 73, 453, 286);
+		scrollUserList_AUL.setBounds(6, 73, 459, 286);
 		pnlUserList_AU.add(scrollUserList_AUL);
 		
 		JLabel lblUserType_AUL = new JLabel("User Type");
@@ -1264,6 +1264,20 @@ public class AdminScreen extends JFrame {
 		pnlStaffForm_AS.add(cmbSpecialization_ASF, gbc_cmbSpecialization_ASF);
 		
 		JButton btnNew_ASF = new JButton("New");
+		btnNew_ASF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				lblStaffId_ASF.setText("");
+				txtFirstName_ASF.setText("");
+				txtLastName_ASF.setText("");
+				cmbStaffType_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
+				datePicker_ASF.getJFormattedTextField().setText("");
+				cmbAvailableHours_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
+				cmbPosition_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
+				cmbQualification_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
+				cmbSpecialization_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
+			}
+		});
 		GridBagConstraints gbc_btnNew_ASF = new GridBagConstraints();
 		gbc_btnNew_ASF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_ASF.insets = new Insets(0, 0, 5, 5);
@@ -1272,6 +1286,26 @@ public class AdminScreen extends JFrame {
 		pnlStaffForm_AS.add(btnNew_ASF, gbc_btnNew_ASF);
 		
 		JButton btnSave_ASF = new JButton("Save");
+		btnSave_ASF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Staff staffDetails = new Staff();
+				if(lblStaffId_ASF.getText().equalsIgnoreCase("")) {
+					staffDetails.setStaffId(0);
+				} else {
+					staffDetails.setStaffId(Integer.parseInt(lblStaffId_ASF.getText()));
+				}
+				staffDetails.setFirstName(txtFirstName_ASF.getText());
+				staffDetails.setLastName(txtLastName_ASF.getText());
+				staffDetails.setStaffType(cmbStaffType_ASF.getSelectedItem().toString());
+				staffDetails.setJoinDate(datePicker_ASF.getJFormattedTextField().getText());
+				staffDetails.setAvailableHours(cmbAvailableHours_ASF.getSelectedItem().toString());
+				staffDetails.setHighestQualification(cmbQualification_ASF.getSelectedItem().toString());
+				staffDetails.setPosition(cmbPosition_ASF.getSelectedItem().toString());
+				staffDetails.setSpecialization(cmbSpecialization_ASF.getSelectedItem().toString());
+				staffLogic.saveStaffDetails(staffDetails);
+			}
+		});
 		GridBagConstraints gbc_btnSave_ASF = new GridBagConstraints();
 		gbc_btnSave_ASF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_ASF.insets = new Insets(0, 0, 5, 5);
@@ -1280,6 +1314,18 @@ public class AdminScreen extends JFrame {
 		pnlStaffForm_AS.add(btnSave_ASF, gbc_btnSave_ASF);
 		
 		JButton btnDelete_ASF = new JButton("Delete");
+		btnDelete_ASF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Staff staffDetails = new Staff();
+				if(lblStaffId_ASF.getText().equalsIgnoreCase("")) {
+					staffDetails.setStaffId(0);
+				} else {
+					staffDetails.setStaffId(Integer.parseInt(lblStaffId_ASF.getText()));
+				}
+				staffLogic.deleteStaffDetails(staffDetails);
+			}
+		});
 		GridBagConstraints gbc_btnDelete_ASF = new GridBagConstraints();
 		gbc_btnDelete_ASF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete_ASF.insets = new Insets(0, 0, 5, 5);
@@ -1293,16 +1339,34 @@ public class AdminScreen extends JFrame {
 		pnlStaffList_AS.setBounds(483, 0, 475, 365);
 		pnlStaffDetails_A.add(pnlStaffList_AS);
 				
-		tblStaffList_ASL = new JTable();		
+		tblStaffList_ASL = new JTable();
+		tblStaffList_ASL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				DefaultTableModel modelStaff = (DefaultTableModel) tblStaffList_ASL.getModel();
+				int selectedRowIndex = tblStaffList_ASL.getSelectedRow();
+				if(selectedRowIndex > -1) {
+					lblStaffId_ASF.setText(modelStaff.getValueAt(selectedRowIndex, 0).toString());
+					txtFirstName_ASF.setText(modelStaff.getValueAt(selectedRowIndex, 1).toString());
+					txtLastName_ASF.setText(modelStaff.getValueAt(selectedRowIndex, 2).toString());
+					cmbStaffType_ASF.setSelectedItem(modelStaff.getValueAt(selectedRowIndex, 3).toString());
+					datePicker_ASF.getJFormattedTextField().setText(modelStaff.getValueAt(selectedRowIndex, 4).toString());
+					cmbAvailableHours_ASF.setSelectedItem(modelStaff.getValueAt(selectedRowIndex, 5).toString());
+					cmbPosition_ASF.setSelectedItem(modelStaff.getValueAt(selectedRowIndex, 6).toString());
+					cmbQualification_ASF.setSelectedItem(modelStaff.getValueAt(selectedRowIndex, 7).toString());
+					cmbSpecialization_ASF.setSelectedItem(modelStaff.getValueAt(selectedRowIndex, 8).toString());
+				}
+			}
+		});
 		tblStaffList_ASL.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Staff Id", "First Name", "Last Name", "Staff Type", "Join Date", "Available Hours", "Position", "Qualification", "Specialization"
+				"Staff Id", "First Name", "Last Name", "Staff Type", "Join Date", "Available Hours", "Position", "Qualification", "Specialization", "Created By", "Created Date", "Modified By", "Modified Date" 
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -1324,6 +1388,41 @@ public class AdminScreen extends JFrame {
 		pnlStaffList_AS.add(txtFirstName_ASL);
 		
 		JButton btnSearch_ASL = new JButton("Search");
+		btnSearch_ASL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(txtFirstName_ASL.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the first name to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelStaff = (DefaultTableModel) tblStaffList_ASL.getModel();
+				List<Staff> alStaffDetails = staffLogic.getAlStaffDetails(txtFirstName_ASL.getText());
+				modelStaff.setRowCount(0);
+				if(alStaffDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alStaffDetails.size();i++) {
+						Object[] row = new String[21];
+						row[0] = alStaffDetails.get(i).getStaffId()+"";
+						row[1] = alStaffDetails.get(i).getFirstName();
+						row[2] = alStaffDetails.get(i).getLastName();
+						row[3] = alStaffDetails.get(i).getStaffType();
+						row[4] = alStaffDetails.get(i).getJoinDate();
+						row[5] = alStaffDetails.get(i).getAvailableHours();
+						row[6] = alStaffDetails.get(i).getPosition();
+						row[7] = alStaffDetails.get(i).getHighestQualification();
+						row[8] = alStaffDetails.get(i).getSpecialization();
+						row[9] = alStaffDetails.get(i).getCreatedBy();
+						row[10] = alStaffDetails.get(i).getCreatedDate();
+						row[11] = alStaffDetails.get(i).getModifiedBy();
+						row[12] = alStaffDetails.get(i).getModifiedDate();
+						modelStaff.addRow(row);
+					}
+				}
+			}
+		});
 		btnSearch_ASL.setBounds(376, 22, 89, 23);
 		pnlStaffList_AS.add(btnSearch_ASL);
 		
@@ -1522,21 +1621,21 @@ public class AdminScreen extends JFrame {
 		tblEventList_AEL.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				DefaultTableModel modelPatient = (DefaultTableModel) tblEventList_AEL.getModel();
+				DefaultTableModel modelEvent = (DefaultTableModel) tblEventList_AEL.getModel();
 				int selectedRowIndex = tblEventList_AEL.getSelectedRow();
 				if(selectedRowIndex > -1) {
-					lblEventId_AEF.setText(modelPatient.getValueAt(selectedRowIndex, 0).toString());
+					lblEventId_AEF.setText(modelEvent.getValueAt(selectedRowIndex, 0).toString());
 					cmbPatientId_AEF.setSelectedItem(
-							modelPatient.getValueAt(selectedRowIndex, 1).toString()+"_"
-							+modelPatient.getValueAt(selectedRowIndex, 2).toString()+"_"
-							+modelPatient.getValueAt(selectedRowIndex, 3).toString());
+							modelEvent.getValueAt(selectedRowIndex, 1).toString()+"_"
+							+modelEvent.getValueAt(selectedRowIndex, 2).toString()+"_"
+							+modelEvent.getValueAt(selectedRowIndex, 3).toString());
 					cmbDoctorId_AEF.setSelectedItem(
-							modelPatient.getValueAt(selectedRowIndex, 4).toString()+"_"
-							+modelPatient.getValueAt(selectedRowIndex, 5).toString()+"_"
-							+modelPatient.getValueAt(selectedRowIndex, 6).toString());
-					cmbEventType_AEF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 7).toString());
-					datePicker_AEF.getJFormattedTextField().setText(modelPatient.getValueAt(selectedRowIndex, 8).toString());
-					cmbEventTime_AEF.setSelectedItem(modelPatient.getValueAt(selectedRowIndex, 9).toString());
+							modelEvent.getValueAt(selectedRowIndex, 4).toString()+"_"
+							+modelEvent.getValueAt(selectedRowIndex, 5).toString()+"_"
+							+modelEvent.getValueAt(selectedRowIndex, 6).toString());
+					cmbEventType_AEF.setSelectedItem(modelEvent.getValueAt(selectedRowIndex, 7).toString());
+					datePicker_AEF.getJFormattedTextField().setText(modelEvent.getValueAt(selectedRowIndex, 8).toString());
+					cmbEventTime_AEF.setSelectedItem(modelEvent.getValueAt(selectedRowIndex, 9).toString());
 				}
 			}
 		});

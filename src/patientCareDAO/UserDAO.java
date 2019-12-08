@@ -192,18 +192,19 @@ public class UserDAO {
 		return userDetails;
 	}
 	
-	public User getUserDetails(String username, String pwd) {
+	public User getUserDetails(String username, String pwd, String userType) {
 		logger.info("UserDAO.getUserDetails() starts");
 		User userObj = null;
 		try {
 			conn = DBConn.jdbcConnection();
 			String sql = "SELECT userId,username,pwd,referId,userType,createdBy,createdDate,modifiedBy,modifiedDate"
 					+ " FROM tblUser"
-					+ " WHERE username=? AND pwd =?";
+					+ " WHERE username=? AND pwd=? AND userType=?";
 			logger.info("UserDAO.getAlPatientDetails() - "+sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
 			pstmt.setString(2, pwd);
+			pstmt.setString(3, userType);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				userObj = new User();
