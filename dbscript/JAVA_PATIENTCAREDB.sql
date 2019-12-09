@@ -131,7 +131,8 @@ GO
 
 CREATE TABLE tblDiagnosis 
 ( 
-    medication_id   INT IDENTITY(1, 1) NOT NULL, 
+    medication_id   INT IDENTITY(1, 1) NOT NULL,
+    patient_id      INT NOT NULL, 
     medication_name VARCHAR(50) NOT NULL, 
     medication_type VARCHAR(50) NOT NULL, 
     illness         VARCHAR(50) NOT NULL, 
@@ -142,19 +143,19 @@ CREATE TABLE tblDiagnosis
     modifiedDate    VARCHAR(50) NULL, 
 ); 
 
-IF Object_id('tblPatientDiagnosis', 'U') IS NOT NULL 
-  DROP TABLE tblPatientDiagnosis; 
-GO 
+--IF Object_id('tblPatientDiagnosis', 'U') IS NOT NULL 
+--  DROP TABLE tblPatientDiagnosis; 
+--GO 
 
-CREATE TABLE tblPatientDiagnosis 
-( 
-    patient_id    INT NOT NULL, 
-    medication_id INT NOT NULL, 
-    createdBy     VARCHAR(50) NULL, 
-    createdDate   VARCHAR(50) NULL, 
-    modifiedBy    VARCHAR(50) NULL, 
-    modifiedDate  VARCHAR(50) NULL 
-); 
+--CREATE TABLE tblPatientDiagnosis 
+--( 
+--    patient_id    INT NOT NULL, 
+--    medication_id INT NOT NULL, 
+--    createdBy     VARCHAR(50) NULL, 
+--    createdDate   VARCHAR(50) NULL, 
+--    modifiedBy    VARCHAR(50) NULL, 
+--    modifiedDate  VARCHAR(50) NULL 
+--); 
 
 IF Object_id('tblEvent', 'U') IS NOT NULL 
   DROP TABLE tblEvent; 

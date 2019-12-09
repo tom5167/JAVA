@@ -116,7 +116,7 @@ public class DiagnosisDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("DELETE FROM tblDiagnosis"
-					+ " WHERE diagnosis_id = ?");
+					+ " WHERE medication_id = ?");
 			pstmt.setInt(1, diagnosisDetails.getDiagnosisId());
 			pstmt.execute();
 		} catch (Exception e) {
@@ -143,13 +143,13 @@ public class DiagnosisDAO {
 		List<Diagnosis> diagnosisDetails = new ArrayList<Diagnosis>();
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT patient_id,first_name,last_name,sex,dob," 
-					+ " street_number,address_full,city,country,postal_code,sin_id,"
-					+ " contact_number,alternative_number,insurance_id,email_id,"
-					+ " blood_group,marital_status,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate"
-					+ " FROM tblDiagnosis"
-					+ " WHERE first_name LIKE ?";
+			String sql = "SELECT A.medication_id,A.patient_id,B.first_Name,B.last_Name,"
+					+ " A.medication_name,A.medication_type,A.illness,dosage," 
+					+ " A.createdBy,A.createdDate,A.modifiedBy,A.modifiedDate" 
+					+ " FROM tblDiagnosis AS A " 
+					+ " JOIN tblPatient AS B" 
+					+ " ON A.patient_id = B.patient_id"
+					+ " WHERE B.first_name LIKE ?";
 			logger.info("DiagnosisDAO.getAlDiagnosisDetails() - "+sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + firstName + "%");
@@ -157,7 +157,14 @@ public class DiagnosisDAO {
 			Diagnosis diagnosisObj = null;
 			while (rs.next()) {
 				diagnosisObj = new Diagnosis();
-				diagnosisObj.setDiagnosisId(rs.getInt("diagnosis_id"));
+				diagnosisObj.setDiagnosisId(rs.getInt("medication_id"));
+				diagnosisObj.setPatientId(rs.getInt("patient_id"));
+				diagnosisObj.setpFirstName(rs.getString("first_Name"));
+				diagnosisObj.setpLastName(rs.getString("last_Name"));
+				diagnosisObj.setMedicationName(rs.getString("medication_name"));
+				diagnosisObj.setMedicationType(rs.getString("medication_type"));
+				diagnosisObj.setIllness(rs.getString("illness"));
+				diagnosisObj.setDosage(rs.getString("dosage"));
 				diagnosisObj.setCreatedBy(rs.getString("createdBy"));
 				diagnosisObj.setCreatedDate(rs.getString("createdDate"));
 				diagnosisObj.setModifiedBy(rs.getString("modifiedBy"));

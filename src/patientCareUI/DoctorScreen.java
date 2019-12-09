@@ -18,7 +18,6 @@
 package patientCareUI;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -54,6 +53,7 @@ import PatientCareUtil.DateLabelFormatter;
 import patientCareBusinessLogic.DiagnosisLogic;
 import patientCareBusinessLogic.EventLogic;
 import patientCareBusinessLogic.PatientLogic;
+import patientCarePOJO.Diagnosis;
 import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
 
@@ -69,9 +69,11 @@ public class DoctorScreen extends JFrame {
 	private JPanel contentPane;
 	private JTable tblPatientList_DPL;
 	private JTextField txtFirstName_DPL;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtFirstName_DDL;
 	private JTable tblEventList_DEL;
+	private JTable tblDiagnosisList_DDL;
+	private JTextField txtIllness_DDF;
+	private JTextField txtMedicationName_DDF;
 	/**
 	 * Create the frame.
 	 */
@@ -218,84 +220,223 @@ public class DoctorScreen extends JFrame {
 		pnlMainTabbed_D.addTab("Diagnosis Details", null, pnlDiagnosisDetails_D, null);
 		pnlDiagnosisDetails_D.setLayout(null);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_4.setBounds(0, 0, 483, 365);
-		pnlDiagnosisDetails_D.add(panel_4);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_panel_4.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_panel_4.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_4.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_4.setLayout(gbl_panel_4);
+		JPanel pnlDiagnosisForm_DD = new JPanel();
+		pnlDiagnosisForm_DD.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Diagnosis Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlDiagnosisForm_DD.setBounds(0, 0, 483, 365);
+		pnlDiagnosisDetails_D.add(pnlDiagnosisForm_DD);
+		GridBagLayout gbl_pnlDiagnosisForm_DD = new GridBagLayout();
+		gbl_pnlDiagnosisForm_DD.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
+		gbl_pnlDiagnosisForm_DD.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0};
+		gbl_pnlDiagnosisForm_DD.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlDiagnosisForm_DD.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pnlDiagnosisForm_DD.setLayout(gbl_pnlDiagnosisForm_DD);
 		
-		JLabel label_5 = new JLabel("Username");
-		GridBagConstraints gbc_label_5 = new GridBagConstraints();
-		gbc_label_5.anchor = GridBagConstraints.EAST;
-		gbc_label_5.insets = new Insets(0, 0, 5, 5);
-		gbc_label_5.gridx = 1;
-		gbc_label_5.gridy = 1;
-		panel_4.add(label_5, gbc_label_5);
+		JLabel lblDiagnosisId_DDF = new JLabel("");
+		GridBagConstraints gbc_lblDiagnosisId_DDF = new GridBagConstraints();
+		gbc_lblDiagnosisId_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDiagnosisId_DDF.gridx = 2;
+		gbc_lblDiagnosisId_DDF.gridy = 0;
+		pnlDiagnosisForm_DD.add(lblDiagnosisId_DDF, gbc_lblDiagnosisId_DDF);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 2;
-		gbc_textField_2.gridy = 1;
-		panel_4.add(textField_2, gbc_textField_2);
+		JLabel lblPatientId_DDF = new JLabel("Patient Id");
+		GridBagConstraints gbc_lblPatientId_DDF = new GridBagConstraints();
+		gbc_lblPatientId_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPatientId_DDF.anchor = GridBagConstraints.EAST;
+		gbc_lblPatientId_DDF.gridx = 1;
+		gbc_lblPatientId_DDF.gridy = 1;
+		pnlDiagnosisForm_DD.add(lblPatientId_DDF, gbc_lblPatientId_DDF);
 		
-		JButton button_6 = new JButton("New");
-		GridBagConstraints gbc_button_6 = new GridBagConstraints();
-		gbc_button_6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_6.insets = new Insets(0, 0, 5, 5);
-		gbc_button_6.gridx = 1;
-		gbc_button_6.gridy = 6;
-		panel_4.add(button_6, gbc_button_6);
+		JComboBox cmbPatientId_DDF = new JComboBox();
+		cmbPatientId_DDF.setModel(new DefaultComboBoxModel(new String[] {"Please Select"}));
+		GridBagConstraints gbc_cmbPatientId_DDF = new GridBagConstraints();
+		gbc_cmbPatientId_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbPatientId_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbPatientId_DDF.gridx = 2;
+		gbc_cmbPatientId_DDF.gridy = 1;
+		pnlDiagnosisForm_DD.add(cmbPatientId_DDF, gbc_cmbPatientId_DDF);
 		
-		JButton button_7 = new JButton("Save");
-		GridBagConstraints gbc_button_7 = new GridBagConstraints();
-		gbc_button_7.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_7.insets = new Insets(0, 0, 5, 5);
-		gbc_button_7.gridx = 2;
-		gbc_button_7.gridy = 6;
-		panel_4.add(button_7, gbc_button_7);
+		JLabel lblMedicationName = new JLabel("Medication Name");
+		GridBagConstraints gbc_lblMedicationName = new GridBagConstraints();
+		gbc_lblMedicationName.anchor = GridBagConstraints.EAST;
+		gbc_lblMedicationName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMedicationName.gridx = 1;
+		gbc_lblMedicationName.gridy = 2;
+		pnlDiagnosisForm_DD.add(lblMedicationName, gbc_lblMedicationName);
 		
-		JButton button_8 = new JButton("Delete");
-		GridBagConstraints gbc_button_8 = new GridBagConstraints();
-		gbc_button_8.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_8.insets = new Insets(0, 0, 5, 5);
-		gbc_button_8.gridx = 3;
-		gbc_button_8.gridy = 6;
-		panel_4.add(button_8, gbc_button_8);
+		txtMedicationName_DDF = new JTextField();
+		GridBagConstraints gbc_txtMedicationName_DDF = new GridBagConstraints();
+		gbc_txtMedicationName_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMedicationName_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMedicationName_DDF.gridx = 2;
+		gbc_txtMedicationName_DDF.gridy = 2;
+		pnlDiagnosisForm_DD.add(txtMedicationName_DDF, gbc_txtMedicationName_DDF);
+		txtMedicationName_DDF.setColumns(10);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setLayout(null);
-		panel_5.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_5.setBounds(483, 0, 475, 365);
-		pnlDiagnosisDetails_D.add(panel_5);
+		JLabel lblMedicationType = new JLabel("Medication Type");
+		GridBagConstraints gbc_lblMedicationType = new GridBagConstraints();
+		gbc_lblMedicationType.anchor = GridBagConstraints.EAST;
+		gbc_lblMedicationType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMedicationType.gridx = 1;
+		gbc_lblMedicationType.gridy = 3;
+		pnlDiagnosisForm_DD.add(lblMedicationType, gbc_lblMedicationType);
 		
-		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
-		scrollPane_1.setBounds(6, 73, 453, 286);
-		panel_5.add(scrollPane_1);
+		JComboBox cmbMedicationType_DDF = new JComboBox();
+		cmbMedicationType_DDF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Syrup", "Inject", "Tablets"}));
+		GridBagConstraints gbc_cmbMedicationType_DDF = new GridBagConstraints();
+		gbc_cmbMedicationType_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbMedicationType_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbMedicationType_DDF.gridx = 2;
+		gbc_cmbMedicationType_DDF.gridy = 3;
+		pnlDiagnosisForm_DD.add(cmbMedicationType_DDF, gbc_cmbMedicationType_DDF);
 		
-		JLabel label_6 = new JLabel("First Name");
-		label_6.setBounds(179, 26, 51, 14);
-		panel_5.add(label_6);
+		JLabel lblIllness_DDF = new JLabel("Illness");
+		GridBagConstraints gbc_lblIllness_DDF = new GridBagConstraints();
+		gbc_lblIllness_DDF.anchor = GridBagConstraints.EAST;
+		gbc_lblIllness_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_lblIllness_DDF.gridx = 1;
+		gbc_lblIllness_DDF.gridy = 4;
+		pnlDiagnosisForm_DD.add(lblIllness_DDF, gbc_lblIllness_DDF);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(239, 23, 127, 20);
-		panel_5.add(textField_3);
+		txtIllness_DDF = new JTextField();
+		GridBagConstraints gbc_txtIllness_DDF = new GridBagConstraints();
+		gbc_txtIllness_DDF.anchor = GridBagConstraints.NORTH;
+		gbc_txtIllness_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_txtIllness_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtIllness_DDF.gridx = 2;
+		gbc_txtIllness_DDF.gridy = 4;
+		pnlDiagnosisForm_DD.add(txtIllness_DDF, gbc_txtIllness_DDF);
+		txtIllness_DDF.setColumns(10);
 		
-		JButton button_9 = new JButton("Search");
-		button_9.setBounds(376, 22, 89, 23);
-		panel_5.add(button_9);
+		JLabel lblDosage = new JLabel("Dosage");
+		GridBagConstraints gbc_lblDosage = new GridBagConstraints();
+		gbc_lblDosage.anchor = GridBagConstraints.EAST;
+		gbc_lblDosage.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDosage.gridx = 1;
+		gbc_lblDosage.gridy = 5;
+		pnlDiagnosisForm_DD.add(lblDosage, gbc_lblDosage);
 		
-		JLabel label_7 = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		label_7.setBounds(6, 49, 445, 14);
-		panel_5.add(label_7);
+		JComboBox cmbDosage_DDF = new JComboBox();
+		cmbDosage_DDF.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "1", "2", "3", "4", "5", "6"}));
+		GridBagConstraints gbc_cmbDosage_DDF = new GridBagConstraints();
+		gbc_cmbDosage_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbDosage_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbDosage_DDF.gridx = 2;
+		gbc_cmbDosage_DDF.gridy = 5;
+		pnlDiagnosisForm_DD.add(cmbDosage_DDF, gbc_cmbDosage_DDF);
+		
+		JButton btnNew_DDF = new JButton("New");
+		GridBagConstraints gbc_btnNew_DDF = new GridBagConstraints();
+		gbc_btnNew_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_DDF.gridx = 1;
+		gbc_btnNew_DDF.gridy = 7;
+		pnlDiagnosisForm_DD.add(btnNew_DDF, gbc_btnNew_DDF);
+		
+		JButton btnSave_DDF = new JButton("Save");
+		GridBagConstraints gbc_btnSave_DDF = new GridBagConstraints();
+		gbc_btnSave_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_DDF.gridx = 2;
+		gbc_btnSave_DDF.gridy = 7;
+		pnlDiagnosisForm_DD.add(btnSave_DDF, gbc_btnSave_DDF);
+		
+		JButton btnDelete_DDF = new JButton("Delete");
+		btnDelete_DDF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Diagnosis diagnosisDetails = new Diagnosis();
+				if(lblDiagnosisId_DDF.getText().equalsIgnoreCase("")) {
+					diagnosisDetails.setDiagnosisId(0);
+				} else {
+					diagnosisDetails.setDiagnosisId(Integer.parseInt(lblDiagnosisId_DDF.getText()));
+				}
+				diagnosisLogic.deleteDiagnosisDetails(diagnosisDetails);
+			}
+		});
+		GridBagConstraints gbc_btnDelete_DDF = new GridBagConstraints();
+		gbc_btnDelete_DDF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete_DDF.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete_DDF.gridx = 3;
+		gbc_btnDelete_DDF.gridy = 7;
+		pnlDiagnosisForm_DD.add(btnDelete_DDF, gbc_btnDelete_DDF);
+		
+		JPanel pnlDiagnosisList_DD = new JPanel();
+		pnlDiagnosisList_DD.setLayout(null);
+		pnlDiagnosisList_DD.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Diagnosis List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlDiagnosisList_DD.setBounds(483, 0, 475, 365);
+		pnlDiagnosisDetails_D.add(pnlDiagnosisList_DD);
+		
+		tblDiagnosisList_DDL = new JTable();
+		tblDiagnosisList_DDL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Diagnosis Id", "Patient Id", "Patient First Name", "Patient Last Name", "Medication Name", "Medication Type", "Illness", "Dosage", "Created By", "Created Date", "Modified By", "Modified Date"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class, Object.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		
+		tblDiagnosisList_DDL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollDiagnosisList_DDL = new JScrollPane(tblDiagnosisList_DDL);
+		scrollDiagnosisList_DDL.setBounds(6, 73, 453, 286);
+		pnlDiagnosisList_DD.add(scrollDiagnosisList_DDL);
+		
+		JLabel lblFirstName_DDL = new JLabel("First Name");
+		lblFirstName_DDL.setBounds(179, 26, 51, 14);
+		pnlDiagnosisList_DD.add(lblFirstName_DDL);
+		
+		txtFirstName_DDL = new JTextField();
+		txtFirstName_DDL.setColumns(10);
+		txtFirstName_DDL.setBounds(239, 23, 127, 20);
+		pnlDiagnosisList_DD.add(txtFirstName_DDL);
+		
+		JButton btnSearch_DDL = new JButton("Search");
+		btnSearch_DDL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(txtFirstName_DDL.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the first name to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelDiagnosis = (DefaultTableModel) tblDiagnosisList_DDL.getModel();
+				List<Diagnosis> alDiagnosisDetails = diagnosisLogic.getAlDiagnosisDetails(txtFirstName_DDL.getText());
+				modelDiagnosis.setRowCount(0);
+				if(alDiagnosisDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alDiagnosisDetails.size();i++) {
+						Object[] row = new String[12];
+						row[0] = alDiagnosisDetails.get(i).getDiagnosisId()+"";
+						row[1] = alDiagnosisDetails.get(i).getPatientId()+"";
+						row[2] = alDiagnosisDetails.get(i).getpFirstName();
+						row[3] = alDiagnosisDetails.get(i).getpLastName();
+						row[4] = alDiagnosisDetails.get(i).getMedicationName();
+						row[5] = alDiagnosisDetails.get(i).getMedicationType();
+						row[6] = alDiagnosisDetails.get(i).getIllness();
+						row[7] = alDiagnosisDetails.get(i).getDosage();
+						row[8] = alDiagnosisDetails.get(i).getCreatedBy();
+						row[9] = alDiagnosisDetails.get(i).getCreatedDate();
+						row[10] = alDiagnosisDetails.get(i).getModifiedBy();
+						row[11] = alDiagnosisDetails.get(i).getModifiedDate();
+						modelDiagnosis.addRow(row);
+					}
+				}
+			}
+		});
+		btnSearch_DDL.setBounds(376, 22, 89, 23);
+		pnlDiagnosisList_DD.add(btnSearch_DDL);
+		
+		JLabel lblNote_DDL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_DDL.setBounds(6, 49, 445, 14);
+		pnlDiagnosisList_DD.add(lblNote_DDL);
 		
 		JPanel pnlEventDetails_D = new JPanel();
 		pnlMainTabbed_D.addTab("Event Details", null, pnlEventDetails_D, null);
