@@ -44,18 +44,17 @@ public class DiagnosisDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblDiagnosis "
-					+ " (first_name,last_name,sex,dob,"
-					+ "	street_number,address_full,city,country,"
-					+ " postal_code,sin_id,contact_number,alternative_number,"
-					+ " insurance_id,email_id,blood_group,marital_status,"
+					+ " (patient_id,medication_name,medication_type,illness,dosage,"
 					+ " createdBy,createdDate)" 
-					+ " VALUES(?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
-					+ " ?,?,?,?,"
+					+ " VALUES(?,?,?,?,?,"
 					+ " ?,?)");
-			pstmt.setString(17, commonUtil.getUserId());
-			pstmt.setString(18, commonUtil.getCurrentDateTime());
+			pstmt.setInt(1, diagnosisDetails.getPatientId());
+			pstmt.setString(2, diagnosisDetails.getMedicationName());
+			pstmt.setString(3, diagnosisDetails.getMedicationType());
+			pstmt.setString(4, diagnosisDetails.getIllness());
+			pstmt.setString(5, diagnosisDetails.getDosage());
+			pstmt.setString(6, commonUtil.getUserId());
+			pstmt.setString(7, commonUtil.getCurrentDateTime());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,15 +80,18 @@ public class DiagnosisDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblDiagnosis "
-					+ " SET first_name=?,last_name=?,sex=?,dob=?,"
-					+ "	street_number=?,address_full=?,city=?,country=?,"
-					+ " postal_code=?,sin_id=?,contact_number=?,alternative_number=?,"
-					+ " insurance_id=?,email_id=?,blood_group=?,marital_status=?,"
+					+ " SET patient_id=?,medication_name=?,"
+					+ " medication_type=?,illness=?,dosage=?,"
 					+ " modifiedBy=?,modifiedDate=?" 
-					+ " WHERE patient_id = ?");
-			pstmt.setString(17, commonUtil.getUserId());
-			pstmt.setString(18, commonUtil.getCurrentDateTime());
-			pstmt.setInt(19, diagnosisDetails.getDiagnosisId());
+					+ " WHERE medication_id = ?");
+			pstmt.setInt(1, diagnosisDetails.getPatientId());
+			pstmt.setString(2, diagnosisDetails.getMedicationName());
+			pstmt.setString(3, diagnosisDetails.getMedicationType());
+			pstmt.setString(4, diagnosisDetails.getIllness());
+			pstmt.setString(5, diagnosisDetails.getDosage());
+			pstmt.setString(6, commonUtil.getUserId());
+			pstmt.setString(7, commonUtil.getCurrentDateTime());
+			pstmt.setInt(8, diagnosisDetails.getDiagnosisId());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +146,7 @@ public class DiagnosisDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			String sql = "SELECT A.medication_id,A.patient_id,B.first_Name,B.last_Name,"
-					+ " A.medication_name,A.medication_type,A.illness,dosage," 
+					+ " A.medication_name,A.medication_type,A.illness,A.dosage," 
 					+ " A.createdBy,A.createdDate,A.modifiedBy,A.modifiedDate" 
 					+ " FROM tblDiagnosis AS A " 
 					+ " JOIN tblPatient AS B" 

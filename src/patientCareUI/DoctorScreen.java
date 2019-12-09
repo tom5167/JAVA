@@ -26,6 +26,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -43,8 +44,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -53,11 +57,16 @@ import PatientCareUtil.DateLabelFormatter;
 import patientCareBusinessLogic.DiagnosisLogic;
 import patientCareBusinessLogic.EventLogic;
 import patientCareBusinessLogic.PatientLogic;
+import patientCareConstants.CommonConstants;
+import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.Diagnosis;
 import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
+import patientCarePOJO.User;
 
 public class DoctorScreen extends JFrame {
+	
+	static Logger logger = PatientCareLogger.getLogger();
 
 	/**
 	 * 
@@ -333,6 +342,24 @@ public class DoctorScreen extends JFrame {
 		pnlDiagnosisForm_DD.add(btnNew_DDF, gbc_btnNew_DDF);
 		
 		JButton btnSave_DDF = new JButton("Save");
+		btnSave_DDF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Diagnosis diagnosisDetails = new Diagnosis();
+				if(lblDiagnosisId_DDF.getText().equalsIgnoreCase("")) {
+					diagnosisDetails.setDiagnosisId(0);
+				} else {
+					diagnosisDetails.setDiagnosisId(Integer.parseInt(lblDiagnosisId_DDF.getText()));
+				}
+				String selectedItem = cmbPatientId_DDF.getSelectedItem().toString();
+				diagnosisDetails.setPatientId(Integer.parseInt(selectedItem.split("_")[0]));
+				diagnosisDetails.setMedicationName(txtMedicationName_DDF.getText());
+				diagnosisDetails.setMedicationType(cmbMedicationType_DDF.getSelectedItem().toString());
+				diagnosisDetails.setIllness(txtIllness_DDF.getText());
+				diagnosisDetails.setDosage(cmbDosage_DDF.getSelectedItem().toString());
+				diagnosisLogic.saveDiagnosisDetails(diagnosisDetails);
+			}
+		});
 		GridBagConstraints gbc_btnSave_DDF = new GridBagConstraints();
 		gbc_btnSave_DDF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSave_DDF.insets = new Insets(0, 0, 5, 5);
@@ -541,6 +568,28 @@ public class DoctorScreen extends JFrame {
 		JLabel lblNote_DEL = new JLabel("  Note: Result will show similar first names apart from exact match.");
 		lblNote_DEL.setBounds(6, 49, 445, 14);
 		pnlEventList_DE.add(lblNote_DEL);
+		
+		//Tab Change Listener
+		pnlMainTabbed_D.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	        	logger.info("pnlMainTabbed_A Number "+pnlMainTabbed_D.getSelectedIndex());
+	        	if(pnlMainTabbed_D.getSelectedIndex() == 1) {
+	            	List<Patient> patientDetails = new ArrayList<Patient>();
+					patientDetails = patientLogic.getAlPatientDetails("");
+					if(patientDetails.size() == 0) {
+						cmbPatientId_DDF.removeAllItems();
+					} else {
+						cmbPatientId_DDF.removeAllItems();
+						cmbPatientId_DDF.addItem(CommonConstants.PLEASE_SELECT);
+						for(int i=0;i<patientDetails.size();i++) {
+							cmbPatientId_DDF.addItem(patientDetails.get(i).getPatientId()
+									+ "_" + patientDetails.get(i).getFirstName()
+									+ "_" + patientDetails.get(i).getLastName());
+						}
+					}
+	            }
+	        }
+	    });
 		
 		JPanel pnlBottom_D = new JPanel();
 		pnlBottom_D.setLayout(null);
