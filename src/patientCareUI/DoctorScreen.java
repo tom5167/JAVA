@@ -643,9 +643,9 @@ public class DoctorScreen extends JFrame {
 		pnlBottom_D.setBounds(5, 430, 963, 23);
 		contentPane.add(pnlBottom_D);
 		
-		JLabel label_1 = new JLabel("Copyright @PatientCare 2019");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_1.setBounds(0, 0, 268, 23);
-		pnlBottom_D.add(label_1);
+		JLabel lblBottom_D = new JLabel("Copyright @PatientCare 2019");
+		lblBottom_D.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblBottom_D.setBounds(0, 0, 268, 23);
+		pnlBottom_D.add(lblBottom_D);
 	}
 }
