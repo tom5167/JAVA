@@ -286,7 +286,19 @@ public class AdminScreen extends JFrame {
 				userDetails.setReferId(selectedItem.split("_")[0]);
 				userDetails.setFirstName(selectedItem.split("_")[1]);
 				userDetails.setLastName(selectedItem.split("_")[2]);
-				userLogic.saveUserDetails(userDetails);
+				boolean flag = userLogic.saveUserDetails(userDetails);
+				if(flag) {
+					lblUserId_AUF.setText(CommonConstants.EMPTY_STRING);
+					txtUserName_AUF.setText(CommonConstants.EMPTY_STRING);
+					txtPassword_AUF.setText(CommonConstants.EMPTY_STRING);
+					cmbUserType_AUF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbFirstName_AUF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					JOptionPane.showMessageDialog(null, "Saved successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -315,6 +327,25 @@ public class AdminScreen extends JFrame {
 		pnlUserForm_AU.add(btnSave_AUF, gbc_btnSave_AUF);
 		
 		JButton btnDelete_AUF = new JButton("Delete");
+		btnDelete_AUF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				User userDetails = new User();
+				if(lblUserId_AUF.getText().equalsIgnoreCase("")) {
+					userDetails.setUserId(0);
+				} else {
+					userDetails.setUserId(Integer.parseInt(lblUserId_AUF.getText()));
+				}
+				boolean flag = userLogic.deleteUserDetails(userDetails);
+				if(flag) {
+					JOptionPane.showMessageDialog(null, "Deleted successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		GridBagConstraints gbc_btnDelete_AUF = new GridBagConstraints();
 		gbc_btnDelete_AUF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnDelete_AUF.insets = new Insets(0, 0, 5, 5);
@@ -730,7 +761,14 @@ public class AdminScreen extends JFrame {
 				} else {
 					patientDetails.setPatientId(Integer.parseInt(lblPatientId_APF.getText()));
 				}
-				patientLogic.deletePatientDetails(patientDetails);
+				boolean flag = patientLogic.deletePatientDetails(patientDetails);
+				if(flag) {
+					JOptionPane.showMessageDialog(null, "Deleted successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -760,7 +798,31 @@ public class AdminScreen extends JFrame {
 				patientDetails.setEmailId(txtEmailId_APF.getText());
 				patientDetails.setBloodGroup(cmbBloodGroup_APF.getSelectedItem().toString());
 				patientDetails.setMaritalStatus(cmbMaritalStatus_APF.getSelectedItem().toString());
-				patientLogic.savePatientDetails(patientDetails);
+				boolean flag = patientLogic.savePatientDetails(patientDetails);
+				if(flag) {
+					lblPatientId_APF.setText(CommonConstants.EMPTY_STRING);
+					txtFirstName_APF.setText(CommonConstants.EMPTY_STRING);
+					txtLastName_APF.setText(CommonConstants.EMPTY_STRING);
+					cmbSex_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					datePicker_APF.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+					txtStreetNumber_APF.setText(CommonConstants.EMPTY_STRING);
+					txtCountry_APF.setText(CommonConstants.EMPTY_STRING);
+					txtAddress_APF.setText(CommonConstants.EMPTY_STRING);
+					txtCity_APF.setText(CommonConstants.EMPTY_STRING);
+					txtPostalCode_APF.setText(CommonConstants.EMPTY_STRING);
+					txtSinId_APF.setText(CommonConstants.EMPTY_STRING);
+					txtContactNumber_APF.setText(CommonConstants.EMPTY_STRING);
+					txtAlternativeNumber_APF.setText(CommonConstants.EMPTY_STRING);
+					txtInsuranceId_APF.setText(CommonConstants.EMPTY_STRING);
+					txtEmailId_APF.setText(CommonConstants.EMPTY_STRING);
+					cmbBloodGroup_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbMaritalStatus_APF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					JOptionPane.showMessageDialog(null, "Saved successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -1267,15 +1329,15 @@ public class AdminScreen extends JFrame {
 		btnNew_ASF.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				lblStaffId_ASF.setText("");
-				txtFirstName_ASF.setText("");
-				txtLastName_ASF.setText("");
-				cmbStaffType_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
-				datePicker_ASF.getJFormattedTextField().setText("");
-				cmbAvailableHours_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
-				cmbPosition_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
-				cmbQualification_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
-				cmbSpecialization_ASF.setSelectedItem(CommonConstants.EMPTY_STRING);
+				lblStaffId_ASF.setText(CommonConstants.EMPTY_STRING);
+				txtFirstName_ASF.setText(CommonConstants.EMPTY_STRING);
+				txtLastName_ASF.setText(CommonConstants.EMPTY_STRING);
+				cmbStaffType_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				datePicker_ASF.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+				cmbAvailableHours_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbPosition_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbQualification_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbSpecialization_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
 			}
 		});
 		GridBagConstraints gbc_btnNew_ASF = new GridBagConstraints();
@@ -1303,7 +1365,23 @@ public class AdminScreen extends JFrame {
 				staffDetails.setHighestQualification(cmbQualification_ASF.getSelectedItem().toString());
 				staffDetails.setPosition(cmbPosition_ASF.getSelectedItem().toString());
 				staffDetails.setSpecialization(cmbSpecialization_ASF.getSelectedItem().toString());
-				staffLogic.saveStaffDetails(staffDetails);
+				boolean flag = staffLogic.saveStaffDetails(staffDetails);
+				if(flag) {
+					lblStaffId_ASF.setText(CommonConstants.EMPTY_STRING);
+					txtFirstName_ASF.setText(CommonConstants.EMPTY_STRING);
+					txtLastName_ASF.setText(CommonConstants.EMPTY_STRING);
+					cmbStaffType_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					datePicker_ASF.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+					cmbAvailableHours_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbPosition_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbQualification_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbSpecialization_ASF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					JOptionPane.showMessageDialog(null, "Saved successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSave_ASF = new GridBagConstraints();
@@ -1323,7 +1401,14 @@ public class AdminScreen extends JFrame {
 				} else {
 					staffDetails.setStaffId(Integer.parseInt(lblStaffId_ASF.getText()));
 				}
-				staffLogic.deleteStaffDetails(staffDetails);
+				boolean flag = staffLogic.deleteStaffDetails(staffDetails);
+				if(flag) {
+					JOptionPane.showMessageDialog(null, "Deleted successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnDelete_ASF = new GridBagConstraints();
@@ -1581,7 +1666,20 @@ public class AdminScreen extends JFrame {
 				eventDetails.setEventType(cmbEventType_AEF.getSelectedItem().toString());
 				eventDetails.setEventDate(datePicker_AEF.getJFormattedTextField().getText());
 				eventDetails.setEventTime(cmbEventTime_AEF.getSelectedItem().toString());
-				eventLogic.saveEventDetails(eventDetails);
+				boolean flag = eventLogic.saveEventDetails(eventDetails);
+				if(flag) {
+					lblUserId_AUF.setText(CommonConstants.EMPTY_STRING);
+					cmbPatientId_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbDoctorId_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					cmbEventType_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					datePicker_AEF.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+					cmbEventTime_AEF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					JOptionPane.showMessageDialog(null, "Saved successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSave_AEF = new GridBagConstraints();
@@ -1601,7 +1699,14 @@ public class AdminScreen extends JFrame {
 				} else {
 					eventDetails.setEventId(Integer.parseInt(lblEventId_AEF.getText()));
 				}
-				eventLogic.deleteEventDetails(eventDetails);
+				boolean flag = eventLogic.deleteEventDetails(eventDetails);
+				if(flag) {
+					JOptionPane.showMessageDialog(null, "Deleted successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnDelete__AEF = new GridBagConstraints();

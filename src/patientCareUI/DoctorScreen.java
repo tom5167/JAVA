@@ -62,7 +62,6 @@ import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.Diagnosis;
 import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
-import patientCarePOJO.User;
 
 public class DoctorScreen extends JFrame {
 	
@@ -334,6 +333,17 @@ public class DoctorScreen extends JFrame {
 		pnlDiagnosisForm_DD.add(cmbDosage_DDF, gbc_cmbDosage_DDF);
 		
 		JButton btnNew_DDF = new JButton("New");
+		btnNew_DDF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				lblDiagnosisId_DDF.setText(CommonConstants.EMPTY_STRING);
+				cmbPatientId_DDF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				txtMedicationName_DDF.setText(CommonConstants.EMPTY_STRING);
+				cmbMedicationType_DDF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				txtIllness_DDF.setText(CommonConstants.EMPTY_STRING);
+				cmbDosage_DDF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+			}
+		});
 		GridBagConstraints gbc_btnNew_DDF = new GridBagConstraints();
 		gbc_btnNew_DDF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNew_DDF.insets = new Insets(0, 0, 5, 5);
@@ -357,7 +367,20 @@ public class DoctorScreen extends JFrame {
 				diagnosisDetails.setMedicationType(cmbMedicationType_DDF.getSelectedItem().toString());
 				diagnosisDetails.setIllness(txtIllness_DDF.getText());
 				diagnosisDetails.setDosage(cmbDosage_DDF.getSelectedItem().toString());
-				diagnosisLogic.saveDiagnosisDetails(diagnosisDetails);
+				boolean flag = diagnosisLogic.saveDiagnosisDetails(diagnosisDetails);
+				if(flag) {
+					lblDiagnosisId_DDF.setText(CommonConstants.EMPTY_STRING);
+					cmbPatientId_DDF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					txtMedicationName_DDF.setText(CommonConstants.EMPTY_STRING);
+					cmbMedicationType_DDF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					txtIllness_DDF.setText(CommonConstants.EMPTY_STRING);
+					cmbDosage_DDF.setSelectedItem(CommonConstants.PLEASE_SELECT);
+					JOptionPane.showMessageDialog(null, "Saved successfully", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSave_DDF = new GridBagConstraints();
@@ -377,7 +400,14 @@ public class DoctorScreen extends JFrame {
 				} else {
 					diagnosisDetails.setDiagnosisId(Integer.parseInt(lblDiagnosisId_DDF.getText()));
 				}
-				diagnosisLogic.deleteDiagnosisDetails(diagnosisDetails);
+				boolean flag = diagnosisLogic.deleteDiagnosisDetails(diagnosisDetails);
+				if(flag) {
+					JOptionPane.showMessageDialog(null, "Deleted successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnDelete_DDF = new GridBagConstraints();
@@ -394,6 +424,23 @@ public class DoctorScreen extends JFrame {
 		pnlDiagnosisDetails_D.add(pnlDiagnosisList_DD);
 		
 		tblDiagnosisList_DDL = new JTable();
+		tblDiagnosisList_DDL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				DefaultTableModel modelDiagnosis = (DefaultTableModel) tblDiagnosisList_DDL.getModel();
+				int selectedRowIndex = tblDiagnosisList_DDL.getSelectedRow();
+				if(selectedRowIndex > -1) {
+					lblDiagnosisId_DDF.setText(modelDiagnosis.getValueAt(selectedRowIndex, 0).toString());
+					cmbPatientId_DDF.setSelectedItem(modelDiagnosis.getValueAt(selectedRowIndex, 1).toString()
+							+ "_" +modelDiagnosis.getValueAt(selectedRowIndex, 2).toString()
+							+ "_" +modelDiagnosis.getValueAt(selectedRowIndex, 3).toString());
+					txtMedicationName_DDF.setText(modelDiagnosis.getValueAt(selectedRowIndex, 4).toString());
+					cmbMedicationType_DDF.setSelectedItem(modelDiagnosis.getValueAt(selectedRowIndex, 5).toString());
+					txtIllness_DDF.setText(modelDiagnosis.getValueAt(selectedRowIndex, 6).toString());
+					cmbDosage_DDF.setSelectedItem(modelDiagnosis.getValueAt(selectedRowIndex, 7).toString());
+				}
+			}
+		});
 		tblDiagnosisList_DDL.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
