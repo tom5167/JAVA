@@ -17,29 +17,45 @@
  */
 package patientCareUI;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
 import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Properties;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import PatientCareUtil.DateLabelFormatter;
+import patientCareBusinessLogic.DiagnosisLogic;
+import patientCareBusinessLogic.EventLogic;
+import patientCareBusinessLogic.PatientLogic;
+import patientCarePOJO.Event;
+import patientCarePOJO.Patient;
 
 public class DoctorScreen extends JFrame {
 
@@ -47,17 +63,19 @@ public class DoctorScreen extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 400619205466386651L;
+	PatientLogic patientLogic = new PatientLogic();
+	DiagnosisLogic diagnosisLogic = new DiagnosisLogic();
+	EventLogic eventLogic = new EventLogic();
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTable tblPatientList_DPL;
+	private JTextField txtFirstName_DPL;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTextField textField_5;
-	private JTextField textField_4;
-
+	private JTable tblEventList_DEL;
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 	public DoctorScreen() {
 		setTitle("Patient Care");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,8 +95,8 @@ public class DoctorScreen extends JFrame {
 		pnlTop_D.setBounds(5, 5, 963, 30);
 		contentPane.add(pnlTop_D);
 		
-		JButton button_1 = new JButton("Logout");
-		button_1.addMouseListener(new MouseAdapter() {
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?",
@@ -90,13 +108,13 @@ public class DoctorScreen extends JFrame {
 				}
 			}
 		});
-		button_1.setBounds(853, 6, 100, 19);
-		pnlTop_D.add(button_1);
+		btnLogout.setBounds(853, 6, 100, 19);
+		pnlTop_D.add(btnLogout);
 		
-		JLabel label = new JLabel("Admin Control");
-		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(10, -2, 131, 31);
-		pnlTop_D.add(label);
+		JLabel lblDoctor = new JLabel("Doctor Control");
+		lblDoctor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDoctor.setBounds(10, -2, 131, 31);
+		pnlTop_D.add(lblDoctor);
 		
 		JTabbedPane pnlMainTabbed_D = new JTabbedPane(JTabbedPane.TOP);
 		pnlMainTabbed_D.setBounds(5, 37, 963, 393);
@@ -106,84 +124,95 @@ public class DoctorScreen extends JFrame {
 		pnlPatientDetails_D.setLayout(null);
 		pnlMainTabbed_D.addTab("Patient Details", null, pnlPatientDetails_D, null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(0, 0, 483, 365);
-		pnlPatientDetails_D.add(panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		JPanel pnlPatientList_DP = new JPanel();
+		pnlPatientList_DP.setLayout(null);
+		pnlPatientList_DP.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Patient List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlPatientList_DP.setBounds(0, 0, 958, 365);
+		pnlPatientDetails_D.add(pnlPatientList_DP);
 		
-		JLabel label_2 = new JLabel("Username");
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.anchor = GridBagConstraints.EAST;
-		gbc_label_2.insets = new Insets(0, 0, 5, 5);
-		gbc_label_2.gridx = 1;
-		gbc_label_2.gridy = 1;
-		panel_1.add(label_2, gbc_label_2);
+		tblPatientList_DPL = new JTable();
+		tblPatientList_DPL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Patient Id", "First Name", "Last Name", "Sex", "Date of Birth", "Street Number", "Address", "City", "Country","Postal Code", "Sin Id", "Contact Number", "Alternative Number", "Insurance Id", "Email Id", "Blood_group", "Marital Status", "Created By", "Created Date", "Modified By", "Modified Date"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				return false;
+			}
+		});
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		panel_1.add(textField, gbc_textField);
+		tblPatientList_DPL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPatientList_DPL = new JScrollPane(tblPatientList_DPL);
+		scrollPatientList_DPL.setBounds(6, 73, 942, 286);
+		pnlPatientList_DP.add(scrollPatientList_DPL);
 		
-		JButton button_2 = new JButton("New");
-		GridBagConstraints gbc_button_2 = new GridBagConstraints();
-		gbc_button_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_2.insets = new Insets(0, 0, 5, 5);
-		gbc_button_2.gridx = 1;
-		gbc_button_2.gridy = 6;
-		panel_1.add(button_2, gbc_button_2);
+		JLabel lblFirstName_DPL = new JLabel("First Name");
+		lblFirstName_DPL.setBounds(10, 26, 51, 14);
+		pnlPatientList_DP.add(lblFirstName_DPL);
 		
-		JButton button_3 = new JButton("Save");
-		GridBagConstraints gbc_button_3 = new GridBagConstraints();
-		gbc_button_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_3.insets = new Insets(0, 0, 5, 5);
-		gbc_button_3.gridx = 2;
-		gbc_button_3.gridy = 6;
-		panel_1.add(button_3, gbc_button_3);
+		txtFirstName_DPL = new JTextField();
+		txtFirstName_DPL.setColumns(10);
+		txtFirstName_DPL.setBounds(71, 23, 152, 20);
+		pnlPatientList_DP.add(txtFirstName_DPL);
 		
-		JButton button_4 = new JButton("Delete");
-		GridBagConstraints gbc_button_4 = new GridBagConstraints();
-		gbc_button_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_4.insets = new Insets(0, 0, 5, 5);
-		gbc_button_4.gridx = 3;
-		gbc_button_4.gridy = 6;
-		panel_1.add(button_4, gbc_button_4);
+		JButton btnSearch_DPL = new JButton("Search");
+		btnSearch_DPL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(txtFirstName_DPL.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the first name to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelPatient = (DefaultTableModel) tblPatientList_DPL.getModel();
+				List<Patient> alPatientDetails = patientLogic.getAlPatientDetails(txtFirstName_DPL.getText());
+				modelPatient.setRowCount(0);
+				if(alPatientDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alPatientDetails.size();i++) {
+						Object[] row = new String[21];
+						row[0] = alPatientDetails.get(i).getPatientId()+"";
+						row[1] = alPatientDetails.get(i).getFirstName();
+						row[2] = alPatientDetails.get(i).getLastName();
+						row[3] = alPatientDetails.get(i).getSex();
+						row[4] = alPatientDetails.get(i).getDob();
+						row[5] = alPatientDetails.get(i).getStreetNumber();
+						row[6] = alPatientDetails.get(i).getAddressFull();
+						row[7] = alPatientDetails.get(i).getCity();
+						row[8] = alPatientDetails.get(i).getCountry();
+						row[9] = alPatientDetails.get(i).getPostalCode();
+						row[10] = alPatientDetails.get(i).getSinId();
+						row[11] = alPatientDetails.get(i).getContactNumber();
+						row[12] = alPatientDetails.get(i).getAlternativeNumber();
+						row[13] = alPatientDetails.get(i).getInsuranceId();
+						row[14] = alPatientDetails.get(i).getEmailId();
+						row[15] = alPatientDetails.get(i).getBloodGroup();
+						row[16] = alPatientDetails.get(i).getMaritalStatus();
+						row[17] = alPatientDetails.get(i).getCreatedBy();
+						row[18] = alPatientDetails.get(i).getCreatedDate();
+						row[19] = alPatientDetails.get(i).getModifiedBy();
+						row[20] = alPatientDetails.get(i).getModifiedDate();
+						modelPatient.addRow(row);
+					}
+				}
+			}
+		});
+		btnSearch_DPL.setBounds(233, 22, 89, 23);
+		pnlPatientList_DP.add(btnSearch_DPL);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(483, 0, 475, 365);
-		pnlPatientDetails_D.add(panel_2);
-		
-		JScrollPane scrollPane = new JScrollPane((Component) null);
-		scrollPane.setBounds(6, 73, 453, 286);
-		panel_2.add(scrollPane);
-		
-		JLabel label_3 = new JLabel("First Name");
-		label_3.setBounds(179, 26, 51, 14);
-		panel_2.add(label_3);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(239, 23, 127, 20);
-		panel_2.add(textField_1);
-		
-		JButton button_5 = new JButton("Search");
-		button_5.setBounds(376, 22, 89, 23);
-		panel_2.add(button_5);
-		
-		JLabel label_4 = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		label_4.setBounds(6, 49, 445, 14);
-		panel_2.add(label_4);
+		JLabel lblNote_DPL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_DPL.setBounds(6, 49, 445, 14);
+		pnlPatientList_DP.add(lblNote_DPL);
 		
 		JPanel pnlDiagnosisDetails_D = new JPanel();
 		pnlMainTabbed_D.addTab("Diagnosis Details", null, pnlDiagnosisDetails_D, null);
@@ -272,84 +301,105 @@ public class DoctorScreen extends JFrame {
 		pnlMainTabbed_D.addTab("Event Details", null, pnlEventDetails_D, null);
 		pnlEventDetails_D.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(0, 0, 483, 365);
-		pnlEventDetails_D.add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{33, 107, 155, 91, 0, 0};
-		gbl_panel.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 20, 0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JPanel pnlEventList_DE = new JPanel();
+		pnlEventList_DE.setLayout(null);
+		pnlEventList_DE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Event List", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnlEventList_DE.setBounds(0, 0, 958, 365);
+		pnlEventDetails_D.add(pnlEventList_DE);
+				
+		tblEventList_DEL = new JTable();
+		tblEventList_DEL.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Event Id", "Patient Id", "Patient First Name", "Patient Last Name", "Doctor Id", "Doctor First Name", "Doctor Last Name", "Event Type", "Event Date", "Event Time", "Created By", "Created Date", "Modified By", "Modified Date" 
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class,	String.class, String.class,String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tblEventList_DEL.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollEventList_DEL = new JScrollPane(tblEventList_DEL);
+		scrollEventList_DEL.setBounds(6, 73, 942, 286);
+		pnlEventList_DE.add(scrollEventList_DEL);
 		
-		JLabel label_8 = new JLabel("Username");
-		GridBagConstraints gbc_label_8 = new GridBagConstraints();
-		gbc_label_8.anchor = GridBagConstraints.EAST;
-		gbc_label_8.insets = new Insets(0, 0, 5, 5);
-		gbc_label_8.gridx = 1;
-		gbc_label_8.gridy = 1;
-		panel.add(label_8, gbc_label_8);
+		JLabel lblEventDate = new JLabel("Event Date");
+		lblEventDate.setBounds(192, 22, 71, 23);
+		pnlEventList_DE.add(lblEventDate);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 1;
-		panel.add(textField_4, gbc_textField_4);
+		UtilDateModel dateModel_DEL = new UtilDateModel();
+		Properties prop_DEL = new Properties();
+		prop_DEL.put("text.today", "Today");
+		prop_DEL.put("text.month", "Month");
+		prop_DEL.put("text.year", "Year");
+		JDatePanelImpl datePanel_DEL = new JDatePanelImpl(dateModel_DEL, prop_DEL);
+		DateLabelFormatter dateLabelFormatter_DEL = new DateLabelFormatter();
+		JDatePickerImpl datePicker_DEL = new JDatePickerImpl(datePanel_DEL, dateLabelFormatter_DEL);
+		datePicker_DEL.setBounds(249, 22, 117, 23);
+		pnlEventList_DE.add(datePicker_DEL);
 		
-		JButton button = new JButton("New");
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button.insets = new Insets(0, 0, 5, 5);
-		gbc_button.gridx = 1;
-		gbc_button.gridy = 6;
-		panel.add(button, gbc_button);
+		JLabel lblEventType_DEL = new JLabel("Event Type");
+		lblEventType_DEL.setBounds(10, 26, 55, 14);
+		pnlEventList_DE.add(lblEventType_DEL);
 		
-		JButton button_10 = new JButton("Save");
-		GridBagConstraints gbc_button_10 = new GridBagConstraints();
-		gbc_button_10.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_10.insets = new Insets(0, 0, 5, 5);
-		gbc_button_10.gridx = 2;
-		gbc_button_10.gridy = 6;
-		panel.add(button_10, gbc_button_10);
+		JComboBox cmbEventType_DEL = new JComboBox();
+		cmbEventType_DEL.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Appointment", "Operation"}));
+		cmbEventType_DEL.setBounds(75, 23, 111, 20);
+		pnlEventList_DE.add(cmbEventType_DEL);
 		
-		JButton button_11 = new JButton("Delete");
-		GridBagConstraints gbc_button_11 = new GridBagConstraints();
-		gbc_button_11.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_11.insets = new Insets(0, 0, 5, 5);
-		gbc_button_11.gridx = 3;
-		gbc_button_11.gridy = 6;
-		panel.add(button_11, gbc_button_11);
+		JButton btnSearch_DEL = new JButton("Search");
+		btnSearch_DEL.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(cmbEventType_DEL.getSelectedItem().toString().equalsIgnoreCase("Please Select")) {
+					JOptionPane.showMessageDialog(null, "Please select the event type to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if(datePicker_DEL.getJFormattedTextField().getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the event date to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelEvent = (DefaultTableModel) tblEventList_DEL.getModel();
+				List<Event> alEventDetails = eventLogic.getAlEventDetails(cmbEventType_DEL.getSelectedItem().toString(),
+						datePicker_DEL.getJFormattedTextField().getText());
+				modelEvent.setRowCount(0);
+				if(alEventDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alEventDetails.size();i++) {
+						Object[] row = new String[14];
+						row[0] = alEventDetails.get(i).getEventId()+"";
+						row[1] = alEventDetails.get(i).getPatientId()+"";
+						row[2] = alEventDetails.get(i).getpFirstName();
+						row[3] = alEventDetails.get(i).getpLastName();
+						row[4] = alEventDetails.get(i).getDoctorId()+"";
+						row[5] = alEventDetails.get(i).getdFirstName();
+						row[6] = alEventDetails.get(i).getdLastName();
+						row[7] = alEventDetails.get(i).getEventType();
+						row[8] = alEventDetails.get(i).getEventDate();
+						row[9] = alEventDetails.get(i).getEventTime();
+						row[10] = alEventDetails.get(i).getCreatedBy();
+						row[11] = alEventDetails.get(i).getCreatedDate();
+						row[12] = alEventDetails.get(i).getModifiedBy();
+						row[13] = alEventDetails.get(i).getModifiedDate();
+						modelEvent.addRow(row);
+					}
+				}
+			}
+		});
+		btnSearch_DEL.setBounds(376, 22, 89, 23);
+		pnlEventList_DE.add(btnSearch_DEL);
 		
-		JPanel panel_6 = new JPanel();
-		panel_6.setLayout(null);
-		panel_6.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_6.setBounds(483, 0, 475, 365);
-		pnlEventDetails_D.add(panel_6);
-		
-		JScrollPane scrollPane_2 = new JScrollPane((Component) null);
-		scrollPane_2.setBounds(6, 73, 453, 286);
-		panel_6.add(scrollPane_2);
-		
-		JLabel label_9 = new JLabel("First Name");
-		label_9.setBounds(179, 26, 51, 14);
-		panel_6.add(label_9);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(239, 23, 127, 20);
-		panel_6.add(textField_5);
-		
-		JButton button_13 = new JButton("Search");
-		button_13.setBounds(376, 22, 89, 23);
-		panel_6.add(button_13);
-		
-		JLabel label_10 = new JLabel("  Note: Result will show similar first names apart from exact match.");
-		label_10.setBounds(6, 49, 445, 14);
-		panel_6.add(label_10);
+		JLabel lblNote_DEL = new JLabel("  Note: Result will show similar first names apart from exact match.");
+		lblNote_DEL.setBounds(6, 49, 445, 14);
+		pnlEventList_DE.add(lblNote_DEL);
 		
 		JPanel pnlBottom_D = new JPanel();
 		pnlBottom_D.setLayout(null);
