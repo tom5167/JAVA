@@ -90,11 +90,15 @@ public class ReceptionistScreen extends JFrame {
 	private JTextField txtFirstName_APL;
 	private JTable tblEventList_APL;
 	private JTable tblDiagnosisList_APL;
+	private JTextField txtInsuranceId_RSB;
+	private JTextField txtPayername_RSB;
+	private JTextField txtBillAmt_RSB;
 	
 
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 	public ReceptionistScreen() {
 		setTitle("Patient Care");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -578,9 +582,11 @@ public class ReceptionistScreen extends JFrame {
 				"Patient Id", "First Name", "Last Name", "Sex", "Date of Birth", "Street Number", "Address", "City", "Country","Postal Code", "Sin Id", "Contact Number", "Alternative Number", "Insurance Id", "Email Id", "Blood_group", "Marital Status", "Created By", "Created Date", "Modified By", "Modified Date"
 			}
 		) {
+			
 			Class[] columnTypes = new Class[] {
 				Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
 			};
+			
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
@@ -687,13 +693,14 @@ public class ReceptionistScreen extends JFrame {
 		gbc_label_14.gridy = 1;
 		panel.add(label_14, gbc_label_14);
 		
-		JLabel label_15 = new JLabel("Patient Name");
-		GridBagConstraints gbc_label_15 = new GridBagConstraints();
-		gbc_label_15.anchor = GridBagConstraints.EAST;
-		gbc_label_15.insets = new Insets(0, 0, 5, 5);
-		gbc_label_15.gridx = 1;
-		gbc_label_15.gridy = 2;
-		panel.add(label_15, gbc_label_15);
+		JComboBox cmbPatientId_RSB = new JComboBox();
+		cmbPatientId_RSB.setModel(new DefaultComboBoxModel(new String[] {"Please Select"}));
+		GridBagConstraints gbc_cmbPatientId_RSB = new GridBagConstraints();
+		gbc_cmbPatientId_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbPatientId_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbPatientId_RSB.gridx = 2;
+		gbc_cmbPatientId_RSB.gridy = 1;
+		panel.add(cmbPatientId_RSB, gbc_cmbPatientId_RSB);
 		
 		JLabel label_16 = new JLabel("Mode of Payment");
 		GridBagConstraints gbc_label_16 = new GridBagConstraints();
@@ -703,6 +710,15 @@ public class ReceptionistScreen extends JFrame {
 		gbc_label_16.gridy = 3;
 		panel.add(label_16, gbc_label_16);
 		
+		JComboBox cmbmodeofpay_RSB = new JComboBox();
+		cmbmodeofpay_RSB.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Cash", "Card"}));
+		GridBagConstraints gbc_cmbmodeofpay_RSB = new GridBagConstraints();
+		gbc_cmbmodeofpay_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbmodeofpay_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbmodeofpay_RSB.gridx = 2;
+		gbc_cmbmodeofpay_RSB.gridy = 3;
+		panel.add(cmbmodeofpay_RSB, gbc_cmbmodeofpay_RSB);
+		
 		JLabel label_17 = new JLabel("Payment Due Date");
 		GridBagConstraints gbc_label_17 = new GridBagConstraints();
 		gbc_label_17.anchor = GridBagConstraints.EAST;
@@ -711,53 +727,89 @@ public class ReceptionistScreen extends JFrame {
 		gbc_label_17.gridy = 4;
 		panel.add(label_17, gbc_label_17);
 		
-		JLabel label_18 = new JLabel("Billing Time Stamp");
-		GridBagConstraints gbc_label_18 = new GridBagConstraints();
-		gbc_label_18.anchor = GridBagConstraints.EAST;
-		gbc_label_18.insets = new Insets(0, 0, 5, 5);
-		gbc_label_18.gridx = 1;
-		gbc_label_18.gridy = 5;
-		panel.add(label_18, gbc_label_18);
+		UtilDateModel dateModelpaydue_RSB = new UtilDateModel();
+		Properties proppaydue_RSB = new Properties();
+		proppaydue_RSB.put("text.today", "Today");
+		proppaydue_RSB.put("text.month", "Month");
+		proppaydue_RSB.put("text.year", "Year");
+		JDatePanelImpl datePanelpaydue_RSB = new JDatePanelImpl(dateModelpaydue_RSB, proppaydue_RSB);
+		DateLabelFormatter dateLabelFormatterpaydue_RSB = new DateLabelFormatter();
+		JDatePickerImpl datePickerpaydue_RSB = new JDatePickerImpl(datePanelpaydue_RSB, dateLabelFormatterpaydue_RSB);
+		
+		GridBagConstraints gbc_datePicker_RSB = new GridBagConstraints();
+		gbc_datePicker_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_datePicker_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_datePicker_RSB.gridx = 2;
+		gbc_datePicker_RSB.gridy = 4;
+		panel.add(datePickerpaydue_RSB, gbc_datePicker_RSB);
 		
 		JLabel label_19 = new JLabel("Insurance Number");
 		GridBagConstraints gbc_label_19 = new GridBagConstraints();
 		gbc_label_19.anchor = GridBagConstraints.EAST;
 		gbc_label_19.insets = new Insets(0, 0, 5, 5);
 		gbc_label_19.gridx = 1;
-		gbc_label_19.gridy = 6;
+		gbc_label_19.gridy = 5;
 		panel.add(label_19, gbc_label_19);
+		
+		txtInsuranceId_RSB = new JTextField();
+		GridBagConstraints gbc_txtInsuranceId_RSB = new GridBagConstraints();
+		gbc_txtInsuranceId_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_txtInsuranceId_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtInsuranceId_RSB.gridx = 2;
+		gbc_txtInsuranceId_RSB.gridy = 5;
+		panel.add(txtInsuranceId_RSB, gbc_txtInsuranceId_RSB);
+		txtInsuranceId_RSB.setColumns(10);
 		
 		JLabel label_20 = new JLabel("Payer Name");
 		GridBagConstraints gbc_label_20 = new GridBagConstraints();
 		gbc_label_20.anchor = GridBagConstraints.EAST;
 		gbc_label_20.insets = new Insets(0, 0, 5, 5);
 		gbc_label_20.gridx = 1;
-		gbc_label_20.gridy = 7;
+		gbc_label_20.gridy = 6;
 		panel.add(label_20, gbc_label_20);
+		
+		txtPayername_RSB = new JTextField();
+		GridBagConstraints gbc_txtPayername_RSB = new GridBagConstraints();
+		gbc_txtPayername_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPayername_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPayername_RSB.gridx = 2;
+		gbc_txtPayername_RSB.gridy = 6;
+		panel.add(txtPayername_RSB, gbc_txtPayername_RSB);
+		txtPayername_RSB.setColumns(10);
 		
 		JLabel label_21 = new JLabel("Bill Amount");
 		GridBagConstraints gbc_label_21 = new GridBagConstraints();
 		gbc_label_21.anchor = GridBagConstraints.EAST;
 		gbc_label_21.insets = new Insets(0, 0, 5, 5);
 		gbc_label_21.gridx = 1;
-		gbc_label_21.gridy = 8;
+		gbc_label_21.gridy = 7;
 		panel.add(label_21, gbc_label_21);
+		
+		txtBillAmt_RSB = new JTextField();
+		GridBagConstraints gbc_txtBillAmt_RSB = new GridBagConstraints();
+		gbc_txtBillAmt_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_txtBillAmt_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtBillAmt_RSB.gridx = 2;
+		gbc_txtBillAmt_RSB.gridy = 7;
+		panel.add(txtBillAmt_RSB, gbc_txtBillAmt_RSB);
+		txtBillAmt_RSB.setColumns(10);
 		
 		JLabel label_22 = new JLabel("Payment Completed");
 		GridBagConstraints gbc_label_22 = new GridBagConstraints();
 		gbc_label_22.anchor = GridBagConstraints.EAST;
 		gbc_label_22.insets = new Insets(0, 0, 5, 5);
 		gbc_label_22.gridx = 1;
-		gbc_label_22.gridy = 9;
+		gbc_label_22.gridy = 8;
 		panel.add(label_22, gbc_label_22);
 		
-		JComboBox comboBox = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 9;
-		panel.add(comboBox, gbc_comboBox);
+		JComboBox cmbpaymentstatus_RSB = new JComboBox();
+		cmbpaymentstatus_RSB.setModel(new DefaultComboBoxModel(new String[] {"Please Select", "Pending", "Paid"}));
+		GridBagConstraints gbc_cmbpaymentstatus_RSB = new GridBagConstraints();
+		gbc_cmbpaymentstatus_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbpaymentstatus_RSB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbpaymentstatus_RSB.gridx = 2;
+		gbc_cmbpaymentstatus_RSB.gridy = 8;
+		panel.add(cmbpaymentstatus_RSB, gbc_cmbpaymentstatus_RSB);
 		
 		JButton button = new JButton("New");
 		GridBagConstraints gbc_button = new GridBagConstraints();
