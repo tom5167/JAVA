@@ -80,6 +80,7 @@ GO
 CREATE TABLE tblBilling 
 ( 
     billing_id        INT IDENTITY(1, 1) NOT NULL, 
+    patient_id        INT NOT NULL,
     mode_of_payment   VARCHAR(50) NOT NULL, 
     payment_due_date  VARCHAR(50) NOT NULL, 
     billing_timestamp VARCHAR(50) NOT NULL, 

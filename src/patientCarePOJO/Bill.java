@@ -4,6 +4,9 @@ import patientCareConstants.CommonConstants;
 
 public class Bill {
 	private int billId = CommonConstants.ZERO;
+	private int patientId = CommonConstants.ZERO;
+	private String pFirstName = CommonConstants.EMPTY_STRING;
+	private String pLastName = CommonConstants.EMPTY_STRING;
 	private String createdBy = CommonConstants.EMPTY_STRING;
 	private String createdDate = CommonConstants.EMPTY_STRING;
 	private String modifiedBy = CommonConstants.EMPTY_STRING;
@@ -21,6 +24,24 @@ public class Bill {
 	}
 	public void setBillId(int billId) {
 		this.billId = billId;
+	}
+	public int getPatientId() {
+		return patientId;
+	}
+	public void setPatientId(int patientId) {
+		this.patientId = patientId;
+	}
+	public String getpFirstName() {
+		return pFirstName;
+	}
+	public void setpFirstName(String pFirstName) {
+		this.pFirstName = pFirstName;
+	}
+	public String getpLastName() {
+		return pLastName;
+	}
+	public void setpLastName(String pLastName) {
+		this.pLastName = pLastName;
 	}
 	public String getmodeofpay() {
 		return modeofpay;

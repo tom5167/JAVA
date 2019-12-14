@@ -44,21 +44,22 @@ public class BillDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("INSERT INTO tblBilling "
-					+ " (mode_of_payment,payment_due_date,billing_timestamp,insurance_number,"
+					+ " (patient_id,mode_of_payment,payment_due_date,billing_timestamp,insurance_number,"
 					+ "	payer_name,bill_amount,paymentstatus,createdBy,"
 					+ " createdDate)" 
-					+ " VALUES(?,?,?,?,"
+					+ " VALUES(?,?,?,?,?,"
 					+ " ?,?,?,?,"
 					+ " ?)");
-			pstmt.setString(1, billdetails.getmodeofpay());
-			pstmt.setString(2, billdetails.getpaymentduedate());
-			pstmt.setString(3, billdetails.getbillingtime());
-			pstmt.setString(4, billdetails.getinsurancenumber());
-			pstmt.setString(5, billdetails.getpayername());
-			pstmt.setString(6, billdetails.getbillamount());
-			pstmt.setString(7, billdetails.getpaymentstatus());
-			pstmt.setString(8, commonUtil.getUserId());
-			pstmt.setString(9, commonUtil.getCurrentDateTime());
+			pstmt.setInt(1, billdetails.getPatientId());
+			pstmt.setString(2, billdetails.getmodeofpay());
+			pstmt.setString(3, billdetails.getpaymentduedate());
+			pstmt.setString(4, commonUtil.getCurrentDateTime());
+			pstmt.setString(5, billdetails.getinsurancenumber());
+			pstmt.setString(6, billdetails.getpayername());
+			pstmt.setString(7, billdetails.getbillamount());
+			pstmt.setString(8, billdetails.getpaymentstatus());
+			pstmt.setString(9, commonUtil.getUserId());
+			pstmt.setString(10, commonUtil.getCurrentDateTime());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,19 +85,20 @@ public class BillDAO {
 		try {
 			conn = DBConn.jdbcConnection();
 			pstmt = conn.prepareStatement("UPDATE tblBilling "
-					+ " SET mode_of_payment=?,payment_due_date=?,billing_timestamp=?,insurance_number=?,"
+					+ " SET patient_id=?,mode_of_payment=?,payment_due_date=?,billing_timestamp=?,insurance_number=?,"
 					+ "	payer_name=?,bill_amount=?,paymentstatus=?,modifiedBy=?,modifiedDate=?" 
 					+ " WHERE billing_id = ?");
-			pstmt.setString(1, billdetails.getmodeofpay());
-			pstmt.setString(2, billdetails.getpaymentduedate());
-			pstmt.setString(3, billdetails.getbillingtime());
-			pstmt.setString(4, billdetails.getinsurancenumber());
-			pstmt.setString(5, billdetails.getpayername());
-			pstmt.setString(6, billdetails.getbillamount());
-			pstmt.setString(7, billdetails.getpaymentstatus());
-			pstmt.setString(8, commonUtil.getUserId());
-			pstmt.setString(9, commonUtil.getCurrentDateTime());
-			pstmt.setInt(10, billdetails.getBillId());
+			pstmt.setInt(1, billdetails.getPatientId());
+			pstmt.setString(2, billdetails.getmodeofpay());
+			pstmt.setString(3, billdetails.getpaymentduedate());
+			pstmt.setString(4, billdetails.getbillingtime());
+			pstmt.setString(5, billdetails.getinsurancenumber());
+			pstmt.setString(6, billdetails.getpayername());
+			pstmt.setString(7, billdetails.getbillamount());
+			pstmt.setString(8, billdetails.getpaymentstatus());
+			pstmt.setString(9, commonUtil.getUserId());
+			pstmt.setString(10, commonUtil.getCurrentDateTime());
+			pstmt.setInt(11, billdetails.getBillId());
 			pstmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,30 +147,36 @@ public class BillDAO {
 		return flag;
 	}
 	
-	public List<Bill> getAlBillDetails(String billing_id) {
+	public List<Bill> getAlBillDetails(String firstName) {
 		logger.info("BillDAO.getAlBillDetails() starts");
 		List<Bill> billDetails = new ArrayList<Bill>();
 		try {
 			conn = DBConn.jdbcConnection();
-			String sql = "SELECT billing_id,mode_of_payment,payment_due_date,billing_timestamp,insurance_number," 
-					+ " payer_name,bill_amount,createdBy,createdDate,modifiedBy,modifiedDate"
-					+ " FROM tblBilling"
-					+ " WHERE billing_id LIKE ?";
+			String sql = "SELECT Bill.billing_id,Bill.patient_id,P.first_Name,P.last_Name,Bill.mode_of_payment,Bill.payment_due_date,Bill.billing_timestamp,Bill.insurance_number," 
+					+ " Bill.payer_name,Bill.bill_amount,Bill.paymentstatus,Bill.createdBy,Bill.createdDate,Bill.modifiedBy,Bill.modifiedDate"
+					+ " FROM tblBilling AS Bill"
+					+ " JOIN tblPatient AS P"
+					+ " ON Bill.patient_id = P.patient_id"
+					+ " WHERE P.first_name LIKE ?";
 			logger.info("BillDAO.getAlBillDetails() - "+sql);
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + billing_id + "%");
+			pstmt.setString(1,"%" + firstName + "%");
 			rs = pstmt.executeQuery();
 			Bill billObj = null;
 			while (rs.next()) {
 				billObj = new Bill();
 				billObj.setBillId(rs.getInt("billing_id"));
+				billObj.setPatientId(rs.getInt("patient_id"));
+				billObj.setpFirstName(rs.getString("first_Name"));
+				billObj.setpLastName(rs.getString("last_Name"));
 				billObj.setmodeofpay(rs.getString("mode_of_payment"));
 				billObj.setpaymentduedate(rs.getString("payment_due_date"));
 				billObj.setbillingtime(rs.getString("billing_timestamp"));
 				billObj.setinsurancenumber(rs.getString("insurance_number"));
-				billObj.setinsurancenumber(rs.getString("insurance_number"));
+				//billObj.setinsurancenumber(rs.getString("insurance_number"));
 				billObj.setpayername(rs.getString("payer_name"));
 				billObj.setbillamount(rs.getString("bill_amount"));
+				billObj.setpaymentstatus(rs.getString("paymentstatus"));
 				billObj.setCreatedBy(rs.getString("createdBy"));
 				billObj.setCreatedDate(rs.getString("createdDate"));
 				billObj.setModifiedBy(rs.getString("modifiedBy"));

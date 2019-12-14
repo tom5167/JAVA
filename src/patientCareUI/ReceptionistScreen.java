@@ -33,20 +33,28 @@ import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import PatientCareUtil.DateLabelFormatter;
+import patientCareBusinessLogic.BillLogic;
 import patientCareBusinessLogic.DiagnosisLogic;
 import patientCareBusinessLogic.EventLogic;
 import patientCareBusinessLogic.PatientLogic;
+import patientCareBusinessLogic.StaffLogic;
 import patientCareConstants.CommonConstants;
+import patientCareLogger.PatientCareLogger;
 import patientCarePOJO.Diagnosis;
 import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
+import patientCarePOJO.Staff;
+import patientCarePOJO.Bill;
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
@@ -57,12 +65,15 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JComboBox;
 
 public class ReceptionistScreen extends JFrame {
+	
+	static Logger logger = PatientCareLogger.getLogger();
 
 	/**
 	 * 
@@ -71,8 +82,10 @@ public class ReceptionistScreen extends JFrame {
 	PatientLogic patientLogic = new PatientLogic();
 	EventLogic eventLogic = new EventLogic();
 	DiagnosisLogic diagnosisLogic = new DiagnosisLogic();
+	BillLogic billlogic = new BillLogic();
+	StaffLogic staffLogic = new StaffLogic();
 	private JPanel contentPane;
-	private JTextField textField_7;
+	private JTextField txtFirstname_RSB;
 	private JTextField txtFirstName_APF;
 	private JTextField txtLastName_APF;
 	private JTextField txtStreetNumber_APF;
@@ -93,6 +106,7 @@ public class ReceptionistScreen extends JFrame {
 	private JTextField txtInsuranceId_RSB;
 	private JTextField txtPayername_RSB;
 	private JTextField txtBillAmt_RSB;
+	private JTable tblBilllist_RSP;
 	
 
 	/**
@@ -678,12 +692,13 @@ public class ReceptionistScreen extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel label_11 = new JLabel("");
-		GridBagConstraints gbc_label_11 = new GridBagConstraints();
-		gbc_label_11.insets = new Insets(0, 0, 5, 5);
-		gbc_label_11.gridx = 2;
-		gbc_label_11.gridy = 0;
-		panel.add(label_11, gbc_label_11);
+		JLabel lblBillid_RSB = new JLabel("");
+		lblBillid_RSB.setEnabled(false);
+		GridBagConstraints gbc_lblBillid_RSB = new GridBagConstraints();
+		gbc_lblBillid_RSB.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBillid_RSB.gridx = 2;
+		gbc_lblBillid_RSB.gridy = 0;
+		panel.add(lblBillid_RSB, gbc_lblBillid_RSB);
 		
 		JLabel label_14 = new JLabel("Patient Id");
 		GridBagConstraints gbc_label_14 = new GridBagConstraints();
@@ -811,56 +826,204 @@ public class ReceptionistScreen extends JFrame {
 		gbc_cmbpaymentstatus_RSB.gridy = 8;
 		panel.add(cmbpaymentstatus_RSB, gbc_cmbpaymentstatus_RSB);
 		
-		JButton button = new JButton("New");
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button.insets = new Insets(0, 0, 5, 5);
-		gbc_button.gridx = 1;
-		gbc_button.gridy = 11;
-		panel.add(button, gbc_button);
+		JButton btnNew_RSP = new JButton("New");
+		btnNew_RSP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				lblBillid_RSB.setText(CommonConstants.EMPTY_STRING);
+				cmbPatientId_RSB.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbmodeofpay_RSB.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				datePickerpaydue_RSB.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+				txtInsuranceId_RSB.setText(CommonConstants.EMPTY_STRING);
+				txtPayername_RSB.setText(CommonConstants.EMPTY_STRING);
+				txtBillAmt_RSB.setText(CommonConstants.EMPTY_STRING);
+				cmbpaymentstatus_RSB.setSelectedItem(CommonConstants.PLEASE_SELECT);
+			}
+		});
+		GridBagConstraints gbc_btnNew_RSP = new GridBagConstraints();
+		gbc_btnNew_RSP.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNew_RSP.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNew_RSP.gridx = 1;
+		gbc_btnNew_RSP.gridy = 11;
+		panel.add(btnNew_RSP, gbc_btnNew_RSP);
 		
-		JButton button_14 = new JButton("Save");
-		GridBagConstraints gbc_button_14 = new GridBagConstraints();
-		gbc_button_14.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_14.insets = new Insets(0, 0, 5, 5);
-		gbc_button_14.gridx = 2;
-		gbc_button_14.gridy = 11;
-		panel.add(button_14, gbc_button_14);
+		JButton btnSave_RSP = new JButton("Save");
+		btnSave_RSP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+			Bill billdetails = new Bill();
+			if(lblBillid_RSB.getText().equalsIgnoreCase("")) {
+				billdetails.setBillId(0);
+			} else {
+				billdetails.setBillId(Integer.parseInt(lblBillid_RSB.getText()));
+			}
+			String patientObj = cmbPatientId_RSB.getSelectedItem().toString();
+			billdetails.setPatientId(Integer.parseInt(patientObj.split("_")[0]));
+			billdetails.setmodeofpay(cmbmodeofpay_RSB.getSelectedItem().toString());
+			billdetails.setpaymentduedate(datePickerpaydue_RSB.getJFormattedTextField().getText());
+			billdetails.setinsurancenumber(txtInsuranceId_RSB.getText());
+			billdetails.setpayername(txtPayername_RSB.getText());
+			billdetails.setbillamount(txtBillAmt_RSB.getText());
+			billdetails.setpaymentstatus(cmbpaymentstatus_RSB.getSelectedItem().toString());
+			boolean flag = billlogic.saveBillDetails(billdetails);
+			if(flag) {
+				lblBillid_RSB.setText(CommonConstants.EMPTY_STRING);
+				cmbmodeofpay_RSB.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				cmbPatientId_RSB.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				datePickerpaydue_RSB.getJFormattedTextField().setText(CommonConstants.EMPTY_STRING);
+				txtInsuranceId_RSB.setText(CommonConstants.EMPTY_STRING);
+				txtPayername_RSB.setText(CommonConstants.EMPTY_STRING);
+				txtBillAmt_RSB.setText(CommonConstants.EMPTY_STRING);
+				cmbpaymentstatus_RSB.setSelectedItem(CommonConstants.PLEASE_SELECT);
+				JOptionPane.showMessageDialog(null, "Saved successfully", "Success",
+						JOptionPane.PLAIN_MESSAGE);
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			}
+		});
+		GridBagConstraints gbc_btnSave_RSP = new GridBagConstraints();
+		gbc_btnSave_RSP.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_RSP.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_RSP.gridx = 2;
+		gbc_btnSave_RSP.gridy = 11;
+		panel.add(btnSave_RSP, gbc_btnSave_RSP);
 		
-		JButton button_15 = new JButton("Delete");
-		GridBagConstraints gbc_button_15 = new GridBagConstraints();
-		gbc_button_15.fill = GridBagConstraints.HORIZONTAL;
-		gbc_button_15.insets = new Insets(0, 0, 5, 5);
-		gbc_button_15.gridx = 3;
-		gbc_button_15.gridy = 11;
-		panel.add(button_15, gbc_button_15);
+		JButton btnDelete_RSP = new JButton("Delete");
+		btnDelete_RSP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Bill billdetails = new Bill();
+				if(lblBillid_RSB.getText().equalsIgnoreCase("")) {
+					billdetails.setBillId(0);
+				} else {
+					billdetails.setBillId(Integer.parseInt(lblBillid_RSB.getText()));
+				}
+				boolean flag = billlogic.deleteBillDetails(billdetails);
+				if(flag) {
+					JOptionPane.showMessageDialog(null, "Deleted successfully", "Success",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error occurred while saving", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnDelete_RSP = new GridBagConstraints();
+		gbc_btnDelete_RSP.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDelete_RSP.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete_RSP.gridx = 3;
+		gbc_btnDelete_RSP.gridy = 11;
+		panel.add(btnDelete_RSP, gbc_btnDelete_RSP);
 		
-		JPanel panel_8 = new JPanel();
-		panel_8.setLayout(null);
-		panel_8.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "User List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_8.setBounds(483, 0, 475, 365);
-		pnlBillDetails_R.add(panel_8);
+		JPanel pnlbilllist_RSP = new JPanel();
+		pnlbilllist_RSP.setLayout(null);
+		pnlbilllist_RSP.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Bills List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlbilllist_RSP.setBounds(483, 0, 475, 365);
+		pnlBillDetails_R.add(pnlbilllist_RSP);
 		
-		JScrollPane scrollPane_3 = new JScrollPane((Component) null);
-		scrollPane_3.setBounds(6, 73, 453, 286);
-		panel_8.add(scrollPane_3);
+		tblBilllist_RSP = new JTable();
+		tblBilllist_RSP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				DefaultTableModel modelBill = (DefaultTableModel) tblBilllist_RSP.getModel();
+				int selectedRowIndex = tblBilllist_RSP.getSelectedRow();
+				if(selectedRowIndex > -1) {
+					lblBillid_RSB.setText(modelBill.getValueAt(selectedRowIndex, 0).toString());
+					cmbPatientId_RSB.setSelectedItem(
+							modelBill.getValueAt(selectedRowIndex, 1).toString()+"_"
+							+modelBill.getValueAt(selectedRowIndex, 2).toString()+"_"
+							+modelBill.getValueAt(selectedRowIndex, 3).toString());
+					cmbmodeofpay_RSB.setSelectedItem(modelBill.getValueAt(selectedRowIndex, 4).toString());
+					datePickerpaydue_RSB.getJFormattedTextField().setText(modelBill.getValueAt(selectedRowIndex, 5).toString());
+					txtInsuranceId_RSB.setText(modelBill.getValueAt(selectedRowIndex, 7).toString());
+					txtPayername_RSB.setText(modelBill.getValueAt(selectedRowIndex, 8).toString());
+					txtBillAmt_RSB.setText(modelBill.getValueAt(selectedRowIndex, 9).toString());
+					cmbpaymentstatus_RSB.setSelectedItem(modelBill.getValueAt(selectedRowIndex, 10).toString());
+				}
+			}
+		});
 		
-		JLabel label_12 = new JLabel("First Name");
-		label_12.setBounds(179, 26, 51, 14);
-		panel_8.add(label_12);
+		tblBilllist_RSP.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Bill ID","Patient ID", "First Name", "Last Name", "Mode Of Payment", "Due Date", "Billing Time", "Insurance Number", "Payer", "Amount", "Bill Status", "Created By", "Created Date", "Modified By", "Modified Date"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					Integer.class, Integer.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				public boolean isCellEditable(int rowIndex, int mColIndex) {
+					return false;
+				}
+			});
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(239, 23, 127, 20);
-		panel_8.add(textField_7);
+		tblBilllist_RSP.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollBilllist_RSP = new JScrollPane(tblBilllist_RSP);
+		scrollBilllist_RSP.setBounds(6, 73, 453, 286);
+		pnlbilllist_RSP.add(scrollBilllist_RSP);
 		
-		JButton button_16 = new JButton("Search");
-		button_16.setBounds(376, 22, 89, 23);
-		panel_8.add(button_16);
+		JLabel lblFirstName_RSB = new JLabel("First Name");
+		lblFirstName_RSB.setBounds(178, 26, 52, 14);
+		pnlbilllist_RSP.add(lblFirstName_RSB);
+		
+		txtFirstname_RSB = new JTextField();
+		txtFirstname_RSB.setColumns(10);
+		txtFirstname_RSB.setBounds(239, 23, 127, 20);
+		pnlbilllist_RSP.add(txtFirstname_RSB);
+		
+		JButton btnSearch_RSP = new JButton("Search");
+		btnSearch_RSP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				if(txtFirstname_RSB.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Please enter the first name to search", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				DefaultTableModel modelBill = (DefaultTableModel) tblBilllist_RSP.getModel();
+				List<Bill> alBillDetails = billlogic.getAlBillDetails(txtFirstname_RSB.getText());
+				modelBill.setRowCount(0);
+				if(alBillDetails.size() == 0) {
+					JOptionPane.showMessageDialog(null, "No record found", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					for (int i=0;i<alBillDetails.size();i++) {
+						Object[] row = new String[15];
+						row[0] = alBillDetails.get(i).getBillId()+"";
+						row[1] = alBillDetails.get(i).getPatientId()+"";
+						row[2] = alBillDetails.get(i).getpFirstName();
+						row[3] = alBillDetails.get(i).getpLastName();
+						row[4] = alBillDetails.get(i).getmodeofpay();
+						row[5] = alBillDetails.get(i).getpaymentduedate();
+						row[6] = alBillDetails.get(i).getbillingtime();
+						row[7] = alBillDetails.get(i).getinsurancenumber();
+						row[8] = alBillDetails.get(i).getpayername();
+						row[9] = alBillDetails.get(i).getbillamount();
+						row[10] = alBillDetails.get(i).getpaymentstatus();
+						row[11] = alBillDetails.get(i).getCreatedBy();
+						row[12] = alBillDetails.get(i).getCreatedDate();
+						row[13] = alBillDetails.get(i).getModifiedBy();
+						row[14] = alBillDetails.get(i).getModifiedDate();
+						modelBill.addRow(row);
+					}
+				}
+			}
+		});
+		btnSearch_RSP.setBounds(376, 22, 89, 23);
+		pnlbilllist_RSP.add(btnSearch_RSP);
 		
 		JLabel label_13 = new JLabel("  Note: Result will show similar first names apart from exact match.");
 		label_13.setBounds(6, 49, 445, 14);
-		panel_8.add(label_13);
+		pnlbilllist_RSP.add(label_13);
 		
 		JPanel pnlDiagnosisDetails_R = new JPanel();
 		pnlMainTabbed_R.addTab("Diagnosis Details", null, pnlDiagnosisDetails_R, null);
@@ -1270,7 +1433,58 @@ public class ReceptionistScreen extends JFrame {
 		JLabel lblNote_AEL = new JLabel("  Note: Result will show similar first names apart from exact match.");
 		lblNote_AEL.setBounds(6, 49, 445, 14);
 		pnlEventList_AE.add(lblNote_AEL);
-				
+		
+		//Tab Change Listener
+				pnlMainTabbed_R.addChangeListener(new ChangeListener() {
+			        public void stateChanged(ChangeEvent e) {
+			        	logger.info("pnlMainTabbed_R Number "+pnlMainTabbed_R.getSelectedIndex());
+			        	if(pnlMainTabbed_R.getSelectedIndex() == 3) {
+			            	List<Patient> patientDetails = new ArrayList<Patient>();
+							patientDetails = patientLogic.getAlPatientDetails("");
+							if(patientDetails.size() == 0) {
+								cmbPatientId_AEF.removeAllItems();
+							} else {
+								cmbPatientId_AEF.removeAllItems();
+								cmbPatientId_AEF.addItem(CommonConstants.PLEASE_SELECT);
+								for(int i=0;i<patientDetails.size();i++) {
+									cmbPatientId_AEF.addItem(patientDetails.get(i).getPatientId()
+											+ "_" + patientDetails.get(i).getFirstName()
+											+ "_" + patientDetails.get(i).getLastName());
+								}
+							}
+			            	List<Staff> staffDetails = new ArrayList<Staff>();
+			            	staffDetails = staffLogic.getAlStaffDetails("");
+							if(staffDetails.size() == 0) {
+								cmbDoctorId_AEF.removeAllItems();
+							} else {
+								cmbDoctorId_AEF.removeAllItems();
+								cmbDoctorId_AEF.addItem(CommonConstants.PLEASE_SELECT);
+								for(int i=0;i<staffDetails.size();i++) {
+									if(staffDetails.get(i).getStaffType().equalsIgnoreCase(CommonConstants.DOCTOR)){
+										cmbDoctorId_AEF.addItem(staffDetails.get(i).getStaffId()
+												+ "_" + staffDetails.get(i).getFirstName()
+												+ "_" + staffDetails.get(i).getLastName());
+									}
+								}
+							}
+			            }
+			        	if(pnlMainTabbed_R.getSelectedIndex() == 1) {
+			            	List<Patient> patientDetails1 = new ArrayList<Patient>();
+							patientDetails1 = patientLogic.getAlPatientDetails("");
+							if(patientDetails1.size() == 0) {
+								cmbPatientId_RSB.removeAllItems();
+							} else {
+								cmbPatientId_RSB.removeAllItems();
+								cmbPatientId_RSB.addItem(CommonConstants.PLEASE_SELECT);
+								for(int i=0;i<patientDetails1.size();i++) {
+									cmbPatientId_RSB.addItem(patientDetails1.get(i).getPatientId()
+											+ "_" + patientDetails1.get(i).getFirstName()
+											+ "_" + patientDetails1.get(i).getLastName());
+								}
+							}	
+			            }
+			        }
+			    });
 		
 		JPanel pnlBottom_R = new JPanel();
 		pnlBottom_R.setLayout(null);
