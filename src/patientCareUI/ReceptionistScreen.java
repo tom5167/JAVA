@@ -17,21 +17,32 @@
  */
 package patientCareUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -50,26 +61,11 @@ import patientCareBusinessLogic.PatientLogic;
 import patientCareBusinessLogic.StaffLogic;
 import patientCareConstants.CommonConstants;
 import patientCareLogger.PatientCareLogger;
+import patientCarePOJO.Bill;
 import patientCarePOJO.Diagnosis;
 import patientCarePOJO.Event;
 import patientCarePOJO.Patient;
 import patientCarePOJO.Staff;
-import patientCarePOJO.Bill;
-
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.swing.JComboBox;
 
 public class ReceptionistScreen extends JFrame {
 	
@@ -1114,8 +1110,6 @@ public class ReceptionistScreen extends JFrame {
 		pnlEventDetails_R.setLayout(null);
 
 		// Event Tab
-		
-		
 		JPanel pnlEventForm_AE = new JPanel();
 		pnlEventForm_AE.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Event Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnlEventForm_AE.setBounds(0, 0, 483, 365);

@@ -198,4 +198,59 @@ public class BillDAO {
 		return billDetails;
 	}
 
+	public List<Bill> getAlBillDetailsUser() {
+		logger.info("BillDAO.getAlBillDetails() starts");
+		List<Bill> billDetails = new ArrayList<Bill>();
+		try {
+			conn = DBConn.jdbcConnection();
+			String sql = "SELECT Bill.billing_id,Bill.patient_id,P.first_Name,P.last_Name," 
+					+ " Bill.mode_of_payment,Bill.payment_due_date,Bill.billing_timestamp,Bill.insurance_number," 
+					+ " Bill.payer_name,Bill.bill_amount,Bill.paymentstatus,Bill.createdBy,"
+					+ " Bill.createdDate,Bill.modifiedBy,Bill.modifiedDate"
+					+ " FROM tblBilling AS Bill"
+					+ " JOIN tblPatient AS P"
+					+ " ON Bill.patient_id = P.patient_id"
+					+ " JOIN tblUser AS U"
+					+ " ON U.referid = P.patient_id"
+					+ " WHERE U.userid = ?";
+			logger.info("BillDAO.getAlBillDetailsUser() - "+sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,Integer.parseInt(commonUtil.getUserId()));
+			rs = pstmt.executeQuery();
+			Bill billObj = null;
+			while (rs.next()) {
+				billObj = new Bill();
+				billObj.setBillId(rs.getInt("billing_id"));
+				billObj.setPatientId(rs.getInt("patient_id"));
+				billObj.setpFirstName(rs.getString("first_Name"));
+				billObj.setpLastName(rs.getString("last_Name"));
+				billObj.setmodeofpay(rs.getString("mode_of_payment"));
+				billObj.setpaymentduedate(rs.getString("payment_due_date"));
+				billObj.setbillingtime(rs.getString("billing_timestamp"));
+				billObj.setinsurancenumber(rs.getString("insurance_number"));
+				//billObj.setinsurancenumber(rs.getString("insurance_number"));
+				billObj.setpayername(rs.getString("payer_name"));
+				billObj.setbillamount(rs.getString("bill_amount"));
+				billObj.setpaymentstatus(rs.getString("paymentstatus"));
+				billObj.setCreatedBy(rs.getString("createdBy"));
+				billObj.setCreatedDate(rs.getString("createdDate"));
+				billObj.setModifiedBy(rs.getString("modifiedBy"));
+				billObj.setModifiedDate(rs.getString("modifiedDate"));
+				billDetails.add(billObj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				pstmt.close();
+				rs.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		logger.info("BillDAO.getAlBillDetails() ends");
+		return billDetails;
+	}
+
 }

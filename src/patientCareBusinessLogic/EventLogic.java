@@ -39,4 +39,8 @@ public class EventLogic {
 	public boolean deleteEventDetails(Event eventDetails) {
 		return eventDAO.deleteEventDetails(eventDetails);
 	}
+
+	public List<Event> getAlEventDetailsUser(String eventType,String eventDate) {
+		return eventDAO.getAlEventDetailsUser(eventType,eventDate);
+	}
 }

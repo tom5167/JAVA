@@ -29,6 +29,10 @@ public class BillLogic {
 		return billDAO.getAlBillDetails(firstName);
 	}
 	
+	public List<Bill> getAlBillDetailsUser() {
+		return billDAO.getAlBillDetailsUser();
+	}
+	
 	public boolean saveBillDetails(Bill billDetails) {
 		if(billDetails.getBillId() < 1) {
 			return billDAO.insertBillDetails(billDetails);
