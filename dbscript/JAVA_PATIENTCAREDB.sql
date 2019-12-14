@@ -84,7 +84,7 @@ CREATE TABLE tblBilling
     mode_of_payment   VARCHAR(50) NOT NULL, 
     payment_due_date  VARCHAR(50) NOT NULL, 
     billing_timestamp VARCHAR(50) NOT NULL, 
-    insurance_number  INT NOT NULL, 
+    insurance_number  VATCHAR(50) NOT NULL, 
     payer_name        VARCHAR(50) NOT NULL, 
     bill_amount       FLOAT(10) NOT NULL, 
     paymentstatus     VARCHAR(50) NOT NULL, 
