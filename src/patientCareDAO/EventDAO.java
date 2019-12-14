@@ -207,7 +207,7 @@ public class EventDAO {
 			String sql = "SELECT event_id,patient_id,pfirst_name,plast_name,"
 					+ " staff_id,sfirst_name,slast_name,"
 					+ " event_type,event_date,event_time,"
-					+ " createdBy,createdDate,modifiedBy,modifiedDate" 
+					+ " tbl.createdBy,tbl.createdDate,tbl.modifiedBy,tbl.modifiedDate" 
 					+ " FROM (" 
 					+ " SELECT A.event_id,A.patient_id,C.first_name AS pfirst_name,C.last_name AS plast_name,"
 					+ " A.staff_id,B.first_name AS sfirst_name,B.last_name AS slast_name,"
